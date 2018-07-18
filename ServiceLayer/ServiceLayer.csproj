@@ -134,12 +134,6 @@
     <Compile Include="DataAccess\SupplierItem.cs">
       <DependentUpon>LogicU.tt</DependentUpon>
     </Compile>
-    <Compile Include="DepartmentService\CreateDepartmentService.cs" />
-    <Compile Include="DepartmentService\ICreateDepartmentService.cs" />
-    <Compile Include="DepartmentService\IRetrieveDepartmentService.cs" />
-    <Compile Include="DepartmentService\IUpdateDepartmentService.cs" />
-    <Compile Include="DepartmentService\RetrieveDepartmentService.cs" />
-    <Compile Include="DepartmentService\UpdateDepartmentService.cs" />
     <Compile Include="DisbursementService\IDisbursementService.cs" />
     <Compile Include="DataAccess\LogicU.Context.cs">
       <AutoGen>True</AutoGen>
