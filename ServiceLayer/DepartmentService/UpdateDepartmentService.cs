@@ -11,8 +11,10 @@ namespace ServiceLayer
     //Authour: Divyashree
     partial class UpdateDepartmentService:IUpdateDepartmentService
     {
+        static private StationeryStoreEntities context = new StationeryStoreEntities();
         public void updateAuthority(Authority auth)
         {
+
 
         }
 
