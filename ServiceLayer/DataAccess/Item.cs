@@ -17,7 +17,6 @@ namespace ServiceLayer.DataAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Item()
         {
-            this.DisbursementDetails = new HashSet<DisbursementDetail>();
             this.OrderSupplierDetails = new HashSet<OrderSupplierDetail>();
             this.RequisitionDetails = new HashSet<RequisitionDetail>();
             this.StockTransactions = new HashSet<StockTransaction>();
@@ -31,8 +30,6 @@ namespace ServiceLayer.DataAccess
         public string UnitOfMeasure { get; set; }
     
         public virtual Category Category { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DisbursementDetail> DisbursementDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderSupplierDetail> OrderSupplierDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

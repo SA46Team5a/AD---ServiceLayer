@@ -21,8 +21,7 @@ namespace ServiceLayer.DataAccess
         }
     
         public int CollectionPointID { get; set; }
-        public string CollectionPointName { get; set; }
-        public System.TimeSpan CollectionPointTime { get; set; }
+        public string CollectionPointDetails { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Department> Departments { get; set; }

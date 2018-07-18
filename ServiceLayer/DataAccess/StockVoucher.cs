@@ -25,8 +25,8 @@ namespace ServiceLayer.DataAccess
         public Nullable<System.DateTime> RaisedByDate { get; set; }
         public Nullable<System.DateTime> ApprovedDate { get; set; }
     
-        public virtual Employee ApprovedByEmployee { get; set; }
-        public virtual Employee RaisedByEmployee { get; set; }
+        public virtual Employee VoucherApprover { get; set; }
+        public virtual Employee VoucherRaiser { get; set; }
         public virtual Item Item { get; set; }
     }
 }

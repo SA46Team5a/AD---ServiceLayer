@@ -19,7 +19,7 @@ namespace ServiceLayer.DataAccess
         {
             this.Authorities = new HashSet<Authority>();
             this.DepartmentRepresentatives = new HashSet<DepartmentRepresentative>();
-            this.Disbursements = new HashSet<Disbursement>();
+            this.Departments = new HashSet<Department>();
             this.DisbursementDuties = new HashSet<DisbursementDuty>();
             this.Requisitions = new HashSet<Requisition>();
             this.StockTransactions = new HashSet<StockTransaction>();
@@ -38,9 +38,9 @@ namespace ServiceLayer.DataAccess
         public virtual ICollection<Authority> Authorities { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DepartmentRepresentative> DepartmentRepresentatives { get; set; }
-        public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Disbursement> Disbursements { get; set; }
+        public virtual ICollection<Department> Departments { get; set; }
+        public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DisbursementDuty> DisbursementDuties { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

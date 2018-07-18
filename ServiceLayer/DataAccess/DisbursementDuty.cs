@@ -14,10 +14,19 @@ namespace ServiceLayer.DataAccess
     
     public partial class DisbursementDuty
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public DisbursementDuty()
+        {
+            this.Disbursements = new HashSet<Disbursement>();
+        }
+    
         public int DisbursementDutyID { get; set; }
         public string StoreClerkID { get; set; }
-        public bool isRetreived { get; set; }
+        public System.DateTime DisbursementDate { get; set; }
+        public bool isRetrieved { get; set; }
     
-        public virtual Employee Employee { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Disbursement> Disbursements { get; set; }
+        public virtual Employee StoreClerk { get; set; }
     }
 }

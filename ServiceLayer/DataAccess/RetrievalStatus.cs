@@ -20,8 +20,8 @@ namespace ServiceLayer.DataAccess
             this.Requisitions = new HashSet<Requisition>();
         }
     
-        public int RetreivalStatusID { get; set; }
-        public string RetrevialStatusName { get; set; }
+        public int RetrievalStatusID { get; set; }
+        public string RetrievalStatusName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Requisition> Requisitions { get; set; }

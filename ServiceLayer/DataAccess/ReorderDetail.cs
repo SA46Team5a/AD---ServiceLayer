@@ -15,7 +15,7 @@ namespace ServiceLayer.DataAccess
     public partial class ReorderDetail
     {
         public string ItemID { get; set; }
-        public Nullable<int> ReorderLevel { get; set; }
-        public Nullable<decimal> ReorderQuantity { get; set; }
+        public int ReorderLevel { get; set; }
+        public Nullable<int> ReorderQuantity { get; set; }
     }
 }
