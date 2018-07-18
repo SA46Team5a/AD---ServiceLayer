@@ -10,8 +10,21 @@ namespace ServiceLayer
     //Authour: Divyashree
     partial class CreateDepartmentService:ICreateDepartmentService
     {
-        public void addAuthority(Employee emp)
+        static private StationeryStoreEntities context = new StationeryStoreEntities();
+        public void addAuthority(Employee emp, DateTime startDate, DateTime endDate)
         {
+            // 1 Update Dept Head's Authority with End Date
+
+            // 2 Creating new Authority Object
+            Authority auth = new Authority();
+            auth.EmployeeID = emp.EmployeeID;
+            auth.StartDate = startDate;
+            auth.EndDate = endDate;
+            context.Authorities.Add(auth);
+
+            // 3 Reopen Dept Head's authority after end of first 
+            context.SaveChanges();
+            
 
 
         }

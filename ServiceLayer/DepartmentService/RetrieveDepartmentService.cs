@@ -64,5 +64,12 @@ namespace ServiceLayer
             return E;
 
         }
+        public string getDepartmentID(Employee emp)
+        {
+            Department E = context.Departments.Where(e => e.DepartmentID == emp.DepartmentID).First();
+            
+            return E.DepartmentID;
+
+        }
     }
 }

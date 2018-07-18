@@ -12,9 +12,10 @@ namespace ServiceLayer
         List<CollectionPoint> getCollectionPoints();
         string getAuthority(string dept);
         List<Employee> getDepartmentRepresentative(string dept);
-        CollectionPoint getCollectionPointOfDepartment(Department dep);
+       
         CollectionPoint getCollectionPointOfDepartment(string emp);
         Boolean verifyPassCode(int passcode);
         Employee getEmployeeById(string emp);
+        string getDepartmentID(string emp);
     }
 }

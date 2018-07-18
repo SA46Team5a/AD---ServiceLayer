@@ -11,7 +11,7 @@ namespace ServiceLayer
     {
         void updateAuthority(Authority auth);
         void rescindAuthority(Authority auth);
-        void updateDepartmentRepresentative(Department dep, Employee emp);
+        void updateDepartmentRepresentative(Employee oldemp, Employee newemp);
         void updateCollectionPoint(Department dep, CollectionPoint cp);
         void generateNewPasscode(Department dep);
 

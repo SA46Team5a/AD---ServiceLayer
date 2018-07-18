@@ -9,6 +9,6 @@ namespace ServiceLayer
 {
     interface ICreateDepartmentService
     {
-        void addAuthority(Employee emp);
+        void addAuthority(Employee emp, Authority startdate, Authority enddate);
     }
 }
