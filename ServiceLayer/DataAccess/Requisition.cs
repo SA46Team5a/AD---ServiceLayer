@@ -24,18 +24,18 @@ namespace ServiceLayer.DataAccess
         public int RequisitionID { get; set; }
         public string EmployeeID { get; set; }
         public System.DateTime RequestedDate { get; set; }
-        public int AuthorityID { get; set; }
-        public System.DateTime ApproveDate { get; set; }
-        public int RetreivalStatusID { get; set; }
+        public Nullable<int> AuthorityID { get; set; }
+        public Nullable<System.DateTime> ApproveDate { get; set; }
+        public Nullable<int> RetrievalStatusID { get; set; }
         public int ApprovalStatusID { get; set; }
     
         public virtual ApprovalStatus ApprovalStatus { get; set; }
         public virtual Authority Authority { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Disbursement> Disbursements { get; set; }
-        public virtual Employee Employee { get; set; }
+        public virtual Employee Requester { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RequisitionDetail> RequisitionDetails { get; set; }
-        public virtual RetrievalStatus RetreivalStatus { get; set; }
+        public virtual RetrievalStatus RetrievalStatus { get; set; }
     }
 }

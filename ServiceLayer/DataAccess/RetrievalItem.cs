@@ -12,7 +12,7 @@ namespace ServiceLayer.DataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class RetreivalItem
+    public partial class RetrievalItem
     {
         public string ItemID { get; set; }
         public Nullable<int> QtyToRetrieve { get; set; }

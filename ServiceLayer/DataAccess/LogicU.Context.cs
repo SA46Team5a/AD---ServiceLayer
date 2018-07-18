@@ -43,14 +43,14 @@ namespace ServiceLayer.DataAccess
         public virtual DbSet<OrderSupplier> OrderSuppliers { get; set; }
         public virtual DbSet<Requisition> Requisitions { get; set; }
         public virtual DbSet<RequisitionDetail> RequisitionDetails { get; set; }
-        public virtual DbSet<RetrievalStatus> RetrievalStatus { get; set; }
+        public virtual DbSet<RetrievalStatus> RetrievalStatus1 { get; set; }
         public virtual DbSet<StockTransaction> StockTransactions { get; set; }
         public virtual DbSet<StockVoucher> StockVouchers { get; set; }
         public virtual DbSet<SupplierItem> SupplierItems { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
-        public virtual DbSet<StockCountItem> StockCountItems { get; set; }
         public virtual DbSet<OutstandingRequisitionView> OutstandingRequisitionViews { get; set; }
         public virtual DbSet<ReorderDetail> ReorderDetails { get; set; }
-        public virtual DbSet<RetreivalItem> RetreivalItems { get; set; }
+        public virtual DbSet<RetrievalItem> RetrievalItems { get; set; }
+        public virtual DbSet<StockCountItem> StockCountItems { get; set; }
     }
 }

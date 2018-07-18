@@ -23,8 +23,10 @@ namespace ServiceLayer.DataAccess
         public string DepartmentID { get; set; }
         public string DepartmentName { get; set; }
         public int CollectionPointID { get; set; }
+        public string DepartmentHeadID { get; set; }
     
         public virtual CollectionPoint CollectionPoint { get; set; }
+        public virtual Employee DepartmentHead { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Employee> Employees { get; set; }
     }

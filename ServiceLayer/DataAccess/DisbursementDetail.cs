@@ -15,15 +15,13 @@ namespace ServiceLayer.DataAccess
     public partial class DisbursementDetail
     {
         public int DisbursementDetailsID { get; set; }
-        public string ItemID { get; set; }
         public int DisbursementID { get; set; }
         public int Quantity { get; set; }
-        public int CollectedQty { get; set; }
+        public Nullable<int> CollectedQty { get; set; }
         public string Reason { get; set; }
         public int RequisitionDetailsID { get; set; }
     
         public virtual Disbursement Disbursement { get; set; }
-        public virtual Item Item { get; set; }
         public virtual RequisitionDetail RequisitionDetail { get; set; }
     }
 }

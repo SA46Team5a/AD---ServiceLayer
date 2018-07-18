@@ -4,65 +4,65 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="1c642aebd28e4c43a72de5483ec440d8" Name="Diagram1" ZoomLevel="76">
-        <EntityTypeShape EntityType="StationeryStoreModel.ApprovalStatus" Width="1.5" PointX="7.5" PointY="4.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="StationeryStoreModel.Authority" Width="1.5" PointX="7.5" PointY="7.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="StationeryStoreModel.Category" Width="1.5" PointX="10.5" PointY="4.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="StationeryStoreModel.CollectionPoint" Width="1.5" PointX="0.75" PointY="10.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="StationeryStoreModel.DeliveryStatus" Width="1.5" PointX="12.75" PointY="13" IsExpanded="true" />
-        <EntityTypeShape EntityType="StationeryStoreModel.DepartmentRepresentative" Width="1.5" PointX="7.5" PointY="10.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="StationeryStoreModel.Department" Width="1.5" PointX="3" PointY="10.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="StationeryStoreModel.Disbursement" Width="1.5" PointX="15" PointY="9.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="StationeryStoreModel.DisbursementDetail" Width="1.5" PointX="17.25" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="StationeryStoreModel.DisbursementDuty" Width="1.5" PointX="7.5" PointY="13.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="StationeryStoreModel.Employee" Width="1.5" PointX="5.25" PointY="9.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="StationeryStoreModel.InvoiceUploadStatus" Width="1.5" PointX="12.75" PointY="19.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="StationeryStoreModel.Item" Width="1.5" PointX="12.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="StationeryStoreModel.Order" Width="1.5" PointX="12.75" PointY="21.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="StationeryStoreModel.OrderSupplierDetail" Width="3.125" PointX="20.25" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="StationeryStoreModel.OrderSupplier" Width="1.5" PointX="15" PointY="15.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="StationeryStoreModel.Requisition" Width="1.5" PointX="9.75" PointY="8.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="StationeryStoreModel.RequisitionDetail" Width="1.5" PointX="15" PointY="6.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="StationeryStoreModel.RetrievalStatus" Width="1.5" PointX="7.5" PointY="16.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="StationeryStoreModel.StockTransaction" Width="1.5" PointX="10.5" PointY="13" IsExpanded="true" />
-        <EntityTypeShape EntityType="StationeryStoreModel.StockVoucher" Width="1.5" PointX="12.5" PointY="8.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="StationeryStoreModel.SupplierItem" Width="1.5" PointX="18" PointY="11.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="StationeryStoreModel.Supplier" Width="1.5" PointX="12.75" PointY="15.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="StationeryStoreModel.StockCountItem" Width="2" PointX="11.5" PointY="0.875" IsExpanded="true" />
-        <AssociationConnector Association="StationeryStoreModel.FK__Requisiti__Appro__656C112C" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__Authority__Emplo__59063A47" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__Requisiti__Autho__6383C8BA" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__Items__CategoryI__398D8EEE" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__Departmen__Colle__534D60F1" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__OrderSupp__Deliv__49C3F6B7" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__Departmen__Emplo__5BE2A6F2" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__Disbursem__Colle__6E01572D" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__Employees__Depar__5629CD9C" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__Disbursem__Disbu__71D1E811" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__Disbursem__Emplo__6C190EBB" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__Disbursem__Requi__6D0D32F4" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__Disbursem__ItemI__70DDC3D8" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__Disbursem__Requi__72C60C4A" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__Disbursem__Store__75A278F5" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__Requisiti__Emplo__628FA481" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__StockTran__Emplo__797309D9" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__StockVouc__Appro__7E37BEF6" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__StockVouc__Raise__7D439ABD" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__OrderSupp__Invoi__4AB81AF0" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__OrderSupp__ItemI__4E88ABD4" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__Requisiti__ItemI__693CA210" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__StockTran__ItemI__787EE5A0" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__StockVouc__ItemI__7C4F7684" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__SupplierI__ItemI__3E52440B" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__OrderSupp__Order__47DBAE45" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__OrderSupp__Order__4D94879B" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__OrderSupp__Suppl__48CFD27E" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__Requisiti__Requi__68487DD7" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__Requisiti__Retre__6477ECF3" ManuallyRouted="false" />
-        <AssociationConnector Association="StationeryStoreModel.FK__SupplierI__Suppl__3F466844" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="StationeryStoreModel.OutstandingRequisitionView" Width="3.5" PointX="14.5" PointY="1.875" />
-        <EntityTypeShape EntityType="StationeryStoreModel.ReorderDetail" Width="1.5" PointX="7.375" PointY="1.75" />
-        <EntityTypeShape EntityType="StationeryStoreModel.RetreivalItem" Width="1.5" PointX="9.375" PointY="1.75" />
+      <Diagram DiagramId="1c642aebd28e4c43a72de5483ec440d8" Name="Diagram1" ZoomLevel="116">
+        <EntityTypeShape EntityType="StationeryStoreModel.ApprovalStatus" Width="2.625" PointX="7.5" PointY="15.875" />
+        <EntityTypeShape EntityType="StationeryStoreModel.Authority" Width="2.625" PointX="7.5" PointY="21.375" />
+        <EntityTypeShape EntityType="StationeryStoreModel.Category" Width="2.625" PointX="3" PointY="6.375" />
+        <EntityTypeShape EntityType="StationeryStoreModel.CollectionPoint" Width="2.625" PointX="0.75" PointY="11.375" />
+        <EntityTypeShape EntityType="StationeryStoreModel.DeliveryStatus" Width="2.625" PointX="9.75" PointY="0.75" />
+        <EntityTypeShape EntityType="StationeryStoreModel.DepartmentRepresentative" Width="2.625" PointX="7.5" PointY="12.375" />
+        <EntityTypeShape EntityType="StationeryStoreModel.Department" Width="2.625" PointX="3" PointY="11" />
+        <EntityTypeShape EntityType="StationeryStoreModel.Disbursement" Width="2.625" PointX="12" PointY="15.125" />
+        <EntityTypeShape EntityType="StationeryStoreModel.DisbursementDetail" Width="2.625" PointX="17.25" PointY="15.25" />
+        <EntityTypeShape EntityType="StationeryStoreModel.DisbursementDuty" Width="2.625" PointX="7.5" PointY="18.5" />
+        <EntityTypeShape EntityType="StationeryStoreModel.Employee" Width="2.625" PointX="5.25" PointY="10.25" />
+        <EntityTypeShape EntityType="StationeryStoreModel.InvoiceUploadStatus" Width="2.625" PointX="9.75" PointY="19.5" />
+        <EntityTypeShape EntityType="StationeryStoreModel.Item" Width="2.625" PointX="5.25" PointY="5.75" />
+        <EntityTypeShape EntityType="StationeryStoreModel.Order" Width="2.625" PointX="9.75" PointY="7.125" />
+        <EntityTypeShape EntityType="StationeryStoreModel.OrderSupplierDetail" Width="2.625" PointX="14.25" PointY="3.75" />
+        <EntityTypeShape EntityType="StationeryStoreModel.OrderSupplier" Width="2.625" PointX="12" PointY="3.375" />
+        <EntityTypeShape EntityType="StationeryStoreModel.Requisition" Width="2.625" PointX="9.75" PointY="15.125" />
+        <EntityTypeShape EntityType="StationeryStoreModel.RequisitionDetail" Width="2.625" PointX="15" PointY="15.75" />
+        <EntityTypeShape EntityType="StationeryStoreModel.RetrievalStatus" Width="2.625" PointX="7.5" PointY="25.25" />
+        <EntityTypeShape EntityType="StationeryStoreModel.StockTransaction" Width="2.625" PointX="10.5" PointY="11" />
+        <EntityTypeShape EntityType="StationeryStoreModel.StockVoucher" Width="2.625" PointX="7.5" PointY="7.375" />
+        <EntityTypeShape EntityType="StationeryStoreModel.SupplierItem" Width="2.625" PointX="13" PointY="8" />
+        <EntityTypeShape EntityType="StationeryStoreModel.Supplier" Width="2.625" PointX="9.75" PointY="3.625" />
+        <EntityTypeShape EntityType="StationeryStoreModel.OutstandingRequisitionView" Width="2.625" PointX="0.75" PointY="1.5" />
+        <EntityTypeShape EntityType="StationeryStoreModel.ReorderDetail" Width="2.625" PointX="2.75" PointY="1.5" />
+        <EntityTypeShape EntityType="StationeryStoreModel.RetrievalItem" Width="2.625" PointX="4.75" PointY="1.5" />
+        <EntityTypeShape EntityType="StationeryStoreModel.StockCountItem" Width="2.625" PointX="6.75" PointY="1.5" />
+        <AssociationConnector Association="StationeryStoreModel.FK__Requisiti__Appro__656C112C" />
+        <AssociationConnector Association="StationeryStoreModel.FK__Authority__Emplo__59063A47" />
+        <AssociationConnector Association="StationeryStoreModel.FK__Requisiti__Autho__6383C8BA" />
+        <AssociationConnector Association="StationeryStoreModel.FK__Items__CategoryI__398D8EEE" />
+        <AssociationConnector Association="StationeryStoreModel.FK__Departmen__Colle__534D60F1" />
+        <AssociationConnector Association="StationeryStoreModel.FK__OrderSupp__Deliv__49C3F6B7" />
+        <AssociationConnector Association="StationeryStoreModel.FK__Departmen__Emplo__5BE2A6F2" />
+        <AssociationConnector Association="StationeryStoreModel.FK__Disbursem__Colle__6FE99F9F" />
+        <AssociationConnector Association="StationeryStoreModel.FK__Departmen__Depar__02084FDA" />
+        <AssociationConnector Association="StationeryStoreModel.FK__Employees__Depar__5629CD9C" />
+        <AssociationConnector Association="StationeryStoreModel.FK__Disbursem__Disbu__70DDC3D8" />
+        <AssociationConnector Association="StationeryStoreModel.FK__Disbursem__Disbu__73BA3083" />
+        <AssociationConnector Association="StationeryStoreModel.FK__Disbursem__Requi__6EF57B66" />
+        <AssociationConnector Association="StationeryStoreModel.FK__Disbursem__Requi__74AE54BC" />
+        <AssociationConnector Association="StationeryStoreModel.FK__Disbursem__Store__6C190EBB" />
+        <AssociationConnector Association="StationeryStoreModel.FK__Requisiti__Emplo__628FA481" />
+        <AssociationConnector Association="StationeryStoreModel.FK__StockTran__Emplo__787EE5A0" />
+        <AssociationConnector Association="StationeryStoreModel.FK__StockVouc__Appro__7D439ABD" />
+        <AssociationConnector Association="StationeryStoreModel.FK__StockVouc__Raise__7C4F7684" />
+        <AssociationConnector Association="StationeryStoreModel.FK__OrderSupp__Invoi__4AB81AF0" />
+        <AssociationConnector Association="StationeryStoreModel.FK__OrderSupp__ItemI__4E88ABD4" />
+        <AssociationConnector Association="StationeryStoreModel.FK__Requisiti__ItemI__693CA210" />
+        <AssociationConnector Association="StationeryStoreModel.FK__StockTran__ItemI__778AC167" />
+        <AssociationConnector Association="StationeryStoreModel.FK__StockVouc__ItemI__7B5B524B" />
+        <AssociationConnector Association="StationeryStoreModel.FK__SupplierI__ItemI__3E52440B" />
+        <AssociationConnector Association="StationeryStoreModel.FK__OrderSupp__Order__47DBAE45" />
+        <AssociationConnector Association="StationeryStoreModel.FK__OrderSupp__Order__4D94879B" />
+        <AssociationConnector Association="StationeryStoreModel.FK__OrderSupp__Suppl__48CFD27E" />
+        <AssociationConnector Association="StationeryStoreModel.FK__Requisiti__Requi__68487DD7" />
+        <AssociationConnector Association="StationeryStoreModel.FK__Requisiti__Retri__6477ECF3" />
+        <AssociationConnector Association="StationeryStoreModel.FK__SupplierI__Suppl__3F466844" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

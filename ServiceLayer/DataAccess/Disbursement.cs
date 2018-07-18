@@ -21,16 +21,16 @@ namespace ServiceLayer.DataAccess
         }
     
         public int DisbursementID { get; set; }
-        public string EmployeeID { get; set; }
-        public System.DateTime DisbursementDate { get; set; }
+        public System.DateTime CollectionDate { get; set; }
         public string Passcode { get; set; }
         public int RequisitionID { get; set; }
-        public int CollectedBy { get; set; }
+        public Nullable<int> CollectedBy { get; set; }
+        public int DisbursementDutyID { get; set; }
     
         public virtual DepartmentRepresentative DepartmentRepresentative { get; set; }
+        public virtual DisbursementDuty DisbursementDuty { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DisbursementDetail> DisbursementDetails { get; set; }
-        public virtual Employee Employee { get; set; }
         public virtual Requisition Requisition { get; set; }
     }
 }

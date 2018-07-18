@@ -14,10 +14,10 @@ namespace ServiceLayer.DataAccess
     
     public partial class OutstandingRequisitionView
     {
+        public Nullable<int> RequisitionID { get; set; }
+        public Nullable<System.DateTime> ApproveDate { get; set; }
         public int RequisitionDetailsID { get; set; }
+        public string ItemID { get; set; }
         public Nullable<int> OutStandingQuantity { get; set; }
-        public string itemID { get; set; }
-        public string DepartmentID { get; set; }
-        public System.DateTime ApproveDate { get; set; }
     }
 }
