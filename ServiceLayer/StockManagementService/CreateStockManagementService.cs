@@ -14,7 +14,10 @@ namespace ServiceLayer
         RetrieveStockManagementService rsms = new RetrieveStockManagementService();
         public void addStockTransaction(string itemId,string description,string employeeId,int adjustment)
         {
+            //creating a new stocktransaction record
             StockTransaction st = new StockTransaction();
+            //setting the value of itemId,description,employeeId of the person who created and adjustment.
+            //adjustment can be positive or negative value based on adding the item to the stock or removing item from the stock
             st.ItemID =itemId;
             if(description!=null)
             st.Description =description;

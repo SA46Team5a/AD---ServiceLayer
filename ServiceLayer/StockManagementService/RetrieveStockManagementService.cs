@@ -14,11 +14,13 @@ namespace ServiceLayer
             
         public  List<Item> getAllItems()
         {
+            //List all the items in the store
             List<Item> itemList = context.Items.ToList();         
             return itemList;
         }
         public List<Category> getAllCategories()
         {
+            //List all the categories
             List<Category> categoryList= context.Categories.ToList();
             return categoryList;
 
@@ -26,7 +28,7 @@ namespace ServiceLayer
 
         public  int getStockCountOfItem(string itemId)
         {           
-            
+            //Get the list of items in Stocktransaction 
             List<StockTransaction> stList= context.StockTransactions.Where(st => st.ItemID == itemId).ToList();
             int sumItem = 0;
             foreach (StockTransaction st in stList)

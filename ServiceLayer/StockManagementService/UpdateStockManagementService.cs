@@ -11,7 +11,7 @@ namespace ServiceLayer
     {
         StationeryStoreEntities context = new StationeryStoreEntities();
        
-
+        //close the voucher by updating the employeeId of the person who approved and update the ApprovedDate to today's date
         public void closeVoucher(StockVoucher sv,string approvedBy)
         {
             sv.ApprovedBy = approvedBy;

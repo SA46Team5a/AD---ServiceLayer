@@ -22,6 +22,6 @@ namespace ServiceLayer
         List<Supplier> getSupplierOfItem(string itemId);
         List<StockCountItem> getStockCountItemsByCategory(int cat);
         float getItemCost(string itemID);
-
+       
     }
 }
