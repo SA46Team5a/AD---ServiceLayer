@@ -971,6 +971,14 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
             <End Role="Supplier" EntitySet="Suppliers" />
             <End Role="SupplierItem" EntitySet="SupplierItems" />
           </AssociationSet>
+          <AssociationSet Name="InvoiceUploadStatusStockCountItem" Association="StationeryStoreModel.InvoiceUploadStatusStockCountItem">
+            <End Role="InvoiceUploadStatus" EntitySet="InvoiceUploadStatus1" />
+            <End Role="StockCountItem" EntitySet="StockCountItems" />
+          </AssociationSet>
+          <AssociationSet Name="ItemStockCountItem" Association="StationeryStoreModel.ItemStockCountItem">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="StockCountItem" EntitySet="StockCountItems" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ApprovalStatus">
           <Key>
@@ -1104,6 +1112,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
           <Property Name="InvoiceUploadStatusID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="InvoiceUploadStatusName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="OrderSuppliers" Relationship="StationeryStoreModel.FK__OrderSupp__Invoi__4AB81AF0" FromRole="InvoiceUploadStatu" ToRole="OrderSupplier" />
+          <NavigationProperty Name="StockCountItem" Relationship="StationeryStoreModel.InvoiceUploadStatusStockCountItem" FromRole="InvoiceUploadStatus" ToRole="StockCountItem" />
         </EntityType>
         <EntityType Name="Item">
           <Key>
@@ -1119,6 +1128,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
           <NavigationProperty Name="StockTransactions" Relationship="StationeryStoreModel.FK__StockTran__ItemI__778AC167" FromRole="Item" ToRole="StockTransaction" />
           <NavigationProperty Name="StockVouchers" Relationship="StationeryStoreModel.FK__StockVouc__ItemI__7B5B524B" FromRole="Item" ToRole="StockVoucher" />
           <NavigationProperty Name="SupplierItems" Relationship="StationeryStoreModel.FK__SupplierI__ItemI__3E52440B" FromRole="Item" ToRole="SupplierItem" />
+          <NavigationProperty Name="StockCountItem" Relationship="StationeryStoreModel.ItemStockCountItem" FromRole="Item" ToRole="StockCountItem" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -1283,6 +1293,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
           <Property Name="ItemName" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Name="UnitOfMeasure" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="QtyInStock" Type="Int32" />
+          <NavigationProperty Name="Item" Relationship="StationeryStoreModel.ItemStockCountItem" FromRole="StockCountItem" ToRole="Item" />
         </EntityType>
         <Association Name="FK__Requisiti__Appro__656C112C">
           <End Type="StationeryStoreModel.ApprovalStatus" Role="ApprovalStatu" Multiplicity="1" />
@@ -1655,6 +1666,14 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
               <PropertyRef Name="SupplierID" />
             </Dependent>
           </ReferentialConstraint>
+        </Association>
+        <Association Name="InvoiceUploadStatusStockCountItem">
+          <End Type="StationeryStoreModel.InvoiceUploadStatus" Role="InvoiceUploadStatus" Multiplicity="1" />
+          <End Type="StationeryStoreModel.StockCountItem" Role="StockCountItem" Multiplicity="1" />
+        </Association>
+        <Association Name="ItemStockCountItem">
+          <End Type="StationeryStoreModel.Item" Role="Item" Multiplicity="1" />
+          <End Type="StationeryStoreModel.StockCountItem" Role="StockCountItem" Multiplicity="1" />
         </Association>
         </Schema>
     </edmx:ConceptualModels>

@@ -18,5 +18,7 @@ namespace ServiceLayer.DataAccess
         public string ItemName { get; set; }
         public string UnitOfMeasure { get; set; }
         public Nullable<int> QtyInStock { get; set; }
+    
+        public virtual Item Item { get; set; }
     }
 }
