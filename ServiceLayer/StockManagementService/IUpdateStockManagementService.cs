@@ -7,15 +7,10 @@ using ServiceLayer.DataAccess;
 
 namespace ServiceLayer
 {
+    // Author: Bhat Pavana
     interface IUpdateStockManagementService
     {
-
-        // for when stock is rejected at reimbursement. A StockTransaction
-        // is required to add the stock back into the inventory, and a 
-        // subsequent StockVoucher needs to be raised
-        void rejectStock(StockTransaction st, StockVoucher sv);
-        
-        void closeVoucher(StockVoucher sv);
+        void closeVoucher(StockVoucher sv, string approvedBy);
 
         void submitRetrievalForm();
         

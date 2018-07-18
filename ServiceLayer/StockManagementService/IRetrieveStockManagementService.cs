@@ -21,6 +21,7 @@ namespace ServiceLayer
         //Retrieves list of all the suppliers for the item
         List<Supplier> getSupplierOfItem(string itemId);
         List<StockCountItem> getStockCountItemsByCategory(int cat);
+        float getItemCost(string itemID);
 
     }
 }

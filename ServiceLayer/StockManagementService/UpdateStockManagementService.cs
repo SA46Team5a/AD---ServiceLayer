@@ -9,14 +9,14 @@ namespace ServiceLayer
 {
     partial class UpdateStockManagementService:IUpdateStockManagementService
     {
+        StationeryStoreEntities context = new StationeryStoreEntities();
+       
 
-        public void rejectStock(StockTransaction st, StockVoucher sv)
+        public void closeVoucher(StockVoucher sv,string approvedBy)
         {
-            return;
-        }
-
-        public void closeVoucher(StockVoucher sv)
-        {
+            sv.ApprovedBy = approvedBy;
+            sv.ApprovedDate = DateTime.Today;            
+            context.SaveChanges();
             return;
         }
         public void submitRetrievalForm()

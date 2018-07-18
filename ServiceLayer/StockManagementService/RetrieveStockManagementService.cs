@@ -24,7 +24,7 @@ namespace ServiceLayer
 
         }
 
-        public int getStockCountOfItem(string itemId)
+        public  int getStockCountOfItem(string itemId)
         {           
             
             List<StockTransaction> stList= context.StockTransactions.Where(st => st.ItemID == itemId).ToList();
@@ -77,6 +77,13 @@ namespace ServiceLayer
             //List<Item> itemList=context.Items.Where(i => i.CategoryID == categoryId).ToList();
             return null;
             
+        }
+
+        public float getItemCost(string itemId)
+        {
+            var supplierItem = context.SupplierItems.Where(si => si.ItemID == itemId).Where(si => si.Rank == 1).First();
+            return (float)supplierItem.Cost;
+
         }
 
     }
