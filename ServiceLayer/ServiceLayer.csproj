@@ -155,12 +155,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportService\IReportService.cs" />
     <Compile Include="RequisitionService\IRequisitionService.cs" />
-    <Compile Include="StockManagementService\ICreateStockManagementService.cs" />
-    <Compile Include="StockManagementService\IRetrieveStockManagementService.cs" />
-    <Compile Include="StockManagementService\CreateStockManagementService.cs" />
-    <Compile Include="StockManagementService\IUpdateStockManagementService.cs" />
-    <Compile Include="StockManagementService\RetrieveStockManagementService.cs" />
-    <Compile Include="StockManagementService\UpdateStockManagementService.cs" />
+    <Compile Include="StockManagementService\IStockManagementService.cs" />
+    <Compile Include="StockManagementService\StockManagementService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

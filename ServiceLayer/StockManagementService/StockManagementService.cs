@@ -8,10 +8,11 @@ using ServiceLayer.DataAccess;
 namespace ServiceLayer
 {
     // Author: Bhat Pavana
-    partial class RetrieveStockManagementService : IRetrieveStockManagementService
+    partial class RetrieveStockManagementService : IStockManagementService
     {
-        private StationeryStoreEntities context = new StationeryStoreEntities();
-            
+         private StationeryStoreEntities context = new StationeryStoreEntities();
+       // static StationeryStoreEntities context = StationeryStoreEntities.Instance;
+
         public  List<Item> getAllItems()
         {
             //List all the items in the store
@@ -81,10 +82,76 @@ namespace ServiceLayer
             
         }
 
+        //Method to retrieve the cost of the item
         public float getItemCost(string itemId)
         {
             var supplierItem = context.SupplierItems.Where(si => si.ItemID == itemId).Where(si => si.Rank == 1).First();
             return (float)supplierItem.Cost;
+
+        }
+
+        RetrieveStockManagementService rsms = new RetrieveStockManagementService();
+        public void addStockTransaction(string itemId, string description, string employeeId, int adjustment)
+        {
+            //creating a new stocktransaction record
+            StockTransaction st = new StockTransaction();
+            //setting the value of itemId,description,employeeId of the person who created and adjustment.
+            //adjustment can be positive or negative value based on adding the item to the stock or removing item from the stock
+            st.ItemID = itemId;
+            if (description != null)
+                st.Description = description;
+            st.EmployeeID = employeeId;
+            st.Adjustment = adjustment;
+            context.StockTransactions.Add(st);
+            context.SaveChanges();
+
+        }
+
+        public void addStockVoucher(string itemId, int actualcount, string employeeId, string reason)
+        {
+            StockVoucher sv = new StockVoucher();
+            //Setting the values received by the method to the object 
+            sv.ItemID = itemId;
+            //Gettin goriginal count of the item according to the store records
+            sv.OriginalCount = rsms.getStockCountOfItem(itemId);
+            //entered by the clerk while taking stock
+            sv.ActualCount = actualcount;
+            //reason in case discrepancy
+            sv.Reason = reason;
+            sv.ItemCost = (decimal)rsms.getItemCost(itemId);
+            sv.RaisedBy = employeeId;
+            sv.RaisedByDate = DateTime.Today;
+            context.StockVouchers.Add(sv);
+            context.SaveChanges();
+        }
+
+        public void rejectStock(string itemId, string reason, int count, string employeeId)
+        {
+            //when the item gets added after  rejection at disbursement actual count will increase
+            int actualcount = rsms.getStockCountOfItem(itemId) + count;
+            addStockTransaction(itemId, reason, employeeId, count);
+            addStockVoucher(itemId, actualcount, employeeId, reason);
+            return;
+        }
+
+        public void submitStockCountItems(int empId)
+        {
+
+        }
+        public void submitVouchers()
+        {
+
+        }
+
+          public void closeVoucher(StockVoucher sv,string approvedBy)
+        {
+            sv.ApprovedBy = approvedBy;
+            sv.ApprovedDate = DateTime.Today;            
+            context.SaveChanges();
+            return;
+        }
+        public void submitRetrievalForm()
+        {
 
         }
 
