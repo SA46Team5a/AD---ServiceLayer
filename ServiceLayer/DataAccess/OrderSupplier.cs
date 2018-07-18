@@ -27,7 +27,7 @@ namespace ServiceLayer.DataAccess
         public int InvoiceUploadStatusID { get; set; }
     
         public virtual DeliveryStatus DeliveryStatus { get; set; }
-        public virtual InvoiceUploadStatus InvoiceUploadStatu { get; set; }
+        public virtual InvoiceUploadStatus InvoiceUploadStatus { get; set; }
         public virtual Order Order { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderSupplierDetail> OrderSupplierDetails { get; set; }

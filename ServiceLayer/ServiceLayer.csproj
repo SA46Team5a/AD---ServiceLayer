@@ -113,7 +113,7 @@
     <Compile Include="DataAccess\RequisitionDetail.cs">
       <DependentUpon>LogicU.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataAccess\RetreivalItem.cs">
+    <Compile Include="DataAccess\RetrievalItem.cs">
       <DependentUpon>LogicU.tt</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\RetrievalStatus.cs">
