@@ -50,6 +50,7 @@
           <Property Name="EmployeeID" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="StartDate" Type="datetime" Nullable="false" />
           <Property Name="EndDate" Type="datetime" />
+          <Property Name="Passcode" Type="nvarchar" MaxLength="4" Nullable="false" />
         </EntityType>
         <EntityType Name="Departments">
           <Key>
@@ -66,7 +67,6 @@
           </Key>
           <Property Name="DisbursementID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CollectionDate" Type="datetime" Nullable="false" />
-          <Property Name="Passcode" Type="nvarchar" MaxLength="4" Nullable="false" />
           <Property Name="RequisitionID" Type="int" Nullable="false" />
           <Property Name="CollectedBy" Type="int" />
           <Property Name="DisbursementDutyID" Type="int" Nullable="false" />
@@ -225,6 +225,7 @@ warning 6002: The table/view 'StationeryStore.dbo.OutstandingRequisitionView' do
         <EntityType Name="OutstandingRequisitionView">
           <Key>
             <PropertyRef Name="RequisitionDetailsID" />
+            
           </Key>
           <Property Name="RequisitionID" Type="int" />
           <Property Name="ApproveDate" Type="datetime" />
@@ -237,6 +238,7 @@ warning 6002: The table/view 'StationeryStore.dbo.ReorderDetails' does not have 
         <EntityType Name="ReorderDetails">
           <Key>
             <PropertyRef Name="ItemID" />
+            
           </Key>
           <Property Name="ItemID" Type="nvarchar" MaxLength="4" Nullable="false" />
           <Property Name="ReorderLevel" Type="int" Nullable="false" />
@@ -257,6 +259,8 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
         <EntityType Name="StockCountItems">
           <Key>
             <PropertyRef Name="ItemID" />
+            
+            
           </Key>
           <Property Name="ItemID" Type="nvarchar" MaxLength="4" Nullable="false" />
           <Property Name="ItemName" Type="nvarchar" MaxLength="64" Nullable="false" />
@@ -971,13 +975,21 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
             <End Role="Supplier" EntitySet="Suppliers" />
             <End Role="SupplierItem" EntitySet="SupplierItems" />
           </AssociationSet>
-          <AssociationSet Name="InvoiceUploadStatusStockCountItem" Association="StationeryStoreModel.InvoiceUploadStatusStockCountItem">
-            <End Role="InvoiceUploadStatus" EntitySet="InvoiceUploadStatus1" />
-            <End Role="StockCountItem" EntitySet="StockCountItems" />
-          </AssociationSet>
           <AssociationSet Name="ItemStockCountItem" Association="StationeryStoreModel.ItemStockCountItem">
             <End Role="Item" EntitySet="Items" />
             <End Role="StockCountItem" EntitySet="StockCountItems" />
+          </AssociationSet>
+          <AssociationSet Name="ItemRetrievalItem" Association="StationeryStoreModel.ItemRetrievalItem">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="RetrievalItem" EntitySet="RetrievalItems" />
+          </AssociationSet>
+          <AssociationSet Name="ItemReorderDetail" Association="StationeryStoreModel.ItemReorderDetail">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="ReorderDetail" EntitySet="ReorderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="RequisitionDetailOutstandingRequisitionView" Association="StationeryStoreModel.RequisitionDetailOutstandingRequisitionView">
+            <End Role="RequisitionDetail" EntitySet="RequisitionDetails" />
+            <End Role="OutstandingRequisitionView" EntitySet="OutstandingRequisitionViews" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="ApprovalStatus">
@@ -1033,6 +1045,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
           <Property Name="EndDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Employee" Relationship="StationeryStoreModel.FK__Departmen__Emplo__5BE2A6F2" FromRole="DepartmentRepresentative" ToRole="Employee" />
           <NavigationProperty Name="Disbursements" Relationship="StationeryStoreModel.FK__Disbursem__Colle__6FE99F9F" FromRole="DepartmentRepresentative" ToRole="Disbursement" />
+          <Property Name="Passcode" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -1052,7 +1065,6 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
           </Key>
           <Property Name="DisbursementID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CollectionDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Passcode" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="true" />
           <Property Name="RequisitionID" Type="Int32" Nullable="false" />
           <Property Name="CollectedBy" Type="Int32" />
           <Property Name="DisbursementDutyID" Type="Int32" Nullable="false" />
@@ -1112,7 +1124,6 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
           <Property Name="InvoiceUploadStatusID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="InvoiceUploadStatusName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="OrderSuppliers" Relationship="StationeryStoreModel.FK__OrderSupp__Invoi__4AB81AF0" FromRole="InvoiceUploadStatu" ToRole="OrderSupplier" />
-          <NavigationProperty Name="StockCountItem" Relationship="StationeryStoreModel.InvoiceUploadStatusStockCountItem" FromRole="InvoiceUploadStatus" ToRole="StockCountItem" />
         </EntityType>
         <EntityType Name="Item">
           <Key>
@@ -1129,6 +1140,8 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
           <NavigationProperty Name="StockVouchers" Relationship="StationeryStoreModel.FK__StockVouc__ItemI__7B5B524B" FromRole="Item" ToRole="StockVoucher" />
           <NavigationProperty Name="SupplierItems" Relationship="StationeryStoreModel.FK__SupplierI__ItemI__3E52440B" FromRole="Item" ToRole="SupplierItem" />
           <NavigationProperty Name="StockCountItem" Relationship="StationeryStoreModel.ItemStockCountItem" FromRole="Item" ToRole="StockCountItem" />
+          <NavigationProperty Name="RetrievalItem" Relationship="StationeryStoreModel.ItemRetrievalItem" FromRole="Item" ToRole="RetrievalItem" />
+          <NavigationProperty Name="ReorderDetail" Relationship="StationeryStoreModel.ItemReorderDetail" FromRole="Item" ToRole="ReorderDetail" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -1195,6 +1208,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
           <NavigationProperty Name="DisbursementDetails" Relationship="StationeryStoreModel.FK__Disbursem__Requi__74AE54BC" FromRole="RequisitionDetail" ToRole="DisbursementDetail" />
           <NavigationProperty Name="Item" Relationship="StationeryStoreModel.FK__Requisiti__ItemI__693CA210" FromRole="RequisitionDetail" ToRole="Item" />
           <NavigationProperty Name="Requisition" Relationship="StationeryStoreModel.FK__Requisiti__Requi__68487DD7" FromRole="RequisitionDetail" ToRole="Requisition" />
+          <NavigationProperty Name="OutstandingRequisitionView" Relationship="StationeryStoreModel.RequisitionDetailOutstandingRequisitionView" FromRole="RequisitionDetail" ToRole="OutstandingRequisitionView" />
         </EntityType>
         <EntityType Name="RetrievalStatus">
           <Key>
@@ -1268,6 +1282,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
           <Property Name="RequisitionDetailsID" Type="Int32" Nullable="false" />
           <Property Name="ItemID" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="true" />
           <Property Name="OutStandingQuantity" Type="Int32" />
+          <NavigationProperty Name="RequisitionDetail" Relationship="StationeryStoreModel.RequisitionDetailOutstandingRequisitionView" FromRole="OutstandingRequisitionView" ToRole="RequisitionDetail" />
         </EntityType>
         <EntityType Name="ReorderDetail">
           <Key>
@@ -1276,6 +1291,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
           <Property Name="ItemID" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="true" />
           <Property Name="ReorderLevel" Type="Int32" Nullable="false" />
           <Property Name="ReorderQuantity" Type="Int32" />
+          <NavigationProperty Name="Item" Relationship="StationeryStoreModel.ItemReorderDetail" FromRole="ReorderDetail" ToRole="Item" />
         </EntityType>
         <EntityType Name="RetrievalItem">
           <Key>
@@ -1284,6 +1300,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
           <Property Name="ItemID" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="true" />
           <Property Name="QtyToRetrieve" Type="Int32" />
           <Property Name="QtyInStock" Type="Int32" />
+          <NavigationProperty Name="Item" Relationship="StationeryStoreModel.ItemRetrievalItem" FromRole="RetrievalItem" ToRole="Item" />
         </EntityType>
         <EntityType Name="StockCountItem">
           <Key>
@@ -1667,13 +1684,21 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="InvoiceUploadStatusStockCountItem">
-          <End Type="StationeryStoreModel.InvoiceUploadStatus" Role="InvoiceUploadStatus" Multiplicity="1" />
-          <End Type="StationeryStoreModel.StockCountItem" Role="StockCountItem" Multiplicity="1" />
-        </Association>
         <Association Name="ItemStockCountItem">
           <End Type="StationeryStoreModel.Item" Role="Item" Multiplicity="1" />
           <End Type="StationeryStoreModel.StockCountItem" Role="StockCountItem" Multiplicity="1" />
+        </Association>
+        <Association Name="ItemRetrievalItem">
+          <End Type="StationeryStoreModel.Item" Role="Item" Multiplicity="1" />
+          <End Type="StationeryStoreModel.RetrievalItem" Role="RetrievalItem" Multiplicity="1" />
+        </Association>
+        <Association Name="ItemReorderDetail">
+          <End Type="StationeryStoreModel.Item" Role="Item" Multiplicity="1" />
+          <End Type="StationeryStoreModel.ReorderDetail" Role="ReorderDetail" Multiplicity="1" />
+        </Association>
+        <Association Name="RequisitionDetailOutstandingRequisitionView">
+          <End Type="StationeryStoreModel.RequisitionDetail" Role="RequisitionDetail" Multiplicity="1" />
+          <End Type="StationeryStoreModel.OutstandingRequisitionView" Role="OutstandingRequisitionView" Multiplicity="1" />
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -1726,6 +1751,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
           <EntitySetMapping Name="DepartmentRepresentatives">
             <EntityTypeMapping TypeName="StationeryStoreModel.DepartmentRepresentative">
               <MappingFragment StoreEntitySet="DepartmentRepresentative">
+                <ScalarProperty Name="Passcode" ColumnName="Passcode" />
                 <ScalarProperty Name="EndDate" ColumnName="EndDate" />
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
                 <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
@@ -1749,7 +1775,6 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
                 <ScalarProperty Name="DisbursementDutyID" ColumnName="DisbursementDutyID" />
                 <ScalarProperty Name="CollectedBy" ColumnName="CollectedBy" />
                 <ScalarProperty Name="RequisitionID" ColumnName="RequisitionID" />
-                <ScalarProperty Name="Passcode" ColumnName="Passcode" />
                 <ScalarProperty Name="CollectionDate" ColumnName="CollectionDate" />
                 <ScalarProperty Name="DisbursementID" ColumnName="DisbursementID" />
               </MappingFragment>
@@ -1958,6 +1983,38 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="RequisitionDetailOutstandingRequisitionView" TypeName="StationeryStoreModel.RequisitionDetailOutstandingRequisitionView" StoreEntitySet="RequisitionDetails">
+            <EndProperty Name="OutstandingRequisitionView">
+              <ScalarProperty Name="RequisitionDetailsID" ColumnName="RequisitionDetailsID" />
+            </EndProperty>
+            <EndProperty Name="RequisitionDetail">
+              <ScalarProperty Name="RequisitionDetailsID" ColumnName="RequisitionDetailsID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ItemReorderDetail" TypeName="StationeryStoreModel.ItemReorderDetail" StoreEntitySet="ReorderDetails">
+            <EndProperty Name="ReorderDetail">
+              <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+            </EndProperty>
+            <EndProperty Name="Item">
+              <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ItemRetrievalItem" TypeName="StationeryStoreModel.ItemRetrievalItem" StoreEntitySet="Items">
+            <EndProperty Name="RetrievalItem">
+              <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+            </EndProperty>
+            <EndProperty Name="Item">
+              <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ItemStockCountItem" TypeName="StationeryStoreModel.ItemStockCountItem" StoreEntitySet="Items">
+            <EndProperty Name="StockCountItem">
+              <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+            </EndProperty>
+            <EndProperty Name="Item">
+              <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

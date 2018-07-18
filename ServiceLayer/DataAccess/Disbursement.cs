@@ -22,7 +22,6 @@ namespace ServiceLayer.DataAccess
     
         public int DisbursementID { get; set; }
         public System.DateTime CollectionDate { get; set; }
-        public string Passcode { get; set; }
         public int RequisitionID { get; set; }
         public Nullable<int> CollectedBy { get; set; }
         public int DisbursementDutyID { get; set; }

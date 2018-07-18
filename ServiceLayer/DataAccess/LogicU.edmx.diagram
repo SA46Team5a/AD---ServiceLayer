@@ -4,34 +4,34 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="1c642aebd28e4c43a72de5483ec440d8" Name="Diagram1" ZoomLevel="72">
-        <EntityTypeShape EntityType="StationeryStoreModel.ApprovalStatus" Width="2.625" PointX="7.5" PointY="15.875" />
-        <EntityTypeShape EntityType="StationeryStoreModel.Authority" Width="2.625" PointX="7.5" PointY="21.375" />
-        <EntityTypeShape EntityType="StationeryStoreModel.Category" Width="2.625" PointX="3" PointY="6.375" />
-        <EntityTypeShape EntityType="StationeryStoreModel.CollectionPoint" Width="2.625" PointX="0.75" PointY="11.375" />
-        <EntityTypeShape EntityType="StationeryStoreModel.DeliveryStatus" Width="2.625" PointX="9.75" PointY="0.75" />
-        <EntityTypeShape EntityType="StationeryStoreModel.DepartmentRepresentative" Width="2.625" PointX="7.5" PointY="12.375" />
-        <EntityTypeShape EntityType="StationeryStoreModel.Department" Width="2.625" PointX="3" PointY="11" />
-        <EntityTypeShape EntityType="StationeryStoreModel.Disbursement" Width="2.625" PointX="12" PointY="15.125" />
-        <EntityTypeShape EntityType="StationeryStoreModel.DisbursementDetail" Width="2.625" PointX="17.25" PointY="15.25" />
-        <EntityTypeShape EntityType="StationeryStoreModel.DisbursementDuty" Width="2.625" PointX="7.5" PointY="18.5" />
-        <EntityTypeShape EntityType="StationeryStoreModel.Employee" Width="2.625" PointX="5.25" PointY="10.25" />
-        <EntityTypeShape EntityType="StationeryStoreModel.InvoiceUploadStatus" Width="2.625" PointX="9.75" PointY="19.5" />
-        <EntityTypeShape EntityType="StationeryStoreModel.Item" Width="2.625" PointX="5.25" PointY="5.75" />
-        <EntityTypeShape EntityType="StationeryStoreModel.Order" Width="2.625" PointX="9.75" PointY="7.125" />
-        <EntityTypeShape EntityType="StationeryStoreModel.OrderSupplierDetail" Width="2.625" PointX="14.25" PointY="3.75" />
-        <EntityTypeShape EntityType="StationeryStoreModel.OrderSupplier" Width="2.625" PointX="12" PointY="3.375" />
-        <EntityTypeShape EntityType="StationeryStoreModel.Requisition" Width="2.625" PointX="9.75" PointY="15.125" />
-        <EntityTypeShape EntityType="StationeryStoreModel.RequisitionDetail" Width="2.625" PointX="15" PointY="15.75" />
-        <EntityTypeShape EntityType="StationeryStoreModel.RetrievalStatus" Width="2.625" PointX="7.5" PointY="25.25" />
-        <EntityTypeShape EntityType="StationeryStoreModel.StockTransaction" Width="2.625" PointX="10.5" PointY="11" />
-        <EntityTypeShape EntityType="StationeryStoreModel.StockVoucher" Width="2.625" PointX="7.5" PointY="7.375" />
-        <EntityTypeShape EntityType="StationeryStoreModel.SupplierItem" Width="2.625" PointX="13" PointY="8" />
-        <EntityTypeShape EntityType="StationeryStoreModel.Supplier" Width="2.625" PointX="9.75" PointY="3.625" />
-        <EntityTypeShape EntityType="StationeryStoreModel.OutstandingRequisitionView" Width="2.625" PointX="0.75" PointY="1.5" />
-        <EntityTypeShape EntityType="StationeryStoreModel.ReorderDetail" Width="2.625" PointX="2.75" PointY="1.5" />
-        <EntityTypeShape EntityType="StationeryStoreModel.RetrievalItem" Width="2.625" PointX="4.75" PointY="1.5" />
-        <EntityTypeShape EntityType="StationeryStoreModel.StockCountItem" Width="2.625" PointX="6.75" PointY="1.5" />
+      <Diagram DiagramId="1c642aebd28e4c43a72de5483ec440d8" Name="Diagram1" ZoomLevel="83" ShowGrid="true">
+        <EntityTypeShape EntityType="StationeryStoreModel.ApprovalStatus" Width="2.625" PointX="10.875" PointY="25" />
+        <EntityTypeShape EntityType="StationeryStoreModel.Authority" Width="2.625" PointX="10.875" PointY="21.5" />
+        <EntityTypeShape EntityType="StationeryStoreModel.Category" Width="2.625" PointX="4.125" PointY="6.5" />
+        <EntityTypeShape EntityType="StationeryStoreModel.CollectionPoint" Width="2.625" PointX="0.75" PointY="11.5" />
+        <EntityTypeShape EntityType="StationeryStoreModel.DeliveryStatus" Width="2.625" PointX="14.75" PointY="0.75" />
+        <EntityTypeShape EntityType="StationeryStoreModel.DepartmentRepresentative" Width="2.625" PointX="10.875" PointY="15.625" />
+        <EntityTypeShape EntityType="StationeryStoreModel.Department" Width="2.625" PointX="4.125" PointY="11.125" />
+        <EntityTypeShape EntityType="StationeryStoreModel.Disbursement" Width="2.625" PointX="17.625" PointY="16.5" />
+        <EntityTypeShape EntityType="StationeryStoreModel.DisbursementDetail" Width="2.625" PointX="21" PointY="14.875" />
+        <EntityTypeShape EntityType="StationeryStoreModel.DisbursementDuty" Width="2.625" PointX="10.875" PointY="18.625" />
+        <EntityTypeShape EntityType="StationeryStoreModel.Employee" Width="2.625" PointX="7.5" PointY="10.375" />
+        <EntityTypeShape EntityType="StationeryStoreModel.InvoiceUploadStatus" Width="2.625" PointX="14.75" PointY="9.5" />
+        <EntityTypeShape EntityType="StationeryStoreModel.Item" Width="2.625" PointX="7.5" PointY="5.75" />
+        <EntityTypeShape EntityType="StationeryStoreModel.Order" Width="2.625" PointX="14.75" PointY="7.125" />
+        <EntityTypeShape EntityType="StationeryStoreModel.OrderSupplierDetail" Width="2.625" PointX="21.5" PointY="4.875" />
+        <EntityTypeShape EntityType="StationeryStoreModel.OrderSupplier" Width="2.625" PointX="18.125" PointY="3.5" />
+        <EntityTypeShape EntityType="StationeryStoreModel.Requisition" Width="2.625" PointX="14.25" PointY="15.25" />
+        <EntityTypeShape EntityType="StationeryStoreModel.RequisitionDetail" Width="2.625" PointX="17.625" PointY="12.75" />
+        <EntityTypeShape EntityType="StationeryStoreModel.RetrievalStatus" Width="2.625" PointX="10.875" PointY="27.375" />
+        <EntityTypeShape EntityType="StationeryStoreModel.StockTransaction" Width="2.625" PointX="10.875" PointY="7.125" />
+        <EntityTypeShape EntityType="StationeryStoreModel.StockVoucher" Width="2.625" PointX="10.875" PointY="10.5" />
+        <EntityTypeShape EntityType="StationeryStoreModel.SupplierItem" Width="2.625" PointX="18.125" PointY="8.125" />
+        <EntityTypeShape EntityType="StationeryStoreModel.Supplier" Width="2.625" PointX="14.75" PointY="3.75" />
+        <EntityTypeShape EntityType="StationeryStoreModel.OutstandingRequisitionView" Width="2.625" PointX="0.75" PointY="1.625" />
+        <EntityTypeShape EntityType="StationeryStoreModel.ReorderDetail" Width="2.625" PointX="4.75" PointY="1.625" />
+        <EntityTypeShape EntityType="StationeryStoreModel.RetrievalItem" Width="2.625" PointX="8.75" PointY="1.625" />
+        <EntityTypeShape EntityType="StationeryStoreModel.StockCountItem" Width="2.625" PointX="21.125" PointY="11.5" />
         <AssociationConnector Association="StationeryStoreModel.FK__Requisiti__Appro__656C112C" />
         <AssociationConnector Association="StationeryStoreModel.FK__Authority__Emplo__59063A47" />
         <AssociationConnector Association="StationeryStoreModel.FK__Requisiti__Autho__6383C8BA" />
@@ -63,8 +63,10 @@
         <AssociationConnector Association="StationeryStoreModel.FK__Requisiti__Requi__68487DD7" />
         <AssociationConnector Association="StationeryStoreModel.FK__Requisiti__Retri__6477ECF3" />
         <AssociationConnector Association="StationeryStoreModel.FK__SupplierI__Suppl__3F466844" />
-        <AssociationConnector Association="StationeryStoreModel.InvoiceUploadStatusStockCountItem" />
         <AssociationConnector Association="StationeryStoreModel.ItemStockCountItem" />
+        <AssociationConnector Association="StationeryStoreModel.ItemRetrievalItem" />
+        <AssociationConnector Association="StationeryStoreModel.ItemReorderDetail" />
+        <AssociationConnector Association="StationeryStoreModel.RequisitionDetailOutstandingRequisitionView" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

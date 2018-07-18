@@ -19,5 +19,7 @@ namespace ServiceLayer.DataAccess
         public int RequisitionDetailsID { get; set; }
         public string ItemID { get; set; }
         public Nullable<int> OutStandingQuantity { get; set; }
+    
+        public virtual RequisitionDetail RequisitionDetail { get; set; }
     }
 }

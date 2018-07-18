@@ -29,5 +29,6 @@ namespace ServiceLayer.DataAccess
         public virtual ICollection<DisbursementDetail> DisbursementDetails { get; set; }
         public virtual Item Item { get; set; }
         public virtual Requisition Requisition { get; set; }
+        public virtual OutstandingRequisitionView OutstandingRequisitionView { get; set; }
     }
 }

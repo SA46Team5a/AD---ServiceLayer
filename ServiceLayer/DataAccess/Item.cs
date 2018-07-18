@@ -41,5 +41,7 @@ namespace ServiceLayer.DataAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SupplierItem> SupplierItems { get; set; }
         public virtual StockCountItem StockCountItem { get; set; }
+        public virtual RetrievalItem RetrievalItem { get; set; }
+        public virtual ReorderDetail ReorderDetail { get; set; }
     }
 }
