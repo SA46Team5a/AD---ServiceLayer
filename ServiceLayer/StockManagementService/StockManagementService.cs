@@ -16,9 +16,10 @@ namespace ServiceLayer
         public  List<Item> getAllItems()
         {
             //List all the items in the store
-            List<Item> itemList = context.Items.ToList();         
-            return itemList;
+            return context.Items.ToList();         
         }
+
+        // To remove. Already in ClassificationService
         public List<Category> getAllCategories()
         {
             //List all the categories
@@ -27,16 +28,9 @@ namespace ServiceLayer
 
         }
 
-        public  int getStockCountOfItem(string itemId)
-        {           
-            //Get the list of items in Stocktransaction 
-            List<StockTransaction> stList= context.StockTransactions.Where(st => st.ItemID == itemId).ToList();
-            int sumItem = 0;
-            foreach (StockTransaction st in stList)
-            {             
-                sumItem+=(int)(st.Adjustment is null ?0:st.Adjustment);                    
-            }
-            return sumItem;
+        public int getStockCountOfItem(string itemId)
+        {
+            return (int)context.StockCountItems.First(i => i.ItemID == itemId).QtyInStock;
         }
 
         public List<Item> getItemsOfCategory(int categoryId)
@@ -53,44 +47,45 @@ namespace ServiceLayer
         public Supplier getFirstSupplierOfItem(string itemId)
         {
             //Retrieving the Supplier of the given itemId having Rank 1
-            var sItem = context.SupplierItems.Where(si => si.ItemID == itemId).Where(si => si.Rank == 1).First();
-            return context.Suppliers.Where(s => s.SupplierID == sItem.SupplierID).First();
-            
+            return context.SupplierItems
+                .First(si => si.ItemID == itemId && si.Rank == 1)
+                .Supplier;
         }
 
         public List<Supplier> getSupplierOfItem(string itemId)
         {
             //retrieving list of SupplierItem records matching with the itemId
-            List<SupplierItem> listOfSupplier = context.SupplierItems.Where(si => si.ItemID == itemId).ToList();
-            
+            List<SupplierItem> supplierItems = context.SupplierItems.Where(si => si.ItemID == itemId).ToList();
+
             //Creating a new empty list of suppliers
             List<Supplier> supplierList = new List<Supplier>();
-            
-            //Adding the record of matched supplier by comparing SupplierId of Supplier entity and listOfSupplier fetched
-            foreach (SupplierItem si in listOfSupplier)
-            {
-                supplierList.Add(context.Suppliers.Where(s => s.SupplierID == si.SupplierID).First());
-            }
-            
+            supplierItems.ForEach(si => supplierList.Add(si.Supplier));
             return supplierList;
         }
 
         public List<StockCountItem> getStockCountItemsByCategory(int categoryId)
         {
-            //List<Item> itemList=context.Items.Where(i => i.CategoryID == categoryId).ToList();
-            return null;
-            
+            List<Item> items = context.Items.Where(i => i.CategoryID == categoryId).ToList();
+            List<string> itemIds = new List<string>();
+            items.ForEach(i => itemIds.Add(i.ItemID));
+
+            List<StockCountItem> stockCountItems = new List<StockCountItem>();
+            foreach (StockCountItem sci in context.StockCountItems.ToList())
+            {
+                if (itemIds.Contains(sci.ItemID))
+                    stockCountItems.Add(sci);
+            }           
+
+            return stockCountItems;
         }
 
         //Method to retrieve the cost of the item
         public float getItemCost(string itemId)
         {
-            var supplierItem = context.SupplierItems.Where(si => si.ItemID == itemId).Where(si => si.Rank == 1).First();
-            return (float)supplierItem.Cost;
-
+            var supplierItem = context.SupplierItems.First(si => si.ItemID == itemId && si.Rank == 1);
+            return (float) supplierItem.Cost;
         }
 
-        RetrieveStockManagementService rsms = new RetrieveStockManagementService();
         public void addStockTransaction(string itemId, string description, string employeeId, int adjustment)
         {
             //creating a new stocktransaction record
@@ -98,13 +93,12 @@ namespace ServiceLayer
             //setting the value of itemId,description,employeeId of the person who created and adjustment.
             //adjustment can be positive or negative value based on adding the item to the stock or removing item from the stock
             st.ItemID = itemId;
-            if (description != null)
-                st.Description = description;
+            st.Description = description;
             st.EmployeeID = employeeId;
             st.Adjustment = adjustment;
             context.StockTransactions.Add(st);
             context.SaveChanges();
-
+            // test if st.Item is auto populated after saving changes
         }
 
         public void addStockVoucher(string itemId, int actualcount, string employeeId, string reason)
@@ -113,12 +107,12 @@ namespace ServiceLayer
             //Setting the values received by the method to the object 
             sv.ItemID = itemId;
             //Gettin goriginal count of the item according to the store records
-            sv.OriginalCount = rsms.getStockCountOfItem(itemId);
+            sv.OriginalCount = getStockCountOfItem(itemId);
             //entered by the clerk while taking stock
             sv.ActualCount = actualcount;
             //reason in case discrepancy
             sv.Reason = reason;
-            sv.ItemCost = (decimal)rsms.getItemCost(itemId);
+            sv.ItemCost = (decimal)getItemCost(itemId);
             sv.RaisedBy = employeeId;
             sv.RaisedByDate = DateTime.Today;
             context.StockVouchers.Add(sv);
@@ -128,9 +122,17 @@ namespace ServiceLayer
         public void rejectStock(string itemId, string reason, int count, string employeeId)
         {
             //when the item gets added after  rejection at disbursement actual count will increase
-            int actualcount = rsms.getStockCountOfItem(itemId) + count;
+            int actualcount = getStockCountOfItem(itemId) + count;
             addStockTransaction(itemId, reason, employeeId, count);
             addStockVoucher(itemId, actualcount, employeeId, reason);
+            return;
+        }
+
+        public void closeVoucher(StockVoucher sv,string approvedBy)
+        {
+            sv.ApprovedBy = approvedBy;
+            sv.ApprovedDate = DateTime.Today;            
+            context.SaveChanges();
             return;
         }
 
@@ -141,14 +143,6 @@ namespace ServiceLayer
         public void submitVouchers()
         {
 
-        }
-
-          public void closeVoucher(StockVoucher sv,string approvedBy)
-        {
-            sv.ApprovedBy = approvedBy;
-            sv.ApprovedDate = DateTime.Today;            
-            context.SaveChanges();
-            return;
         }
         public void submitRetrievalForm()
         {

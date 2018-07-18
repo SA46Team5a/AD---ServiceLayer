@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 using ServiceLayer.DataAccess;
 namespace ServiceLayer
 {
+    // Author: Bhat Pavana
     interface IStockManagementService
     {
+        // Retrieve
         // Retrieves list of items
         List<Item> getAllItems();
         // Retrieves stock count of the item 
@@ -23,12 +25,14 @@ namespace ServiceLayer
         List<StockCountItem> getStockCountItemsByCategory(int cat);
         float getItemCost(string itemID);
 
+        // Create
         // Create Transaction record
         void addStockTransaction(string itemId, string description, string employeeId, int adjustment);
 
         //create stock voucher record
         void addStockVoucher(string itemId, int actualcount, string employeeId, string reason);
 
+        // Update
         /*for when stock is rejected at reimbursement. A StockTransaction is required to add the stock back into the inventory, and a         
         subsequent StockVoucher needs to be raised */
         void rejectStock(string itemId, string reason, int count, string employeeId);
@@ -39,8 +43,5 @@ namespace ServiceLayer
         void closeVoucher(StockVoucher sv, string approvedBy);
 
         void submitRetrievalForm();
-
-
-
     }
 }
