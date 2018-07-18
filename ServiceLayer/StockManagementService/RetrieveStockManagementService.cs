@@ -10,7 +10,7 @@ namespace ServiceLayer
     // Author: Bhat Pavana
     partial class RetrieveStockManagementService : IRetrieveStockManagementService
     {
-        static private StationeryStoreEntities context = new StationeryStoreEntities();
+        private StationeryStoreEntities context = new StationeryStoreEntities();
             
         public  List<Item> getAllItems()
         {
