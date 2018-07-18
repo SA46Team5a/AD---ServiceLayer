@@ -12,6 +12,7 @@ namespace ServiceLayer
         List<Item> getAllItems();
         int getStockCountOfItem(int itemId);
         List<Item> getItemsOfCategory(int categoryId);
+        // Returns a list of vouchers that have not been approved by supervisor or manager
         List<StockVoucher> getOpenVouchers();
         List<Supplier> getFirstSupplierOfItem();
         List<Supplier> getSupplierOfItem(int itemId);
