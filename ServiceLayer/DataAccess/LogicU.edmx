@@ -152,7 +152,7 @@
           </Key>
           <Property Name="RequisitionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EmployeeID" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="RequestedDate" Type="datetime" Nullable="false" />
+          <Property Name="RequestedDate" Type="datetime" />
           <Property Name="AuthorityID" Type="int" />
           <Property Name="ApproveDate" Type="datetime" />
           <Property Name="RetrievalStatusID" Type="int" />
@@ -238,9 +238,12 @@ warning 6002: The table/view 'StationeryStore.dbo.ReorderDetails' does not have 
         <EntityType Name="ReorderDetails">
           <Key>
             <PropertyRef Name="ItemID" />
+            <PropertyRef Name="ItemName" />
             
           </Key>
           <Property Name="ItemID" Type="nvarchar" MaxLength="4" Nullable="false" />
+          <Property Name="ItemName" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="QtyInStock" Type="int" />
           <Property Name="ReorderLevel" Type="int" Nullable="false" />
           <Property Name="ReorderQuantity" Type="int" />
         </EntityType>
@@ -249,10 +252,11 @@ warning 6002: The table/view 'StationeryStore.dbo.RetrievalItems' does not have 
         <EntityType Name="RetrievalItems">
           <Key>
             <PropertyRef Name="ItemID" />
+            
           </Key>
           <Property Name="ItemID" Type="nvarchar" MaxLength="4" Nullable="false" />
           <Property Name="QtyToRetrieve" Type="int" />
-          <Property Name="QtyInStock" Type="int" />
+          <Property Name="QtyInStock" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -261,11 +265,12 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
             <PropertyRef Name="ItemID" />
             
             
+            
           </Key>
           <Property Name="ItemID" Type="nvarchar" MaxLength="4" Nullable="false" />
           <Property Name="ItemName" Type="nvarchar" MaxLength="64" Nullable="false" />
           <Property Name="UnitOfMeasure" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="QtyInStock" Type="int" />
+          <Property Name="QtyInStock" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK__Authority__Emplo__59063A47">
           <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
@@ -675,6 +680,8 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
           <EntitySet Name="ReorderDetails" EntityType="Self.ReorderDetails" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ReorderDetails].[ItemID] AS [ItemID], 
+    [ReorderDetails].[ItemName] AS [ItemName], 
+    [ReorderDetails].[QtyInStock] AS [QtyInStock], 
     [ReorderDetails].[ReorderLevel] AS [ReorderLevel], 
     [ReorderDetails].[ReorderQuantity] AS [ReorderQuantity]
     FROM [dbo].[ReorderDetails] AS [ReorderDetails]</DefiningQuery>
@@ -1166,7 +1173,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
           </Key>
           <Property Name="RequisitionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="EmployeeID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="RequestedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RequestedDate" Type="DateTime" Precision="3" />
           <Property Name="AuthorityID" Type="Int32" />
           <Property Name="ApproveDate" Type="DateTime" Precision="3" />
           <Property Name="RetrievalStatusID" Type="Int32" />
@@ -1266,10 +1273,13 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
         <EntityType Name="ReorderDetail">
           <Key>
             <PropertyRef Name="ItemID" />
+            <PropertyRef Name="ItemName" />
           </Key>
           <Property Name="ItemID" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="true" />
           <Property Name="ReorderLevel" Type="Int32" Nullable="false" />
           <Property Name="ReorderQuantity" Type="Int32" />
+          <Property Name="ItemName" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="QtyInStock" Type="Int32" />
         </EntityType>
         <EntityType Name="RetrievalItem">
           <Key>
@@ -1277,7 +1287,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
           </Key>
           <Property Name="ItemID" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="true" />
           <Property Name="QtyToRetrieve" Type="Int32" />
-          <Property Name="QtyInStock" Type="Int32" />
+          <Property Name="QtyInStock" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="StockCountItem">
           <Key>
@@ -1286,7 +1296,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
           <Property Name="ItemID" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="true" />
           <Property Name="ItemName" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Name="UnitOfMeasure" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="QtyInStock" Type="Int32" />
+          <Property Name="QtyInStock" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK__Requisiti__Appro__656C112C">
           <End Type="StationeryStoreModel.ApprovalStatus" Role="ApprovalStatu" Multiplicity="1" />
@@ -1918,6 +1928,8 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
           <EntitySetMapping Name="ReorderDetails">
             <EntityTypeMapping TypeName="StationeryStoreModel.ReorderDetail">
               <MappingFragment StoreEntitySet="ReorderDetails">
+                <ScalarProperty Name="QtyInStock" ColumnName="QtyInStock" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
                 <ScalarProperty Name="ReorderQuantity" ColumnName="ReorderQuantity" />
                 <ScalarProperty Name="ReorderLevel" ColumnName="ReorderLevel" />
                 <ScalarProperty Name="ItemID" ColumnName="ItemID" />
