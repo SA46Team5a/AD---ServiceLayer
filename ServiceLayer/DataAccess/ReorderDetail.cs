@@ -17,5 +17,7 @@ namespace ServiceLayer.DataAccess
         public string ItemID { get; set; }
         public int ReorderLevel { get; set; }
         public Nullable<int> ReorderQuantity { get; set; }
+        public string ItemName { get; set; }
+        public Nullable<int> QtyInStock { get; set; }
     }
 }

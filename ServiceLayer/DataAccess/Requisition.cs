@@ -23,7 +23,7 @@ namespace ServiceLayer.DataAccess
     
         public int RequisitionID { get; set; }
         public string EmployeeID { get; set; }
-        public System.DateTime RequestedDate { get; set; }
+        public Nullable<System.DateTime> RequestedDate { get; set; }
         public Nullable<int> AuthorityID { get; set; }
         public Nullable<System.DateTime> ApproveDate { get; set; }
         public Nullable<int> RetrievalStatusID { get; set; }
