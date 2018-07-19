@@ -8,7 +8,7 @@ using ServiceLayer.DataAccess;
 namespace ServiceLayer
 {
     // Author: Bhat Pavana
-    partial class StockManagementService : IStockManagementService
+    public class StockManagementService : IStockManagementService
     {
          
         static StationeryStoreEntities context = StationeryStoreEntities.Instance;

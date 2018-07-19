@@ -7,7 +7,7 @@ using ServiceLayer.DataAccess;
 namespace ServiceLayer
 {
     // Author: Bhat Pavana
-    interface IStockManagementService
+    public interface IStockManagementService
     {
         // Retrieve
         // Retrieves list of items
