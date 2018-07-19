@@ -89,8 +89,7 @@ namespace ServiceLayer
             st.EmployeeID = employeeId;
             st.Adjustment = adjustment;
             context.StockTransactions.Add(st);
-            context.SaveChanges();
-            Console.WriteLine("item is:" + st.Item.ItemName);
+            context.SaveChanges();            
             // test if st.Item is auto populated after saving changes
         }
 
