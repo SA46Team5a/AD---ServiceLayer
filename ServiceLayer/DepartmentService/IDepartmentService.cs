@@ -4,15 +4,16 @@ using System.Collections.Generic;
 
 namespace ServiceLayer
 {
+    // Author: Divyashree
     public interface IDepartmentService
     {
         // Retrieve
-        List<CollectionPoint> getCollectionPoints();
-        string getAuthority(string dept);
-        List<Employee> getDepartmentRepresentative(string dept);
+        Authority getCurrentAuthority(string dept);
+        DepartmentRepresentative getCurrentDepartmentRepresentative(string dept);
 
-        CollectionPoint getCollectionPointOfDepartment(string emp);
-        bool verifyPassCode(int passcode);
+        CollectionPoint getCollectionPointOfEmployee(string emp);
+
+        bool verifyPassCode(string passcode, string dep);
         Employee getEmployeeById(string emp);
         string getDepartmentID(string emp);
 
@@ -22,9 +23,10 @@ namespace ServiceLayer
         // Update
         void updateAuthority(Authority auth);
         void rescindAuthority(Authority auth);
-        void updateDepartmentRepresentative(Employee oldemp, Employee newemp);
-        void updateCollectionPoint(Department dep, CollectionPoint cp);
-        void generateNewPasscode(Department dep);
+        
+        void updateDepartmentRepresentative(int currentDeptRepId, string newRepEmpId);
+        void updateCollectionPoint(string dep, int cp);
+        string generateNewPasscode(string dep);
 
     }
 }
