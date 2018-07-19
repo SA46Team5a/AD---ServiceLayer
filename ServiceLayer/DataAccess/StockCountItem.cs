@@ -17,6 +17,6 @@ namespace ServiceLayer.DataAccess
         public string ItemID { get; set; }
         public string ItemName { get; set; }
         public string UnitOfMeasure { get; set; }
-        public Nullable<int> QtyInStock { get; set; }
+        public int QtyInStock { get; set; }
     }
 }
