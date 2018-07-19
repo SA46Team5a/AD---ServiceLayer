@@ -8,25 +8,17 @@ using ServiceLayer.DataAccess;
 namespace ServiceLayer
 {
     // Author: Bhat Pavana
-    partial class RetrieveStockManagementService : IStockManagementService
+    partial class StockManagementService : IStockManagementService
     {
-         private StationeryStoreEntities context = new StationeryStoreEntities();
-       // static StationeryStoreEntities context = StationeryStoreEntities.Instance;
+         
+        static StationeryStoreEntities context = StationeryStoreEntities.Instance;
 
         public  List<Item> getAllItems()
         {
             //List all the items in the store
             return context.Items.ToList();         
         }
-
-        // To remove. Already in ClassificationService
-        public List<Category> getAllCategories()
-        {
-            //List all the categories
-            List<Category> categoryList= context.Categories.ToList();
-            return categoryList;
-
-        }
+        
 
         public int getStockCountOfItem(string itemId)
         {
@@ -98,6 +90,7 @@ namespace ServiceLayer
             st.Adjustment = adjustment;
             context.StockTransactions.Add(st);
             context.SaveChanges();
+            Console.WriteLine("item is:" + st.Item.ItemName);
             // test if st.Item is auto populated after saving changes
         }
 
@@ -128,8 +121,10 @@ namespace ServiceLayer
             return;
         }
 
-        public void closeVoucher(StockVoucher sv,string approvedBy)
+        public void closeVoucher(int discrepancyId,string approvedBy)
         {
+            //Retrieve the record from the stock voucher with discrepancy id passed as parameter
+            StockVoucher sv= getOpenVouchers().First(i => i.DiscrepancyID == discrepancyId);
             sv.ApprovedBy = approvedBy;
             sv.ApprovedDate = DateTime.Today;            
             context.SaveChanges();
