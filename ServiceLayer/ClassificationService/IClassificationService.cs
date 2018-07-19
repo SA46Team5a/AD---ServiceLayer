@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using ServiceLayer.DataAccess;
 namespace ServiceLayer
 {
-    interface IClassificationService
+    public interface IClassificationService
     {
         List<Category> GetCategories();
         List<ApprovalStatus> GetApprovalStatus();

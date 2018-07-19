@@ -7,26 +7,28 @@ using ServiceLayer.DataAccess;
 
 namespace ServiceLayer
 {
-    class ClassificationService : IClassificationService
+    // Author: Bhat Pavana
+    public class ClassificationService : IClassificationService
     {
+        static StationeryStoreEntities context = StationeryStoreEntities.Instance;
         public List<ApprovalStatus> GetApprovalStatus()
         {
-            return new List<ApprovalStatus>();
+            return context.ApprovalStatus1.ToList();
         }
 
         public List<Category> GetCategories()
         {
-            return new List<Category>();
+            return context.Categories.ToList();            
         }
 
         public List<CollectionPoint> GetCollectionPoints()
         {
-            return new List<CollectionPoint>();
+            return context.CollectionPoints.ToList();
         }
 
         public List<RetrievalStatus> GetRetrievalStatus()
         {
-            return new List<RetrievalStatus>();
+            return context.RetrievalStatus1.ToList();
         }
     }
 }
