@@ -8,11 +8,20 @@ using ServiceLayer.DataAccess;
 namespace ServiceLayer
 {
     // Author: Jack
-    public class OrderService
+    public class OrderService : IOrderService
     {
         StationeryStoreEntities context = StationeryStoreEntities.Instance;
 
         // Retrieve
+        public Order getOrder(int orderId)
+            => context.Orders.First(o => o.OrderID == orderId);
+
+        public OrderSupplier getOrderSupplier(int orderSupplierId)
+            => context.OrderSuppliers.First(os => os.OrderSupplierID == orderSupplierId);
+
+        public OrderSupplierDetail getOrderSupplierDetail(int orderSupplierDetailId)
+            =>  context.OrderSupplierDetails.First(osd => osd.OrderSupplierDetailsID== orderSupplierDetailId);
+
         public List<ReorderDetail> getReorderDetails()
             => context.ReorderDetails.ToList();
 
@@ -20,6 +29,9 @@ namespace ServiceLayer
             => context.SupplierItems
             .Where(si => itemIds.Contains(si.ItemID))
             .ToList();
+
+        public List<OrderSupplier> getOrderSuppliersOfOrder(int orderId)
+            => context.Orders.First(o => o.OrderID == orderId).OrderSuppliers.ToList();
 
         // Create
         public int createOrderAndGetOrderId(Dictionary<string, int> itemAndQty, Dictionary<int, int> supplierItemsAndQty)
@@ -73,33 +85,56 @@ namespace ServiceLayer
                 .OrderBy(si => si.Rank)
                 .ToList();
 
+            int totalAvailableQuantity = supplierItemAndQty.Values.Sum();
             foreach (SupplierItem si in supplierItems)
             {
-                if (qty > 0 && supplierItemAndQty[si.SupplierItemID] > 0)
+                if (qty > 0 && totalAvailableQuantity > 0)
                 {
-                    int availableQty = supplierItemAndQty[si.SupplierItemID];
-                    OrderSupplier os;
-                    if (order.OrderSuppliers.Count(o => o.Supplier == si.Supplier) == 0)
+                    if (supplierItemAndQty[si.SupplierItemID] > 0)
                     {
-                        os = createOrderSupplier(order.OrderID, si.Supplier.SupplierID);
-                        order.OrderSuppliers.Add(os);
-                        context.SaveChanges();
-                    }
-                    else
-                        os = order.OrderSuppliers.First(o => o.Supplier == si.Supplier);
+                        int availableQty = supplierItemAndQty[si.SupplierItemID];
+                        OrderSupplier os;
+                        if (order.OrderSuppliers.Count(o => o.Supplier == si.Supplier) == 0)
+                        {
+                            os = createOrderSupplier(order.OrderID, si.Supplier.SupplierID);
+                            order.OrderSuppliers.Add(os);
+                            context.SaveChanges();
+                        }
+                        else
+                            os = order.OrderSuppliers.First(o => o.Supplier == si.Supplier);
 
-                    OrderSupplierDetail osd = new OrderSupplierDetail();
-                    int orderQty = Math.Min(qty, availableQty);
-                    osd.OrderSupplier = os;
-                    osd.ItemID = si.ItemID;
-                    osd.Quantity = orderQty;
-                    osd.UnitCost = (decimal) si.Cost;
-                    os.OrderSupplierDetails.Add(osd);
-                    qty -= orderQty;
+                        OrderSupplierDetail osd = new OrderSupplierDetail();
+                        int orderQty = Math.Min(qty, availableQty);
+                        osd = createOrderSupplierDetail(os.OrderSupplierID, si, orderQty);
+                        os.OrderSupplierDetails.Add(osd);
+                        qty -= orderQty;
+                    }
                 }
                 else
                     break;
             }
+            context.SaveChanges();
+        }
+
+        // Update
+        public void updateQtyRecievedOfOrderSupplierDetail(int orderSupplierDetailId, int qty)
+        {
+            OrderSupplierDetail orderSupplierDetail = getOrderSupplierDetail(orderSupplierDetailId);
+            orderSupplierDetail.ActualQuantityReceived = Math.Min(qty, orderSupplierDetail.Quantity);
+            context.SaveChanges();
+        }
+
+        public void confirmDeliveryOfOrderSupplier(int orderSupplierId)
+        {
+            OrderSupplier orderSupplier = getOrderSupplier(orderSupplierId);
+            orderSupplier.DeliveryStatusID = 1; // Delivered
+            context.SaveChanges();
+        }
+
+        public void confirmInvoiceUploadStatus(int orderSupplierId)
+        {
+            OrderSupplier orderSupplier = getOrderSupplier(orderSupplierId);
+            orderSupplier.InvoiceUploadStatusID = 1; // Delivered
             context.SaveChanges();
         }
     }

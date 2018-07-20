@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{CCFC0C72-C703-4529-9EE1-7BAD87ADEC73}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>ServiceLayer</RootNamespace>
     <AssemblyName>ServiceLayer</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>ServiceLayer.OrderTest</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -156,6 +156,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LogicU.edmx</DependentUpon>
     </Compile>
+    <Compile Include="OrderService\OrderTest.cs" />
     <Compile Include="OrderService\IOrderService.cs" />
     <Compile Include="DepartmentTest.cs" />
     <Compile Include="OrderService\OrderService.cs" />
