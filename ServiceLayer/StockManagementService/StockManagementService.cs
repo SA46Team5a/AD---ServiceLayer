@@ -18,7 +18,13 @@ namespace ServiceLayer
             //List all the items in the store
             return context.Items.ToList();         
         }
-        
+
+        public List<StockCountItem> getAllStockCountItem()
+        {
+            //List all the items and stock count   in the store
+            return context.StockCountItems.ToList();
+        }
+
 
         public int getStockCountOfItem(string itemId)
         {
