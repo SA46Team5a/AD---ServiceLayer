@@ -42,7 +42,7 @@ namespace ServiceLayer
         void submitStockCountItems(int empId);
         void submitVouchers();
 
-        void closeVoucher(int discrepancyId, string approvedBy);
+        void closeVoucher(int discrepancyId, string approvedBy, string reason);
 
         void submitRetrievalForm();
     }
