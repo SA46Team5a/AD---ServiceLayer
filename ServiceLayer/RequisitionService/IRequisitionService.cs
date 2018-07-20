@@ -15,7 +15,7 @@ namespace ServiceLayer
         List<Requisition> getPendingRequisitionsOfDep(string depId);
 
         // Create
-        void createNewRequsitionForEmployee(string empId); 
+        Requisition createNewRequsitionForEmployee(string empId); 
         void addNewRequisitionsDetails(Requisition req, Dictionary<string, int> itemAndQty);
         void addNewRequisitionDetail(Requisition req, RequisitionDetail rd);
         void addNewRequisitionDetail(int reqId, string itemId, int qtyRequested);
@@ -25,8 +25,8 @@ namespace ServiceLayer
         void editRequisitionDetailQty(int reqDetailId, int qty);
 
         void submitRequisition(int reqId); 
-        void rejectRequisition(int reqId); 
-        void approveRequisition(int reqId);
+        void rejectRequisition(int reqId, int authId); 
+        void approveRequisition(int reqId, int authId);
 
         // Delete
         void deleteRequisition(int reqId);

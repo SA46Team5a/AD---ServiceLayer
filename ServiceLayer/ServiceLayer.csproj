@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>ServiceLayer.RequisitionService.RequisitionTest</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
@@ -154,6 +157,7 @@
       <DependentUpon>LogicU.edmx</DependentUpon>
     </Compile>
     <Compile Include="OrderService\IOrderService.cs" />
+    <Compile Include="RequisitionService\RequisitionTest.cs" />
     <Compile Include="StockManagementService\StockManagementTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportService\IReportService.cs" />
