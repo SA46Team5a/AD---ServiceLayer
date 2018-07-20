@@ -126,12 +126,13 @@ namespace ServiceLayer
             return;
         }
 
-        public void closeVoucher(int discrepancyId,string approvedBy)
+        public void closeVoucher(int discrepancyId,string approvedBy,string reason)
         {
             //Retrieve the record from the stock voucher with discrepancy id passed as parameter
             StockVoucher sv= getOpenVouchers().First(i => i.DiscrepancyID == discrepancyId);
             sv.ApprovedBy = approvedBy;
-            sv.ApprovedDate = DateTime.Today;            
+            sv.ApprovedDate = DateTime.Today;
+            sv.Reason = reason;
             context.SaveChanges();
             return;
         }
