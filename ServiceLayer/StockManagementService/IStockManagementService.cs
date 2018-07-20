@@ -12,6 +12,8 @@ namespace ServiceLayer
         // Retrieve
         // Retrieves list of items
         List<Item> getAllItems();
+        //Retrieves all the items with their stock count
+        List<StockCountItem> getAllStockCountItem();
         // Retrieves stock count of the item 
         int getStockCountOfItem(string itemId);
         List<Item> getItemsOfCategory(int categoryId);
@@ -40,7 +42,7 @@ namespace ServiceLayer
         void submitStockCountItems(int empId);
         void submitVouchers();
 
-        void closeVoucher(int discrepancyId, string approvedBy);
+        void closeVoucher(int discrepancyId, string approvedBy, string reason);
 
         void submitRetrievalForm();
     }

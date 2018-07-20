@@ -18,7 +18,13 @@ namespace ServiceLayer
             //List all the items in the store
             return context.Items.ToList();         
         }
-        
+
+        public List<StockCountItem> getAllStockCountItem()
+        {
+            //List all the items and stock count   in the store
+            return context.StockCountItems.ToList();
+        }
+
 
         public int getStockCountOfItem(string itemId)
         {
@@ -120,12 +126,13 @@ namespace ServiceLayer
             return;
         }
 
-        public void closeVoucher(int discrepancyId,string approvedBy)
+        public void closeVoucher(int discrepancyId,string approvedBy,string reason)
         {
             //Retrieve the record from the stock voucher with discrepancy id passed as parameter
             StockVoucher sv= getOpenVouchers().First(i => i.DiscrepancyID == discrepancyId);
             sv.ApprovedBy = approvedBy;
-            sv.ApprovedDate = DateTime.Today;            
+            sv.ApprovedDate = DateTime.Today;
+            sv.Reason = reason;
             context.SaveChanges();
             return;
         }

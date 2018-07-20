@@ -61,7 +61,7 @@ namespace ServiceLayer
             iService.rejectStock("C001", "opened items", 10, "E001");
 
             Console.WriteLine("Closing the vouchers:");      
-             iService.closeVoucher(11, "E014");
+             iService.closeVoucher(11, "E014","broken");
 
 
         }
