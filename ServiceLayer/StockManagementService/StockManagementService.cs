@@ -18,7 +18,13 @@ namespace ServiceLayer
             //List all the items in the store
             return context.Items.ToList();         
         }
-        
+
+        public List<StockCountItem> getAllStockCountItem()
+        {
+            //List all the items and stock count   in the store
+            return context.StockCountItems.ToList();
+        }
+
 
         public int getStockCountOfItem(string itemId)
         {
@@ -89,8 +95,7 @@ namespace ServiceLayer
             st.EmployeeID = employeeId;
             st.Adjustment = adjustment;
             context.StockTransactions.Add(st);
-            context.SaveChanges();
-            Console.WriteLine("item is:" + st.Item.ItemName);
+            context.SaveChanges();            
             // test if st.Item is auto populated after saving changes
         }
 

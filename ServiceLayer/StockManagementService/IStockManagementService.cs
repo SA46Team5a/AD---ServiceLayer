@@ -12,6 +12,8 @@ namespace ServiceLayer
         // Retrieve
         // Retrieves list of items
         List<Item> getAllItems();
+        //Retrieves all the items with their stock count
+        List<StockCountItem> getAllStockCountItem();
         // Retrieves stock count of the item 
         int getStockCountOfItem(string itemId);
         List<Item> getItemsOfCategory(int categoryId);

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ServiceLayer.DataAccess;
 namespace ServiceLayer
 {
+
     public interface IClassificationService
     {
         List<Category> GetCategories();

@@ -6,20 +6,21 @@ using System.Threading.Tasks;
 using ServiceLayer.DataAccess;
 namespace ServiceLayer
 {
-    class Program
+    class StockManagementTest
     {
         static void Main(string[] args)
         {
             Console.WriteLine("Testing ");
             IStockManagementService iService = new StockManagementService();
+            
+
             List<Item> itemList=iService.getAllItems();
             foreach(Item i in itemList)
             {
                 Console.Write(i.ItemName + "\t");
                 Console.WriteLine(iService.getStockCountOfItem(i.ItemID));
             }
-
-           // Console.WriteLine("Stock count is:"+iService.getStockCountOfItem("C001"));
+           
             itemList = iService.getItemsOfCategory(1);
             foreach (Item i in itemList)
             {
@@ -59,9 +60,8 @@ namespace ServiceLayer
             Console.WriteLine("Rejecting the stock");
             iService.rejectStock("C001", "opened items", 10, "E001");
 
-           // Console.WriteLine("Closing the vouchers:");      
-            iService.closeVoucher(11, "E014");
-
+            Console.WriteLine("Closing the vouchers:");      
+             iService.closeVoucher(11, "E014");
 
 
         }
