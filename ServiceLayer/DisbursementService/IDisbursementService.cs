@@ -6,13 +6,18 @@ using System.Threading.Tasks;
 using ServiceLayer.DataAccess;
 namespace ServiceLayer
 {
-    interface IDisbursementService
+    // Author: Jack
+    public interface IDisbursementService
     {
         // Retrieve
+        DisbursementDuty getDisbursementDutyById(int disDutyId);
+        Disbursement getDisbursementById(int disId);
         List<Disbursement> getDisbursementsByDep(string depId);
 
         // Create
         void addDisbursementDuty(string empId);
+        void addDisbursement(Dictionary<string, int> itemsAndQty, int disDutyId);
+        void addDisbursementDetail(string itemId, int qty, int reqId);
 
         // Update
         void confirmDisbursements(List<int> disbursementIds);

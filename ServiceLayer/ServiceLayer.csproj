@@ -137,6 +137,7 @@
     </Compile>
     <Compile Include="DepartmentService\IDepartmentService.cs" />
     <Compile Include="DepartmentService\DepartmentService.cs" />
+    <Compile Include="DisbursementService\DisbursementService.cs" />
     <Compile Include="DisbursementService\IDisbursementService.cs" />
     <Compile Include="DataAccess\LogicU.Context.cs">
       <AutoGen>True</AutoGen>
