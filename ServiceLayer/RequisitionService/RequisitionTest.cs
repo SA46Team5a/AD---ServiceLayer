@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ServiceLayer.DataAccess;
-namespace ServiceLayer.RequisitionService
+namespace ServiceLayer
 {
     //Author: Benedict
     class RequisitionTest

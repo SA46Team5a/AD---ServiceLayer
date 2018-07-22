@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ServiceLayer.DataAccess;
 
-namespace ServiceLayer.RequisitionService
+namespace ServiceLayer
 {
     //Author: Benedict
     public class RequisitionService : IRequisitionService
