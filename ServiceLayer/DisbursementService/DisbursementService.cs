@@ -15,30 +15,103 @@ namespace ServiceLayer
         IDepartmentService departmentService = new DepartmentService();
 
         // Retrieve
-        public List<RetrievalItem> generateRetrievalForm(string empId)
+        public List<RetrievalItem> getRetrievalForm(string empId)
+        {
+            bool outstandingRetrievalForm = context.DisbursementDuties
+                .Count(d => d.StoreClerkID == empId && d.isRetrieved == false) > 0 ;
+
+            if (outstandingRetrievalForm)
+            {
+               DisbursementDuty disDuty = context.DisbursementDuties
+                   .First(d => d.StoreClerkID == empId && d.isRetrieved == false);
+     
+               return generateRetrievalFormFromDisbursementDuty(disDuty.DisbursementDutyID);
+            }
+            else
+                return generateNewRetrievalForm(empId);
+       }
+
+        public List<RetrievalItem> generateNewRetrievalForm(string empId)
         {
             // Get list of items to retrieve
-            List<RetrievalItem> retrievalItems = context.RetrievalItems.ToList();
-
-            // Change status of requsitions to retrieveing so that they won't be 
-            // doubly selected for retrieval
-            List<Requisition> requisitions = context.Requisitions
-                .Where(r => r.RetrievalStatusID == 1 || r.RetrievalStatusID == 3)
+            List<RequisitionDetail> requisitionDetails = context.RequisitionDetails
+                .Where(rd => (rd.Requisition.RetrievalStatusID == 1 || rd.Requisition.RetrievalStatusID == 3))
                 .ToList();
-            requisitions.ForEach(r => r.RetrievalStatusID = 2);
-            context.SaveChanges();
 
-            // Assign duty to employee
-            int disDutyId = addDisbursementDuty(empId);
+            List<string> itemsToRetrieve = requisitionDetails.Select(rd => rd.ItemID).Distinct().ToList();
 
-            // Record requisitions into disbursements
-            requisitions.ForEach(r => addDisbursementFromRequisition(r.RequisitionID, disDutyId));
+            List<RetrievalItem> retrievalItems = new List<RetrievalItem>();           
+            foreach (string item in itemsToRetrieve)
+            {
+                RetrievalItem retrievalItem = new RetrievalItem();
+                retrievalItem.ItemID = item;
+                retrievalItem.QtyInStock = stockManagementService.getStockCountOfItem(item);
+                int qtyRequested = requisitionDetails
+                    .Where(rd => rd.ItemID == item)
+                    .Select(rd => rd.Quantity)
+                    .Sum();
+                int qtyCollected = requisitionDetails
+                    .Where(rd => rd.ItemID == item)
+                    .Select(rd => (int) rd.DisbursementDetails.Select(dd => dd.CollectedQty).Sum())
+                    .Sum();
 
-            return new List<RetrievalItem>();
+                retrievalItem.QtyToRetrieve = qtyRequested - qtyCollected;
+                retrievalItems.Add(retrievalItem);
+            }
+
+            if (retrievalItems.Count > 0)
+            {
+                // Change status of requsitions to retrieveing so that they won't be 
+                // doubly selected for retrieval
+     
+                List<Requisition> requisitions = context.Requisitions
+                    .Where(r => r.RetrievalStatusID == 1 || r.RetrievalStatusID == 3)
+                    .ToList();
+     
+                requisitions.ForEach(r => r.RetrievalStatusID = 2);
+                context.SaveChanges();
+
+                // Assign duty to employee
+                int disDutyId = addDisbursementDuty(empId);
+
+                // Record requisitions into disbursements
+                requisitions.ForEach(r => addDisbursementFromRequisition(r.RequisitionID, disDutyId));
+            }
+            return retrievalItems;
+        }
+
+        public List<RetrievalItem> generateRetrievalFormFromDisbursementDuty(int disDutyId)
+        {
+            List<DisbursementDetail> disbursementDetails = context.DisbursementDetails
+                .Where(d => d.Disbursement.DisbursementDutyID == disDutyId)
+                .ToList();
+
+            List<string> itemIds = disbursementDetails
+                .Select(d => d.RequisitionDetail.ItemID)
+                .Distinct()
+                .ToList();
+
+            List<RetrievalItem> retrievalItems = new List<RetrievalItem>();
+
+            RetrievalItem retrievalItem;
+            foreach (string itemId in itemIds)
+            {
+                retrievalItem = new RetrievalItem();
+                retrievalItem.ItemID = itemId;
+                retrievalItem.QtyToRetrieve = disbursementDetails
+                    .Where(d => d.RequisitionDetail.ItemID == itemId)
+                    .Sum(d => d.Quantity);
+                retrievalItem.QtyInStock = stockManagementService.getStockCountOfItem(itemId);
+            }
+
+            return retrievalItems;
         }
 
         public DisbursementDuty getDisbursementDutyById(int disDutyId)
             => context.DisbursementDuties.First(dd => dd.DisbursementDutyID == disDutyId);
+
+        public DisbursementDuty getDisbursementDutyByStoreClerkEmpId(string empId)
+            => context.DisbursementDuties.First(d => !d.isRetrieved && d.StoreClerkID == empId);
 
         public Disbursement getDisbursementById(int disId)
             =>  context.Disbursements.First(dd => dd.DisbursementID == disId);
@@ -56,12 +129,16 @@ namespace ServiceLayer
         public List<DisbursementDetail> getDisbursementDetailsByReqId(int reqId)
             => context.DisbursementDetails.Where(d => d.RequisitionDetailsID == reqId).ToList();
 
-        public int getTotalCountOfItemDisbursedForReqId(int reqId)
-            => (int) context.DisbursementDetails
-            .Where(dd => dd.Disbursement.RequisitionID == reqId)
-            .Select(dd => dd.CollectedQty)
-            .Sum();
+        public int getTotalCountOfItemDisbursedForReqDetailId(int reqId)
+        {
+            int? count = context.DisbursementDetails
+                .Where(dd => dd.RequisitionDetailsID == reqId)
+                .Select(dd => dd.CollectedQty)
+                .Sum();
 
+            return count is null ? 0 : (int) count;
+
+        }
         // Create
         public int addDisbursementDuty(string empId)
         {
@@ -105,7 +182,7 @@ namespace ServiceLayer
             requisitionDetails = requisitionDetails.OrderBy(rd => rd.Requisition.RequestedDate).ToList();
             foreach (RequisitionDetail rd in requisitionDetails)
             {
-                int outstandingQty = rd.Quantity - getTotalCountOfItemDisbursedForReqId(rd.RequisitionID);
+                int outstandingQty = rd.Quantity - getTotalCountOfItemDisbursedForReqDetailId(rd.RequisitionID);
                 if (qty > 0 && outstandingQty > 0)
                 {
                     int qtyToDisburse = Math.Min(qty, outstandingQty);
@@ -123,20 +200,22 @@ namespace ServiceLayer
         public void submitRetrievalForm(int disDutyId, Dictionary<string, int> itemsAndQtys) 
         {
             DisbursementDuty disbursementDuty = getDisbursementDutyById(disDutyId);
+
             // Allocate the retrieved items into respective Disbursements. Priority is on a first-come-first-serve basis.
             foreach (KeyValuePair<string, int> item in itemsAndQtys)
             {
+                int qty = Math.Min(item.Value, stockManagementService.getStockCountOfItem(item.Key));
                 // Get all requisition details served by disbursement duty
                 List<Disbursement> disbursements = disbursementDuty.Disbursements.ToList();
                 List<RequisitionDetail> requisitionDetails = new List<RequisitionDetail>();
                 disbursements.ForEach(d => requisitionDetails
                     .AddRange(d.Requisition.RequisitionDetails.Where(rd => rd.ItemID == item.Key).ToList()));
 
-                allocateRetrievalToDisbursementDetails(requisitionDetails, disbursementDuty, item.Value);
+                allocateRetrievalToDisbursementDetails(requisitionDetails, disbursementDuty, qty);
+                stockManagementService.addStockTransaction(item.Key, "Retrieval" , disbursementDuty.StoreClerkID, -qty);
             }
 
             // update retrieval status of each requisition within disbursement duty to retrieved
-            updateRequsitionRetrievalStatusBasedOnTotalDisbursed(disDutyId);
             disbursementDuty.Disbursements.ToList().ForEach(d => d.Requisition.RetrievalStatusID = 4);
             disbursementDuty.isRetrieved = true;
             context.SaveChanges();
@@ -148,7 +227,7 @@ namespace ServiceLayer
                 .Where(d => disDutyIds.Contains(d.Disbursement.DisbursementDutyID))
                 .OrderBy(d => d.Disbursement.Requisition.RequestedDate)
                 .ToList();
- 
+
             // If there are rejected items, adjust stock and submit stock voucher.
             foreach (DisbursementItem item in items)
             {
@@ -162,13 +241,17 @@ namespace ServiceLayer
                         item.Reason);
                 }
                 else
+                {
                     disDetailsOfItemId.ForEach(d => d.CollectedQty = d.Quantity);
+
+                }
                 context.SaveChanges();
             }
 
             // Update disbursement with department rep
+            Department department = context.Departments.First(d => d.DepartmentID == depId);
             List<Disbursement> disbursements = disbursementDetails
-                .Where(d => d.RequisitionDetail.Requisition.Requester.DepartmentID == depId)
+                .Where(d => department.Employees.Select(dep => dep.EmployeeID).Contains(d.RequisitionDetail.Requisition.EmployeeID))
                 .Select(d => d.Disbursement)
                 .Distinct()
                 .ToList();
@@ -223,7 +306,7 @@ namespace ServiceLayer
                 bool fullyRetrieved = true;
                 foreach (RequisitionDetail reqDetail in disbursement.Requisition.RequisitionDetails)
                 {
-                    int qtyDisbursed = getTotalCountOfItemDisbursedForReqId(reqDetail.RequisitionDetailsID);
+                    int qtyDisbursed = getTotalCountOfItemDisbursedForReqDetailId(reqDetail.RequisitionDetailsID);
                     if (qtyDisbursed < reqDetail.Quantity)
                     {
                         fullyRetrieved = false;

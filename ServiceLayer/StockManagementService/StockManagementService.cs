@@ -28,7 +28,9 @@ namespace ServiceLayer
 
         public int getStockCountOfItem(string itemId)
         {
-            return (int)context.StockCountItems.First(i => i.ItemID == itemId).QtyInStock;
+            StockCountItem item = context.StockCountItems.First(i => i.ItemID == itemId);
+            context.Entry<StockCountItem>(item).Reload();
+            return (int) item.QtyInStock;
         }
 
         public List<Item> getItemsOfCategory(int categoryId)

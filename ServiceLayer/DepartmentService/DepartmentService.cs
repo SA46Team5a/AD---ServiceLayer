@@ -17,11 +17,10 @@ namespace ServiceLayer
         public Authority getCurrentAuthority(string dept)
         {
             DateTime today = DateTime.Today;
-            Department department = context.Departments.First(d => d.DepartmentID == dept);
             return context.Authorities
                 .OrderBy(a => a.StartDate)
-                .First(a => a.Employee.DepartmentID == department.DepartmentID
-                && a.StartDate >= today);           
+                .First(a => a.Employee.DepartmentID == dept
+                && (a.EndDate >= today || a.EndDate == null));           
         }
 
         //To get current the departmentrepresentative for the particular department
@@ -29,7 +28,7 @@ namespace ServiceLayer
         {           
             Department department = context.Departments.First(d => d.DepartmentID == dept);       
             return context.DepartmentRepresentatives.
-                Where(r => r.EndDate >= DateTime.Today)
+                Where(r => r.EndDate == null || r.EndDate >= DateTime.Today)
                 .First(r => r.Employee.DepartmentID == department.DepartmentID);            
         }
 

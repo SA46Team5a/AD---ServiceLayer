@@ -19,7 +19,7 @@
           <Property Name="AuthorityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EmployeeID" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="StartDate" Type="datetime" Nullable="false" />
-          <Property Name="EndDate" Type="datetime" />
+          <Property Name="EndDate" Type="datetime2" Precision="7" />
         </EntityType>
         <EntityType Name="Categories">
           <Key>
@@ -48,8 +48,8 @@
           </Key>
           <Property Name="DeptRepID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EmployeeID" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="StartDate" Type="datetime" Nullable="false" />
-          <Property Name="EndDate" Type="datetime" />
+          <Property Name="StartDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="EndDate" Type="datetime2" Precision="7" />
           <Property Name="Passcode" Type="nvarchar" MaxLength="4" Nullable="false" />
         </EntityType>
         <EntityType Name="Departments">
@@ -66,7 +66,7 @@
             <PropertyRef Name="DisbursementID" />
           </Key>
           <Property Name="DisbursementID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CollectionDate" Type="datetime" Nullable="false" />
+          <Property Name="CollectionDate" Type="datetime2" Precision="7" />
           <Property Name="RequisitionID" Type="int" Nullable="false" />
           <Property Name="CollectedBy" Type="int" />
           <Property Name="DisbursementDutyID" Type="int" Nullable="false" />
@@ -88,7 +88,7 @@
           </Key>
           <Property Name="DisbursementDutyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="StoreClerkID" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="DisbursementDate" Type="datetime" Nullable="false" />
+          <Property Name="DisbursementDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="isRetreived" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Employees">
@@ -252,11 +252,10 @@ warning 6002: The table/view 'StationeryStore.dbo.RetrievalItems' does not have 
         <EntityType Name="RetrievalItems">
           <Key>
             <PropertyRef Name="ItemID" />
-            
           </Key>
           <Property Name="ItemID" Type="nvarchar" MaxLength="4" Nullable="false" />
           <Property Name="QtyToRetrieve" Type="int" />
-          <Property Name="QtyInStock" Type="int" Nullable="false" />
+          <Property Name="QtyInStock" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -296,7 +295,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Departmen__Depar__02084FDA">
+        <Association Name="FK__Departmen__Depar__02FC7413">
           <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
           <End Role="Departments" Type="Self.Departments" Multiplicity="*" />
           <ReferentialConstraint>
@@ -308,7 +307,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Departmen__Emplo__5BE2A6F2">
+        <Association Name="FK__Departmen__Emplo__5CD6CB2B">
           <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
           <End Role="DepartmentRepresentative" Type="Self.DepartmentRepresentative" Multiplicity="*" />
           <ReferentialConstraint>
@@ -320,7 +319,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Disbursem__Colle__6FE99F9F">
+        <Association Name="FK__Disbursem__Colle__70DDC3D8">
           <End Role="DepartmentRepresentative" Type="Self.DepartmentRepresentative" Multiplicity="0..1" />
           <End Role="Disbursement" Type="Self.Disbursement" Multiplicity="*" />
           <ReferentialConstraint>
@@ -332,7 +331,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Disbursem__Disbu__70DDC3D8">
+        <Association Name="FK__Disbursem__Disbu__71D1E811">
           <End Role="DisbursementDuty" Type="Self.DisbursementDuty" Multiplicity="1" />
           <End Role="Disbursement" Type="Self.Disbursement" Multiplicity="*" />
           <ReferentialConstraint>
@@ -344,7 +343,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Disbursem__Disbu__73BA3083">
+        <Association Name="FK__Disbursem__Disbu__74AE54BC">
           <End Role="Disbursement" Type="Self.Disbursement" Multiplicity="1" />
           <End Role="DisbursementDetails" Type="Self.DisbursementDetails" Multiplicity="*" />
           <ReferentialConstraint>
@@ -356,7 +355,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Disbursem__Requi__6EF57B66">
+        <Association Name="FK__Disbursem__Requi__6FE99F9F">
           <End Role="Requisition" Type="Self.Requisition" Multiplicity="1" />
           <End Role="Disbursement" Type="Self.Disbursement" Multiplicity="*" />
           <ReferentialConstraint>
@@ -368,7 +367,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Disbursem__Requi__74AE54BC">
+        <Association Name="FK__Disbursem__Requi__75A278F5">
           <End Role="RequisitionDetails" Type="Self.RequisitionDetails" Multiplicity="1" />
           <End Role="DisbursementDetails" Type="Self.DisbursementDetails" Multiplicity="*" />
           <ReferentialConstraint>
@@ -380,7 +379,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Disbursem__Store__6C190EBB">
+        <Association Name="FK__Disbursem__Store__6D0D32F4">
           <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
           <End Role="DisbursementDuty" Type="Self.DisbursementDuty" Multiplicity="*" />
           <ReferentialConstraint>
@@ -488,7 +487,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Requisiti__Appro__656C112C">
+        <Association Name="FK__Requisiti__Appro__66603565">
           <End Role="ApprovalStatus" Type="Self.ApprovalStatus" Multiplicity="1" />
           <End Role="Requisition" Type="Self.Requisition" Multiplicity="*" />
           <ReferentialConstraint>
@@ -500,7 +499,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Requisiti__Autho__6383C8BA">
+        <Association Name="FK__Requisiti__Autho__6477ECF3">
           <End Role="Authority" Type="Self.Authority" Multiplicity="0..1" />
           <End Role="Requisition" Type="Self.Requisition" Multiplicity="*" />
           <ReferentialConstraint>
@@ -512,7 +511,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Requisiti__Emplo__628FA481">
+        <Association Name="FK__Requisiti__Emplo__6383C8BA">
           <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
           <End Role="Requisition" Type="Self.Requisition" Multiplicity="*" />
           <ReferentialConstraint>
@@ -524,7 +523,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Requisiti__ItemI__693CA210">
+        <Association Name="FK__Requisiti__ItemI__6A30C649">
           <End Role="Items" Type="Self.Items" Multiplicity="1" />
           <End Role="RequisitionDetails" Type="Self.RequisitionDetails" Multiplicity="*" />
           <ReferentialConstraint>
@@ -536,7 +535,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Requisiti__Requi__68487DD7">
+        <Association Name="FK__Requisiti__Requi__693CA210">
           <End Role="Requisition" Type="Self.Requisition" Multiplicity="1" />
           <End Role="RequisitionDetails" Type="Self.RequisitionDetails" Multiplicity="*" />
           <ReferentialConstraint>
@@ -548,7 +547,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Requisiti__Retri__6477ECF3">
+        <Association Name="FK__Requisiti__Retri__656C112C">
           <End Role="RetrievalStatus" Type="Self.RetrievalStatus" Multiplicity="0..1" />
           <End Role="Requisition" Type="Self.Requisition" Multiplicity="*" />
           <ReferentialConstraint>
@@ -560,7 +559,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__StockTran__Emplo__787EE5A0">
+        <Association Name="FK__StockTran__Emplo__797309D9">
           <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
           <End Role="StockTransaction" Type="Self.StockTransaction" Multiplicity="*" />
           <ReferentialConstraint>
@@ -572,7 +571,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__StockTran__ItemI__778AC167">
+        <Association Name="FK__StockTran__ItemI__787EE5A0">
           <End Role="Items" Type="Self.Items" Multiplicity="1" />
           <End Role="StockTransaction" Type="Self.StockTransaction" Multiplicity="*" />
           <ReferentialConstraint>
@@ -584,7 +583,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__StockVouc__Appro__7D439ABD">
+        <Association Name="FK__StockVouc__Appro__7E37BEF6">
           <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
           <End Role="StockVouchers" Type="Self.StockVouchers" Multiplicity="*" />
           <ReferentialConstraint>
@@ -596,7 +595,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__StockVouc__ItemI__7B5B524B">
+        <Association Name="FK__StockVouc__ItemI__7C4F7684">
           <End Role="Items" Type="Self.Items" Multiplicity="1" />
           <End Role="StockVouchers" Type="Self.StockVouchers" Multiplicity="*" />
           <ReferentialConstraint>
@@ -608,7 +607,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__StockVouc__Raise__7C4F7684">
+        <Association Name="FK__StockVouc__Raise__7D439ABD">
           <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
           <End Role="StockVouchers" Type="Self.StockVouchers" Multiplicity="*" />
           <ReferentialConstraint>
@@ -709,35 +708,35 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
             <End Role="CollectionPoint" EntitySet="CollectionPoint" />
             <End Role="Departments" EntitySet="Departments" />
           </AssociationSet>
-          <AssociationSet Name="FK__Departmen__Depar__02084FDA" Association="Self.FK__Departmen__Depar__02084FDA">
+          <AssociationSet Name="FK__Departmen__Depar__02FC7413" Association="Self.FK__Departmen__Depar__02FC7413">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Departments" EntitySet="Departments" />
           </AssociationSet>
-          <AssociationSet Name="FK__Departmen__Emplo__5BE2A6F2" Association="Self.FK__Departmen__Emplo__5BE2A6F2">
+          <AssociationSet Name="FK__Departmen__Emplo__5CD6CB2B" Association="Self.FK__Departmen__Emplo__5CD6CB2B">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="DepartmentRepresentative" EntitySet="DepartmentRepresentative" />
           </AssociationSet>
-          <AssociationSet Name="FK__Disbursem__Colle__6FE99F9F" Association="Self.FK__Disbursem__Colle__6FE99F9F">
+          <AssociationSet Name="FK__Disbursem__Colle__70DDC3D8" Association="Self.FK__Disbursem__Colle__70DDC3D8">
             <End Role="DepartmentRepresentative" EntitySet="DepartmentRepresentative" />
             <End Role="Disbursement" EntitySet="Disbursement" />
           </AssociationSet>
-          <AssociationSet Name="FK__Disbursem__Disbu__70DDC3D8" Association="Self.FK__Disbursem__Disbu__70DDC3D8">
+          <AssociationSet Name="FK__Disbursem__Disbu__71D1E811" Association="Self.FK__Disbursem__Disbu__71D1E811">
             <End Role="DisbursementDuty" EntitySet="DisbursementDuty" />
             <End Role="Disbursement" EntitySet="Disbursement" />
           </AssociationSet>
-          <AssociationSet Name="FK__Disbursem__Disbu__73BA3083" Association="Self.FK__Disbursem__Disbu__73BA3083">
+          <AssociationSet Name="FK__Disbursem__Disbu__74AE54BC" Association="Self.FK__Disbursem__Disbu__74AE54BC">
             <End Role="Disbursement" EntitySet="Disbursement" />
             <End Role="DisbursementDetails" EntitySet="DisbursementDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__Disbursem__Requi__6EF57B66" Association="Self.FK__Disbursem__Requi__6EF57B66">
+          <AssociationSet Name="FK__Disbursem__Requi__6FE99F9F" Association="Self.FK__Disbursem__Requi__6FE99F9F">
             <End Role="Requisition" EntitySet="Requisition" />
             <End Role="Disbursement" EntitySet="Disbursement" />
           </AssociationSet>
-          <AssociationSet Name="FK__Disbursem__Requi__74AE54BC" Association="Self.FK__Disbursem__Requi__74AE54BC">
+          <AssociationSet Name="FK__Disbursem__Requi__75A278F5" Association="Self.FK__Disbursem__Requi__75A278F5">
             <End Role="RequisitionDetails" EntitySet="RequisitionDetails" />
             <End Role="DisbursementDetails" EntitySet="DisbursementDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__Disbursem__Store__6C190EBB" Association="Self.FK__Disbursem__Store__6C190EBB">
+          <AssociationSet Name="FK__Disbursem__Store__6D0D32F4" Association="Self.FK__Disbursem__Store__6D0D32F4">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="DisbursementDuty" EntitySet="DisbursementDuty" />
           </AssociationSet>
@@ -773,47 +772,47 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
             <End Role="Suppliers" EntitySet="Suppliers" />
             <End Role="OrderSuppliers" EntitySet="OrderSuppliers" />
           </AssociationSet>
-          <AssociationSet Name="FK__Requisiti__Appro__656C112C" Association="Self.FK__Requisiti__Appro__656C112C">
+          <AssociationSet Name="FK__Requisiti__Appro__66603565" Association="Self.FK__Requisiti__Appro__66603565">
             <End Role="ApprovalStatus" EntitySet="ApprovalStatus" />
             <End Role="Requisition" EntitySet="Requisition" />
           </AssociationSet>
-          <AssociationSet Name="FK__Requisiti__Autho__6383C8BA" Association="Self.FK__Requisiti__Autho__6383C8BA">
+          <AssociationSet Name="FK__Requisiti__Autho__6477ECF3" Association="Self.FK__Requisiti__Autho__6477ECF3">
             <End Role="Authority" EntitySet="Authority" />
             <End Role="Requisition" EntitySet="Requisition" />
           </AssociationSet>
-          <AssociationSet Name="FK__Requisiti__Emplo__628FA481" Association="Self.FK__Requisiti__Emplo__628FA481">
+          <AssociationSet Name="FK__Requisiti__Emplo__6383C8BA" Association="Self.FK__Requisiti__Emplo__6383C8BA">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Requisition" EntitySet="Requisition" />
           </AssociationSet>
-          <AssociationSet Name="FK__Requisiti__ItemI__693CA210" Association="Self.FK__Requisiti__ItemI__693CA210">
+          <AssociationSet Name="FK__Requisiti__ItemI__6A30C649" Association="Self.FK__Requisiti__ItemI__6A30C649">
             <End Role="Items" EntitySet="Items" />
             <End Role="RequisitionDetails" EntitySet="RequisitionDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__Requisiti__Requi__68487DD7" Association="Self.FK__Requisiti__Requi__68487DD7">
+          <AssociationSet Name="FK__Requisiti__Requi__693CA210" Association="Self.FK__Requisiti__Requi__693CA210">
             <End Role="Requisition" EntitySet="Requisition" />
             <End Role="RequisitionDetails" EntitySet="RequisitionDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__Requisiti__Retri__6477ECF3" Association="Self.FK__Requisiti__Retri__6477ECF3">
+          <AssociationSet Name="FK__Requisiti__Retri__656C112C" Association="Self.FK__Requisiti__Retri__656C112C">
             <End Role="RetrievalStatus" EntitySet="RetrievalStatus" />
             <End Role="Requisition" EntitySet="Requisition" />
           </AssociationSet>
-          <AssociationSet Name="FK__StockTran__Emplo__787EE5A0" Association="Self.FK__StockTran__Emplo__787EE5A0">
+          <AssociationSet Name="FK__StockTran__Emplo__797309D9" Association="Self.FK__StockTran__Emplo__797309D9">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="StockTransaction" EntitySet="StockTransaction" />
           </AssociationSet>
-          <AssociationSet Name="FK__StockTran__ItemI__778AC167" Association="Self.FK__StockTran__ItemI__778AC167">
+          <AssociationSet Name="FK__StockTran__ItemI__787EE5A0" Association="Self.FK__StockTran__ItemI__787EE5A0">
             <End Role="Items" EntitySet="Items" />
             <End Role="StockTransaction" EntitySet="StockTransaction" />
           </AssociationSet>
-          <AssociationSet Name="FK__StockVouc__Appro__7D439ABD" Association="Self.FK__StockVouc__Appro__7D439ABD">
+          <AssociationSet Name="FK__StockVouc__Appro__7E37BEF6" Association="Self.FK__StockVouc__Appro__7E37BEF6">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="StockVouchers" EntitySet="StockVouchers" />
           </AssociationSet>
-          <AssociationSet Name="FK__StockVouc__ItemI__7B5B524B" Association="Self.FK__StockVouc__ItemI__7B5B524B">
+          <AssociationSet Name="FK__StockVouc__ItemI__7C4F7684" Association="Self.FK__StockVouc__ItemI__7C4F7684">
             <End Role="Items" EntitySet="Items" />
             <End Role="StockVouchers" EntitySet="StockVouchers" />
           </AssociationSet>
-          <AssociationSet Name="FK__StockVouc__Raise__7C4F7684" Association="Self.FK__StockVouc__Raise__7C4F7684">
+          <AssociationSet Name="FK__StockVouc__Raise__7D439ABD" Association="Self.FK__StockVouc__Raise__7D439ABD">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="StockVouchers" EntitySet="StockVouchers" />
           </AssociationSet>
@@ -998,7 +997,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
           <Property Name="AuthorityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="EmployeeID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="7" />
           <NavigationProperty Name="Employee" Relationship="StationeryStoreModel.FK__Authority__Emplo__59063A47" FromRole="Authority" ToRole="Employee" />
           <NavigationProperty Name="Requisitions" Relationship="StationeryStoreModel.FK__Requisiti__Autho__6383C8BA" FromRole="Authority" ToRole="Requisition" />
         </EntityType>
@@ -1032,8 +1031,8 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
           </Key>
           <Property Name="DeptRepID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="EmployeeID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="EndDate" Type="DateTime" Precision="7" />
           <NavigationProperty Name="Employee" Relationship="StationeryStoreModel.FK__Departmen__Emplo__5BE2A6F2" FromRole="DepartmentRepresentative" ToRole="Employee" />
           <NavigationProperty Name="Disbursements" Relationship="StationeryStoreModel.FK__Disbursem__Colle__6FE99F9F" FromRole="DepartmentRepresentative" ToRole="Disbursement" />
           <Property Name="Passcode" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="true" />
@@ -1055,7 +1054,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
             <PropertyRef Name="DisbursementID" />
           </Key>
           <Property Name="DisbursementID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CollectionDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CollectionDate" Type="DateTime" Precision="7" />
           <Property Name="RequisitionID" Type="Int32" Nullable="false" />
           <Property Name="CollectedBy" Type="Int32" />
           <Property Name="DisbursementDutyID" Type="Int32" Nullable="false" />
@@ -1083,7 +1082,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
           </Key>
           <Property Name="DisbursementDutyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="StoreClerkID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="DisbursementDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DisbursementDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="isRetrieved" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Disbursements" Relationship="StationeryStoreModel.FK__Disbursem__Disbu__70DDC3D8" FromRole="DisbursementDuty" ToRole="Disbursement" />
           <NavigationProperty Name="StoreClerk" Relationship="StationeryStoreModel.FK__Disbursem__Store__6C190EBB" FromRole="DisbursementDuty" ToRole="Employee" />
@@ -1287,7 +1286,7 @@ warning 6002: The table/view 'StationeryStore.dbo.StockCountItems' does not have
           </Key>
           <Property Name="ItemID" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="true" />
           <Property Name="QtyToRetrieve" Type="Int32" />
-          <Property Name="QtyInStock" Type="Int32" Nullable="false" />
+          <Property Name="QtyInStock" Type="Int32" />
         </EntityType>
         <EntityType Name="StockCountItem">
           <Key>
