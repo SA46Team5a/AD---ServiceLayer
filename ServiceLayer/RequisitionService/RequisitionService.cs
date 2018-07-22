@@ -124,6 +124,7 @@ namespace ServiceLayer
         {
             Requisition r = context.Requisitions.First(rq => rq.RequisitionID == reqId);
             r.ApprovalStatusID = 2;
+            r.RetrievalStatusID = 1;
             r.RequestedDate = DateTime.Today;
             //guard against double entry during testing
             if(context.Requisitions.FirstOrDefault(rq => rq.EmployeeID == r.EmployeeID && rq.ApprovalStatusID == 1) == null)
