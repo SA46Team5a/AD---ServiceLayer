@@ -25,6 +25,10 @@ namespace ServiceLayer
             return context.StockCountItems.ToList();
         }
 
+        public string getItemName(string itemId)
+        {
+            return context.Items.First(i => i.ItemID == itemId).ItemName;
+        }
 
         public int getStockCountOfItem(string itemId)
         {
