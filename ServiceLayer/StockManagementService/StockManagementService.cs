@@ -28,7 +28,9 @@ namespace ServiceLayer
 
         public int getStockCountOfItem(string itemId)
         {
-            return (int)context.StockCountItems.First(i => i.ItemID == itemId).QtyInStock;
+            StockCountItem item = context.StockCountItems.First(i => i.ItemID == itemId);
+            context.Entry<StockCountItem>(item).Reload();
+            return (int) item.QtyInStock;
         }
 
         public List<Item> getItemsOfCategory(int categoryId)
@@ -126,12 +128,13 @@ namespace ServiceLayer
             return;
         }
 
-        public void closeVoucher(int discrepancyId,string approvedBy)
+        public void closeVoucher(int discrepancyId,string approvedBy,string reason)
         {
             //Retrieve the record from the stock voucher with discrepancy id passed as parameter
             StockVoucher sv= getOpenVouchers().First(i => i.DiscrepancyID == discrepancyId);
             sv.ApprovedBy = approvedBy;
-            sv.ApprovedDate = DateTime.Today;            
+            sv.ApprovedDate = DateTime.Today;
+            sv.Reason = reason;
             context.SaveChanges();
             return;
         }
