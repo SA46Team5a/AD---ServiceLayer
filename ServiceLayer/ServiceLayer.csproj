@@ -163,7 +163,7 @@
     <Compile Include="OrderService\OrderTest.cs" />
     <Compile Include="OrderService\IOrderService.cs" />
     <Compile Include="RequisitionService\RequisitionTest.cs" />
-    <Compile Include="DepartmentTest.cs" />
+    <Compile Include="DepartmentService\DepartmentTest.cs" />
     <Compile Include="OrderService\OrderService.cs" />
     <Compile Include="StockManagementService\StockManagementTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -37,15 +37,15 @@ namespace ServiceLayer
             //a.EndDate = Convert.ToDateTime("20/7/2018 2:11:35 PM");
             //Console.WriteLine("updateAuthority");
             //IdepartmentService.updateAuthority(a);
-            //Console.WriteLine("updateDepartmentRepresentative");
-            //IdepartmentService.updateDepartmentRepresentative(16, "E020");
+           // Console.WriteLine("updateDepartmentRepresentative");
+           // IdepartmentService.updateDepartmentRepresentative(16, "E020");
             //Console.WriteLine("rescindAuthority");
             //IdepartmentService.rescindAuthority(IdepartmentService.getCurrentAuthority("CHEM"));
 
 
-            CollectionPoint c = new CollectionPoint();
-            Console.WriteLine("updateCollectionPoint");
-            IdepartmentService.updateCollectionPoint("ARCH", 2);
+            //CollectionPoint c = new CollectionPoint();
+            //Console.WriteLine("updateCollectionPoint");
+            //IdepartmentService.updateCollectionPoint("ARCH", 2);
 
 
 

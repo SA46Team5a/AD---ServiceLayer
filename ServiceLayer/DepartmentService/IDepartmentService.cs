@@ -21,6 +21,7 @@ namespace ServiceLayer
         // Create
         void addAuthority(Employee emp, DateTime startdate, DateTime enddate);
 
+
         // Update
         void updateAuthority(Authority auth);
         void rescindAuthority(Authority auth);
@@ -28,6 +29,7 @@ namespace ServiceLayer
         void updateDepartmentRepresentative(int currentDeptRepId, string newRepEmpId);
         void updateCollectionPoint(string dep, int cp);
         string generateNewPasscode(string dep);
+      
 
     }
 }
