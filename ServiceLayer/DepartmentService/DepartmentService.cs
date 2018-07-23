@@ -146,12 +146,14 @@ namespace ServiceLayer
         //To generate new passcode
         public string generateNewPasscode(string dep)
         {
-            DepartmentRepresentative depRep = context.DepartmentRepresentatives
-                .First(dr => dr.Employee.DepartmentID == dep);            
+            //DepartmentRepresentative depRep = context.DepartmentRepresentatives
+            //    .First(dr => dr.Employee.DepartmentID == dep);
+            DepartmentRepresentative currentRepresentative=getCurrentDepartmentRepresentative(dep);
+            DepartmentRepresentative depRep = context.DepartmentRepresentatives.Where(x => x.DeptRepID == currentRepresentative.DeptRepID).First();
             Random num = new Random();
             int passcode = num.Next(1000,9999);
             return depRep.Passcode = Convert.ToString(passcode);                
         }
-
+       
     }
 }
