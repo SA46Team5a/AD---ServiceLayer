@@ -9,7 +9,7 @@ using ServiceLayer.DataAccess;
 namespace ServiceLayer
 {
     //Authour: Divyashree
-    partial class DepartmentService : IDepartmentService
+    public class DepartmentService : IDepartmentService
     {
         static StationeryStoreEntities context = StationeryStoreEntities.Instance;
         // Retrieve
