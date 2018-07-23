@@ -15,7 +15,8 @@ namespace ServiceLayer
 
         bool verifyPassCode(string passcode, string dep);
         Employee getEmployeeById(string emp);
-        string getDepartmentID(string emp);
+        List<Employee> getEmployeesOfDepartment(string dep);
+        string getDepartmentID(string dep);
 
         // Create
         void addAuthority(Employee emp, DateTime startdate, DateTime enddate);

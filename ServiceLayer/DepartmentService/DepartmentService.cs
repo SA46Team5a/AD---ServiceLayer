@@ -47,6 +47,10 @@ namespace ServiceLayer
             return depRep.Passcode == passcode;
         }
 
+        // get employees of department
+        public List<Employee> getEmployeesOfDepartment(string depId)
+            => context.Departments.First(d => d.DepartmentID == depId).Employees.ToList();
+
         //To get employee object of the particular employee Id given
         public Employee getEmployeeById(string emp)
         {           
