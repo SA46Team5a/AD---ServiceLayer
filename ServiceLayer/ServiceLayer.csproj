@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{CCFC0C72-C703-4529-9EE1-7BAD87ADEC73}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>ServiceLayer</RootNamespace>
     <AssemblyName>ServiceLayer</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -163,7 +163,7 @@
     <Compile Include="OrderService\OrderTest.cs" />
     <Compile Include="OrderService\IOrderService.cs" />
     <Compile Include="RequisitionService\RequisitionTest.cs" />
-    <Compile Include="DepartmentTest.cs" />
+    <Compile Include="DepartmentService\DepartmentTest.cs" />
     <Compile Include="OrderService\OrderService.cs" />
     <Compile Include="StockManagementService\StockManagementTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

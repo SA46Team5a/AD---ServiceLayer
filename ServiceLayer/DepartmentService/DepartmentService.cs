@@ -43,8 +43,7 @@ namespace ServiceLayer
         public bool verifyPassCode(string passcode,string dep)
         {
             DepartmentRepresentative depRep = context.DepartmentRepresentatives
-                .First(dr => dr.Employee.DepartmentID == dep);
-            Console.WriteLine(depRep.Passcode);           
+                .First(dr => dr.Employee.DepartmentID == dep);                  
             return depRep.Passcode == passcode;
         }
 
@@ -71,9 +70,9 @@ namespace ServiceLayer
            
             Employee deptHead = emp.Department.DepartmentHead;
             Authority authority = context.Authorities.Where(a => a.EmployeeID == deptHead.EmployeeID && a.EndDate == null).First();
-            Console.WriteLine(authority.AuthorityID);
             authority.EndDate = startDate.AddDays(-1);
- 
+
+
             // 2 Creating new Authority Object
             Authority auth = new Authority();
             auth.EmployeeID = emp.EmployeeID;
@@ -99,9 +98,7 @@ namespace ServiceLayer
             A.EmployeeID = auth.EmployeeID;
             A.StartDate = auth.StartDate;
             A.EndDate = auth.EndDate;
-            context.SaveChanges();
-            Console.WriteLine(A.AuthorityID);
-
+            context.SaveChanges();         
         }
 
 
@@ -120,45 +117,36 @@ namespace ServiceLayer
             context.SaveChanges();
         }
 
-        //update old representative enddate and add new the departmentRepresentative
+        //update old representative enddate and add new departmentRepresentative
         public void updateDepartmentRepresentative(int currentDeptRepId, string newRepEmpId)
-        {
-            string dep = "CHEM";
+        {         
             DepartmentRepresentative deptRepresentative = context.DepartmentRepresentatives
                 .Where(d => d.DeptRepID == currentDeptRepId).First();
             deptRepresentative.EndDate = DateTime.Today;
             DepartmentRepresentative deprep = new DepartmentRepresentative();
-            deprep.EmployeeID = newRepEmpId;            
-           // Console.WriteLine(deprep.DeptRepID);
-            deprep.StartDate = DateTime.Today.AddDays(1);            
-            deprep.Passcode= generateNewPasscode(dep);
+            deprep.EmployeeID = newRepEmpId;
+            String deptID=getDepartmentID(deprep.EmployeeID);
+           deprep.StartDate = DateTime.Today.AddDays(1);            
+            deprep.Passcode= generateNewPasscode(deptID);
             context.DepartmentRepresentatives.Add(deprep);
-            context.SaveChanges();
-           // Console.WriteLine(deprep.StartDate); Console.WriteLine(deprep.EmployeeID);
+            context.SaveChanges();           
         }
 
         public void updateCollectionPoint(string dep, int cp)
         {
-            Department department = context.Departments.Where(d => d.DepartmentID == dep).First();
-           // Console.WriteLine(department.CollectionPointID);
-            //CollectionPoint collectionPoint = context.CollectionPoints
-            //    .Where(c => c.CollectionPointID == department.CollectionPointID).First();
-            //Console.WriteLine(department.CollectionPointID);
+            Department department = context.Departments.Where(d => d.DepartmentID == dep).First();          
             department.CollectionPointID = cp;          
-             context.SaveChanges();
-          
-
+             context.SaveChanges();        
         }
+
         //To generate new passcode
         public string generateNewPasscode(string dep)
         {
             DepartmentRepresentative depRep = context.DepartmentRepresentatives
                 .First(dr => dr.Employee.DepartmentID == dep);            
             Random num = new Random();
-            int passcode = num.Next(1000,9999);// Console.Write(depRep.Passcode);
-            return depRep.Passcode = Convert.ToString(passcode);         
-            
-           
+            int passcode = num.Next(1000,9999);
+            return depRep.Passcode = Convert.ToString(passcode);                
         }
 
     }
