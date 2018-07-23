@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using ServiceLayer.DataAccess;
 namespace ServiceLayer
 {
-    interface IRequisitionService
+    public interface IRequisitionService
     {
         // Retrieve
         Requisition getUnsubmittedRequisitionOfEmployee(string empId);
