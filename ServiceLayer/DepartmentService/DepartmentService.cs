@@ -28,7 +28,7 @@ namespace ServiceLayer
         {           
             Department department = context.Departments.First(d => d.DepartmentID == dept);       
             return context.DepartmentRepresentatives.
-                Where(r => r.EndDate == null || r.EndDate >= DateTime.Today)
+                Where(r => r.EndDate == null)
                 .First(r => r.Employee.DepartmentID == department.DepartmentID);            
         }
 
@@ -49,12 +49,19 @@ namespace ServiceLayer
 
         // get employees of department
         public List<Employee> getEmployeesOfDepartment(string depId)
-            => context.Departments.First(d => d.DepartmentID == depId).Employees.ToList();
+           => context.Departments.First(d => d.DepartmentID == depId).Employees.ToList();
+       
 
         //To get employee object of the particular employee Id given
         public Employee getEmployeeById(string emp)
         {           
             return context.Employees.First(e => e.EmployeeID == emp);
+        }
+
+        //To get employee object of the partcular employee name
+        public Employee getEmployeeObject(String empName)
+        {
+            return context.Employees.Where(x => x.EmployeeName == empName).FirstOrDefault();
         }
 
         //To get department for particular employee
@@ -124,15 +131,16 @@ namespace ServiceLayer
         //update old representative enddate and add new departmentRepresentative
         public void updateDepartmentRepresentative(int currentDeptRepId, string newRepEmpId)
         {         
-            DepartmentRepresentative deptRepresentative = context.DepartmentRepresentatives
+            DepartmentRepresentative currentDeptRepresentative = context.DepartmentRepresentatives
                 .Where(d => d.DeptRepID == currentDeptRepId).First();
-            deptRepresentative.EndDate = DateTime.Today;
-            DepartmentRepresentative deprep = new DepartmentRepresentative();
-            deprep.EmployeeID = newRepEmpId;
-            String deptID=getDepartmentID(deprep.EmployeeID);
-           deprep.StartDate = DateTime.Today.AddDays(1);            
-            deprep.Passcode= generateNewPasscode(deptID);
-            context.DepartmentRepresentatives.Add(deprep);
+            currentDeptRepresentative.EndDate = DateTime.Today;
+            DepartmentRepresentative newDepRep = new DepartmentRepresentative();
+
+            newDepRep.EmployeeID = newRepEmpId;
+            String deptID=getDepartmentID(newDepRep.EmployeeID);
+            newDepRep.StartDate = DateTime.Today.AddDays(1);            
+            newDepRep.Passcode= generateNewPasscode(deptID);
+            context.DepartmentRepresentatives.Add(newDepRep);
             context.SaveChanges();           
         }
 
@@ -152,7 +160,7 @@ namespace ServiceLayer
             DepartmentRepresentative depRep = context.DepartmentRepresentatives.Where(x => x.DeptRepID == currentRepresentative.DeptRepID).First();
             Random num = new Random();
             int passcode = num.Next(1000,9999);
-            return depRep.Passcode = Convert.ToString(passcode);                
+            return Convert.ToString(passcode);                
         }
        
     }
