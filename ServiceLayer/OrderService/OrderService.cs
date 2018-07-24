@@ -31,7 +31,7 @@ namespace ServiceLayer
             .ToList();
 
         public List<OrderSupplier> getOrderSuppliersOfOrder(int orderId)
-            => context.Orders.First(o => o.OrderID == orderId).OrderSuppliers.ToList();
+            => context.OrderSuppliers.Where(o => o.OrderID == orderId).ToList();
 
         // Create
         public int createOrderAndGetOrderId(Dictionary<string, int> itemAndQty, Dictionary<int, int> supplierItemsAndQty)

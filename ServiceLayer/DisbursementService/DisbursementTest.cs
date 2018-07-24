@@ -131,12 +131,12 @@ namespace ServiceLayer
             Console.WriteLine("-------------------");
         }
 
-        static List<DisbursementItem> genDisbursementItems(int disbursedQty, int collectedQty, string reason)
+        static List<DisbursementDetailPayload> genDisbursementItems(int disbursedQty, int collectedQty, string reason)
         {
             List<string> itemIds = new List<string>() { "C001", "C002", "C003" };
-            List<DisbursementItem> disbursementItems = new List<DisbursementItem>();
+            List<DisbursementDetailPayload> disbursementItems = new List<DisbursementDetailPayload>();
             itemIds.ForEach(id => disbursementItems.Add(
-                new DisbursementItem(id, reason, disbursedQty, collectedQty)
+                new DisbursementDetailPayload(id, reason, disbursedQty, collectedQty)
                 ));
             return disbursementItems;
         }

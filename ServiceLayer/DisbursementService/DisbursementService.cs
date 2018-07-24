@@ -74,8 +74,13 @@ namespace ServiceLayer
                 // Assign duty to employee
                 int disDutyId = addDisbursementDuty(empId);
 
-                // Record requisitions into disbursements
-                requisitions.ForEach(r => addDisbursementFromRequisition(r.RequisitionID, disDutyId));
+                foreach (Requisition req in requisitions)
+                {
+                    // Record requisitions into disbursements
+                    int disId = addDisbursementFromRequisition(req.RequisitionID, disDutyId);
+                    // Record requisition details into disbursement details
+                    req.RequisitionDetails.ToList().ForEach(r => addDisbursementDetailFromRequsitionDetail(r.RequisitionDetailsID, disId, r.Quantity));
+                }
             }
             return retrievalItems;
         }
@@ -102,6 +107,7 @@ namespace ServiceLayer
                     .Where(d => d.RequisitionDetail.ItemID == itemId)
                     .Sum(d => d.Quantity);
                 retrievalItem.QtyInStock = stockManagementService.getStockCountOfItem(itemId);
+                retrievalItems.Add(retrievalItem);
             }
 
             return retrievalItems;
@@ -139,6 +145,7 @@ namespace ServiceLayer
             return count is null ? 0 : (int) count;
 
         }
+
         // Create
         public int addDisbursementDuty(string empId)
         {
@@ -211,7 +218,6 @@ namespace ServiceLayer
                 disbursements.ForEach(d => requisitionDetails
                     .AddRange(d.Requisition.RequisitionDetails.Where(rd => rd.ItemID == item.Key).ToList()));
 
-                allocateRetrievalToDisbursementDetails(requisitionDetails, disbursementDuty, qty);
                 stockManagementService.addStockTransaction(item.Key, "Retrieval" , disbursementDuty.StoreClerkID, -qty);
             }
 
@@ -221,7 +227,7 @@ namespace ServiceLayer
             context.SaveChanges();
         }
 
-        public void submitDisbursementOfDep(List<int> disDutyIds, string depId, List<DisbursementItem> items, string empId)
+        public void submitDisbursementOfDep(List<int> disDutyIds, string depId, List<DisbursementDetailPayload> items, string empId)
         {
             List<DisbursementDetail> disbursementDetails = context.DisbursementDetails
                 .Where(d => disDutyIds.Contains(d.Disbursement.DisbursementDutyID))
@@ -229,7 +235,7 @@ namespace ServiceLayer
                 .ToList();
 
             // If there are rejected items, adjust stock and submit stock voucher.
-            foreach (DisbursementItem item in items)
+            foreach (DisbursementDetailPayload item in items)
             {
                 List<DisbursementDetail> disDetailsOfItemId = disbursementDetails.Where(d => d.RequisitionDetail.ItemID == item.ItemId).ToList();
                 if (item.RejectedQuantity > 0)
@@ -237,14 +243,16 @@ namespace ServiceLayer
                     adjustStockFromRejectedDisbursement(item, empId);
                     allocateCollectedQuantityToDisbursementDetails(
                         disDetailsOfItemId,
-                        item.CollectedQuantity,
+                        (int) item.CollectedQuantity,
                         item.Reason);
                 }
                 else
                 {
-                    disDetailsOfItemId.ForEach(d => d.CollectedQty = d.Quantity);
-
-                }
+                    allocateCollectedQuantityToDisbursementDetails(
+                        disDetailsOfItemId,
+                        (int) item.CollectedQuantity,
+                        item.Reason);
+                 }
                 context.SaveChanges();
             }
 
@@ -267,13 +275,13 @@ namespace ServiceLayer
             disDutyIds.ForEach(d => updateRequsitionRetrievalStatusBasedOnTotalDisbursed(d));
         }
 
-        public void adjustStockFromRejectedDisbursement(DisbursementItem di, string empId)
+        public void adjustStockFromRejectedDisbursement(DisbursementDetailPayload di, string empId)
         {
             // do a stock transaction to add qty - qtyCollected back to stock
-            stockManagementService.addStockTransaction(di.ItemId, di.Reason, empId, di.RejectedQuantity);
+            stockManagementService.addStockTransaction(di.ItemId, di.Reason, empId, (int) di.RejectedQuantity);
 
             // raise a stock voucher
-            int actualStockCount = stockManagementService.getStockCountOfItem(di.ItemId) - di.RejectedQuantity;
+            int actualStockCount = stockManagementService.getStockCountOfItem(di.ItemId) - (int) di.RejectedQuantity;
             stockManagementService.addStockVoucher(di.ItemId, actualStockCount, empId, di.Reason);
             
             context.SaveChanges();

@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiPayloadModels\DisbursementItem.cs" />
+    <Compile Include="ApiPayloadModels\RetrievedItemPayload.cs" />
     <Compile Include="ClassificationService\ClassificationService.cs" />
     <Compile Include="ClassificationService\IClassificationService.cs" />
     <Compile Include="DataAccess\ApprovalStatus.cs">

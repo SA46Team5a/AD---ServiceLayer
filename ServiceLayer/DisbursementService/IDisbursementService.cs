@@ -32,8 +32,8 @@ namespace ServiceLayer
         // creates a stock adjustment voucher if 
         // quantity collected != quantity issued
         void submitRetrievalForm(int disDutyId, Dictionary<string, int> itemsAndQtys);
-        void submitDisbursementOfDep(List<int> disDutyIds, string depId, List<DisbursementItem> items, string empId);
-        void adjustStockFromRejectedDisbursement(DisbursementItem di, string empId);
+        void submitDisbursementOfDep(List<int> disDutyIds, string depId, List<DisbursementDetailPayload> items, string empId);
+        void adjustStockFromRejectedDisbursement(DisbursementDetailPayload di, string empId);
         void allocateCollectedQuantityToDisbursementDetails(List<DisbursementDetail> disbursementDetails, int collectedQty, string reason);
         void updateRequsitionRetrievalStatusBasedOnTotalDisbursed(int disDutyId);
 
