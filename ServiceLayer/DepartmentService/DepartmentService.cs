@@ -66,6 +66,9 @@ namespace ServiceLayer
             return empDepartment.DepartmentID;
         }
 
+        // get all departments
+        public List<Department> getDepartments()
+            => context.Departments.ToList();
 
         // Create
         public void addAuthority(Employee emp, DateTime startDate, DateTime endDate)

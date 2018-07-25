@@ -14,6 +14,7 @@ namespace ServiceLayer
         OrderSupplier getOrderSupplier(int orderSupplierId);
         OrderSupplierDetail getOrderSupplierDetail(int orderSupplierDetailId);
         List<ReorderDetail> getReorderDetails();
+        List<Supplier> getSuppliers();
         List<SupplierItem> getSupplierItemsOfItemIds(List<String> itemIds);
         List<OrderSupplier> getOrderSuppliersOfOrder(int orderId);
 

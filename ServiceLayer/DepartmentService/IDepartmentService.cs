@@ -17,6 +17,7 @@ namespace ServiceLayer
         Employee getEmployeeById(string emp);
         List<Employee> getEmployeesOfDepartment(string dep);
         string getDepartmentID(string dep);
+        List<Department> getDepartments();
 
         // Create
         void addAuthority(Employee emp, DateTime startdate, DateTime enddate);

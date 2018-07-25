@@ -25,6 +25,9 @@ namespace ServiceLayer
         public List<ReorderDetail> getReorderDetails()
             => context.ReorderDetails.ToList();
 
+        public List<Supplier> getSuppliers()
+            => context.Suppliers.ToList();
+
         public List<SupplierItem> getSupplierItemsOfItemIds(List<string> itemIds)
             => context.SupplierItems
             .Where(si => itemIds.Contains(si.ItemID))
