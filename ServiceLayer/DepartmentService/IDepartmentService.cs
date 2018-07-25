@@ -10,14 +10,13 @@ namespace ServiceLayer
         // Retrieve
         Authority getCurrentAuthority(string dept);
         DepartmentRepresentative getCurrentDepartmentRepresentative(string dept);
-
         CollectionPoint getCollectionPointOfEmployee(string emp);
-
         bool verifyPassCode(string passcode, string dep);
         Employee getEmployeeById(string emp);
         List<Employee> getEmployeesOfDepartment(string dep);
-        string getDepartmentID(string dep);
         List<Department> getDepartments();
+        string getDepartmentID(string emp);
+        Employee getEmployeeObject(String empName);
 
         // Create
         void addAuthority(Employee emp, DateTime startdate, DateTime enddate);
@@ -25,8 +24,7 @@ namespace ServiceLayer
 
         // Update
         void updateAuthority(Authority auth);
-        void rescindAuthority(Authority auth);
-        
+        void rescindAuthority(Authority auth);        
         void updateDepartmentRepresentative(int currentDeptRepId, string newRepEmpId);
         void updateCollectionPoint(string dep, int cp);
         string generateNewPasscode(string dep);

@@ -28,7 +28,7 @@ namespace ServiceLayer
         {           
             Department department = context.Departments.First(d => d.DepartmentID == dept);       
             return context.DepartmentRepresentatives.
-                Where(r => r.EndDate == null || r.EndDate >= DateTime.Today)
+                Where(r => r.EndDate == null)
                 .First(r => r.Employee.DepartmentID == department.DepartmentID);            
         }
 
@@ -49,12 +49,19 @@ namespace ServiceLayer
 
         // get employees of department
         public List<Employee> getEmployeesOfDepartment(string depId)
-            => context.Departments.First(d => d.DepartmentID == depId).Employees.ToList();
+           => context.Departments.First(d => d.DepartmentID == depId).Employees.ToList();
+       
 
         //To get employee object of the particular employee Id given
         public Employee getEmployeeById(string emp)
         {           
             return context.Employees.First(e => e.EmployeeID == emp);
+        }
+
+        //To get employee object of the partcular employee name
+        public Employee getEmployeeObject(String empName)
+        {
+            return context.Employees.Where(x => x.EmployeeName == empName).FirstOrDefault();
         }
 
         //To get department for particular employee
@@ -114,28 +121,58 @@ namespace ServiceLayer
             // 1 Change end date of current auth to today
 
             Authority authority = context.Authorities
-                .Where(a => a.EmployeeID == auth.EmployeeID & auth.EndDate >= DateTime.Today).First();
-                auth.EndDate = DateTime.Today;
+                .Where(a => a.EmployeeID == auth.EmployeeID && a.EndDate >= DateTime.Today).First();          
+            authority.EndDate = DateTime.Today;
 
-            // 2 Change start date of the next auth (which is dept head) to tmr
+            // 2 if authorised person start date greater than today and head want to take back the authority
 
-            Authority autho = context.Authorities.Where(a => a.EndDate == null).First();
-            autho.StartDate = DateTime.Today.AddDays(1);
+            //getting current authorsed person department ID
+            Employee curAuthoEmployee = context.Employees.Where(ce => ce.EmployeeID == authority.EmployeeID).First();
+            string curAuthoDeptID = curAuthoEmployee.DepartmentID;
+
+            //getting the list of employees whose startdate is greater than today's date
+            List<Authority> empList = context.Authorities.Where(a => a.StartDate > DateTime.Today).ToList();
+
+            foreach (Authority emp in empList)
+            {             
+              
+                String dep = getDepartmentID(emp.EmployeeID);
+                
+                if (dep == curAuthoDeptID)
+                {
+                    emp.StartDate = DateTime.Today.AddDays(-1);
+                    emp.EndDate = DateTime.Today.AddDays(-1);
+                        break;
+                }
+            }
+
+            // 3 Change start date of the next auth (which is dept head) to tmr
+
+            List<Authority> headList = context.Authorities.Where(a => a.EndDate == null).ToList();           
+            foreach (Authority heademp in headList)
+            {
+                String HeadDeptID = getDepartmentID(heademp.EmployeeID);
+                if (HeadDeptID == curAuthoDeptID)
+                {
+                    heademp.StartDate = DateTime.Today;
+                }              
+            }
             context.SaveChanges();
         }
 
         //update old representative enddate and add new departmentRepresentative
         public void updateDepartmentRepresentative(int currentDeptRepId, string newRepEmpId)
         {         
-            DepartmentRepresentative deptRepresentative = context.DepartmentRepresentatives
+            DepartmentRepresentative currentDeptRepresentative = context.DepartmentRepresentatives
                 .Where(d => d.DeptRepID == currentDeptRepId).First();
-            deptRepresentative.EndDate = DateTime.Today;
-            DepartmentRepresentative deprep = new DepartmentRepresentative();
-            deprep.EmployeeID = newRepEmpId;
-            String deptID=getDepartmentID(deprep.EmployeeID);
-           deprep.StartDate = DateTime.Today.AddDays(1);            
-            deprep.Passcode= generateNewPasscode(deptID);
-            context.DepartmentRepresentatives.Add(deprep);
+            currentDeptRepresentative.EndDate = DateTime.Today;
+            DepartmentRepresentative newDepRep = new DepartmentRepresentative();
+
+            newDepRep.EmployeeID = newRepEmpId;
+            String deptID=getDepartmentID(newDepRep.EmployeeID);
+            newDepRep.StartDate = DateTime.Today.AddDays(1);            
+            newDepRep.Passcode= generateNewPasscode(deptID);
+            context.DepartmentRepresentatives.Add(newDepRep);
             context.SaveChanges();           
         }
 
@@ -155,7 +192,7 @@ namespace ServiceLayer
             DepartmentRepresentative depRep = context.DepartmentRepresentatives.Where(x => x.DeptRepID == currentRepresentative.DeptRepID).First();
             Random num = new Random();
             int passcode = num.Next(1000,9999);
-            return depRep.Passcode = Convert.ToString(passcode);                
+            return Convert.ToString(passcode);                
         }
        
     }
