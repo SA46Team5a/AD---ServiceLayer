@@ -36,6 +36,39 @@ namespace ServiceLayer
         public List<OrderSupplier> getOrderSuppliersOfOrder(int orderId)
             => context.OrderSuppliers.Where(o => o.OrderID == orderId).ToList();
 
+        public List<OrderSupplierDetail> getOrdersServingOutstandingRequisitions(int reqDetailId)
+        {
+            // reqDetailId should come from requsition details that are outstanding
+            RequisitionDetail requisitionDetail = context.RequisitionDetails.First(r => r.RequisitionDetailsID == reqDetailId);
+
+            // get the date of latest disbursement associated with outstanding requisition
+            DateTime date = context.DisbursementDetails
+                .OrderBy(d => d.Disbursement.DisbursementDuty.DisbursementDate)
+                .Last()
+                .Disbursement
+                .DisbursementDuty
+                .DisbursementDate;
+
+            // get the orderSupplierDetails that contains the outstanding item
+            List<OrderSupplierDetail> orderSupplierDetails = context.OrderSupplierDetails
+                .Where(o => o.ItemID == requisitionDetail.ItemID)
+                .ToList();
+
+            // get the order associated with the first orderSupplierDetail after the disbursement date
+            Order order = orderSupplierDetails
+                .OrderBy(o => o.OrderSupplier.Order.OrderDate)
+                .First()
+                .OrderSupplier.Order;
+
+            // get all order supplier details in the same order that contains the outstanding item
+            List<OrderSupplierDetail> ordersForOutstandingItem = context.OrderSupplierDetails
+                .Where(o => o.OrderSupplier.OrderID == order.OrderID)
+                .ToList();
+
+            return ordersForOutstandingItem;
+        }
+            
+
         // Create
         public int createOrderAndGetOrderId(Dictionary<string, int> itemAndQty, Dictionary<int, int> supplierItemsAndQty)
         {
