@@ -11,8 +11,10 @@ namespace ServiceLayer
         // Retrieve
         Requisition getUnsubmittedRequisitionOfEmployee(string empId);
         Requisition getRequisitionById(int reqId);
+        RequisitionDetail getRequisitionDetailById(int reqDetailId);
         List<Requisition> getRequisitionsOfEmployee(string empId);
         List<Requisition> getPendingRequisitionsOfDep(string depId);
+        List<RequisitionDetail> getRequisitionDetails(int reqId);
 
         // Create
         Requisition createNewRequsitionForEmployee(string empId); 
