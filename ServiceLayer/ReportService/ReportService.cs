@@ -36,18 +36,21 @@ namespace ServiceLayer
         {
             ReportResponsePayload reportResponsePayload = new ReportResponsePayload();
 
+            // get distinct list of suppliers from orderSupplierDetails
             List<Supplier> suppliers = orderSupplierDetails
                 .Select(s => s.OrderSupplier.Supplier)
                 .Distinct()
                 .OrderBy(s => s.SupplierName)
                 .ToList();
 
+            // Prepare the list of months to generate data for
             reportResponsePayload.labels = new List<string>();
-            for (int i = 3; i > 0; i--)
+            for (int i = 3; i >= 0; i--)
             {
-
                 reportResponsePayload.labels.Add(DateTime.Today.AddMonths(-i).ToString("MMMM"));
             }
+
+            // Prepare the dataset to be displayed on web
             reportResponsePayload.datasets = new List<ReportDataPayload>();
 
             ReportDataPayload reportDataPayload;
@@ -59,7 +62,7 @@ namespace ServiceLayer
 
                 List<decimal> chartValues = new List<decimal>();
 
-                for (int i = 3; i > 0; i--)
+                for (int i = 3; i >= 0; i--)
                 {
                     int month = DateTime.Today.AddMonths(-i).Month;
 
