@@ -36,6 +36,10 @@ namespace ServiceLayer
             DisbursementDuty disDuty = disbursementService.getDisbursementDutyByStoreClerkEmpId("E015");
             Dictionary<string, int> itemsAndQtys = generateItemAndQtys(5);
             disbursementService.submitRetrievalForm(disDuty.DisbursementDutyID, itemsAndQtys);
+            List<Department> departments = disbursementService.getDepartmentsWithDisbursements();
+            Console.WriteLine("count of departments with disbursement should be 1 : {0}", departments.Count);
+            Console.WriteLine("Department should be CHEM : {0}", departments[0].DepartmentID);
+
             disbursementService.submitDisbursementOfDep(new List<int>() { disDuty.DisbursementDutyID}, "CHEM" , genDisbursementItems(5, 5, null), "E015");
             retrievalPayload = disbursementService.getRetrievalForm("E015");
             retrievalItems = retrievalPayload.retrievalItemPayloads;

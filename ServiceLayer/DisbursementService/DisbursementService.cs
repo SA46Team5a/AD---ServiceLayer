@@ -161,6 +161,35 @@ namespace ServiceLayer
 
         }
 
+        public List<Department> getDepartmentsWithDisbursements()
+        {
+            List<int> disbursements = context.Disbursements
+                .Where(d => d.DisbursementDuty.isRetrieved && d.CollectedBy == null)
+                .Select(d => d.DisbursementID)
+                .ToList();
+
+            List<int> disbursementDetails = context.DisbursementDetails
+                .Where(d => disbursements.Contains(d.DisbursementID))
+                .Select(d => d.RequisitionDetailsID)
+                .ToList();
+
+            List<int> requisitionDetails = context.RequisitionDetails
+                .Where(r => disbursementDetails.Contains(r.RequisitionDetailsID))
+                .Select(r => r.RequisitionID)
+                .ToList();
+
+            List<string> employees = context.Requisitions
+                .Where(r => requisitionDetails.Contains(r.RequisitionID))
+                .Select(r => r.EmployeeID)
+                .ToList();
+
+            return context.Employees
+                .Where(e => employees.Contains(e.EmployeeID))
+                .Select(e => e.Department)
+                .Distinct()
+                .ToList();
+        }
+
         // Create
         public int addDisbursementDuty(string empId)
         {

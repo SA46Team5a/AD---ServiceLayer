@@ -20,6 +20,7 @@ namespace ServiceLayer
         List<DisbursementDetail> getUncollectedDisbursementDetailsByDep(string depId);
         List<DisbursementDetail> getDisbursementDetailsByReqId(int reqId);
         int getTotalCountOfItemDisbursedForReqDetailId(int reqId);
+        List<Department> getDepartmentsWithDisbursements();
 
         // Create
         int addDisbursementDuty(string empId);
