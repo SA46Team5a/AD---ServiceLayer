@@ -1,0 +1,80 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ServiceLayer.DataAccess;
+
+namespace ServiceLayer
+{
+    // Author: Jack
+    public class ReportService : IReportService
+    {
+        List<string> colors = new List<string> {"Blue","BlueViolet","Brown","BurlyWood","CadetBlue","Chartreuse","Chocolate","Coral","CornflowerBlue","DarkGoldenRod","Crimson","Cyan","DarkBlue","DarkCyan" };
+        static StationeryStoreEntities context = StationeryStoreEntities.Instance;
+
+        public ReportResponsePayload generateReorderCostReport(ReorderRequestPayload payload)
+        {
+            List<OrderSupplierDetail> orderSupplierDetails = context.OrderSupplierDetails
+                .Where(s => payload.department.Contains(s.OrderSupplier.SupplierID)
+                && s.Item.CategoryID == payload.category)
+                .ToList();
+
+            switch (payload.duration)
+            {
+                case ("PastThreeMonths"):
+                    return pastThreeMonthsReport(orderSupplierDetails);
+                case ("OneMonth"):
+                    break;
+                case ("CompareMonths"):
+                    break;
+            }
+            return new ReportResponsePayload();
+        }
+
+        public ReportResponsePayload pastThreeMonthsReport(List<OrderSupplierDetail> orderSupplierDetails)
+        {
+            ReportResponsePayload reportResponsePayload = new ReportResponsePayload();
+
+            List<Supplier> suppliers = orderSupplierDetails
+                .Select(s => s.OrderSupplier.Supplier)
+                .Distinct()
+                .OrderBy(s => s.SupplierName)
+                .ToList();
+
+            reportResponsePayload.labels = new List<string>();
+            for (int i = 3; i > 0; i--)
+            {
+
+                reportResponsePayload.labels.Add(DateTime.Today.AddMonths(-i).ToString("MMMM"));
+            }
+            reportResponsePayload.datasets = new List<ReportDataPayload>();
+
+            ReportDataPayload reportDataPayload;
+            foreach (Supplier s in suppliers)
+            {
+                reportDataPayload = new ReportDataPayload();
+                reportDataPayload.label = s.SupplierName;
+                reportDataPayload.backgroundColor = colors[suppliers.IndexOf(s)];
+
+                List<decimal> chartValues = new List<decimal>();
+
+                for (int i = 3; i > 0; i--)
+                {
+                    int month = DateTime.Today.AddMonths(-i).Month;
+
+                    decimal? sum = orderSupplierDetails
+                        .Where(si => si.OrderSupplier.SupplierID == s.SupplierID
+                        && si.OrderSupplier.Order.OrderDate.Month == month)
+                        .Sum(si => si.UnitCost * si.ActualQuantityReceived);
+
+                    chartValues.Add(sum == null ? 0 : (decimal) sum);
+                }
+                reportDataPayload.data = chartValues;
+                reportResponsePayload.datasets.Add(reportDataPayload);
+            }
+
+            return reportResponsePayload;
+        }
+    }
+}

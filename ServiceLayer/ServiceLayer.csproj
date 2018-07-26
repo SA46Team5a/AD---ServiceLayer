@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiPayloadModels\DisbursementItem.cs" />
+    <Compile Include="ApiPayloadModels\ReportingPayload.cs" />
     <Compile Include="ApiPayloadModels\RetrievedItemPayload.cs" />
     <Compile Include="ClassificationService\ClassificationService.cs" />
     <Compile Include="ClassificationService\IClassificationService.cs" />
@@ -163,6 +164,8 @@
     <Compile Include="DisbursementService\DisbursementTest.cs" />
     <Compile Include="OrderService\OrderTest.cs" />
     <Compile Include="OrderService\IOrderService.cs" />
+    <Compile Include="ReportService\ReportTest.cs" />
+    <Compile Include="ReportService\ReportService.cs" />
     <Compile Include="RequisitionService\RequisitionTest.cs" />
     <Compile Include="DepartmentService\DepartmentTest.cs" />
     <Compile Include="OrderService\OrderService.cs" />

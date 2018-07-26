@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using ServiceLayer.DataAccess;
 namespace ServiceLayer
 {
-    interface IReportService
+    public interface IReportService
     {
+        ReportResponsePayload generateReorderCostReport(ReorderRequestPayload payload);
+        ReportResponsePayload pastThreeMonthsReport(List<OrderSupplierDetail> orderSupplierDetails);
     }
 }
