@@ -25,7 +25,8 @@ namespace ServiceLayer
             Console.WriteLine("Part 1: Newly approved requisition");
             Requisition req = setupRequisition(10);
             checkStock();
-            List<RetrievalItem> retrievalItems = disbursementService.getRetrievalForm("E015");
+            RetrievalFormPayload retrievalPayload = disbursementService.getRetrievalForm("E015");
+            List<RetrievalItemPayload> retrievalItems = retrievalPayload.retrievalItemPayloads;
             Console.WriteLine("1.1 Retrieval item count should be 3 : {0}", retrievalItems.Count());
             Console.WriteLine("1.2 Qty to retrieve for each item should be 10");
             retrievalItems.ForEach(r => Console.WriteLine(r.ItemID + "\t" + r.QtyToRetrieve + "\t" + r.QtyInStock));
@@ -36,7 +37,8 @@ namespace ServiceLayer
             Dictionary<string, int> itemsAndQtys = generateItemAndQtys(5);
             disbursementService.submitRetrievalForm(disDuty.DisbursementDutyID, itemsAndQtys);
             disbursementService.submitDisbursementOfDep(new List<int>() { disDuty.DisbursementDutyID}, "CHEM" , genDisbursementItems(5, 5, null), "E015");
-            retrievalItems = disbursementService.getRetrievalForm("E015");
+            retrievalPayload = disbursementService.getRetrievalForm("E015");
+            retrievalItems = retrievalPayload.retrievalItemPayloads;
             Console.WriteLine("2.1 Retrieval item count should be 3 : {0}", retrievalItems.Count());
             Console.WriteLine("2.2 Qty to retrieve for each item should be 5, and stock count should decrease by 5");
             retrievalItems.ForEach(r => Console.WriteLine(r.ItemID + "\t" + r.QtyToRetrieve + "\t" + r.QtyInStock));
@@ -46,7 +48,8 @@ namespace ServiceLayer
             disDuty = disbursementService.getDisbursementDutyByStoreClerkEmpId("E015");
             disbursementService.submitRetrievalForm(disDuty.DisbursementDutyID, itemsAndQtys);
             disbursementService.submitDisbursementOfDep(new List<int>() { disDuty.DisbursementDutyID}, "CHEM" , genDisbursementItems(5, 5, null), "E015");
-            retrievalItems = disbursementService.getRetrievalForm("E015");
+            retrievalPayload = disbursementService.getRetrievalForm("E015");
+            retrievalItems = retrievalPayload.retrievalItemPayloads;
             Console.WriteLine("3.1 Retrieval item count should be 0 : {0}", retrievalItems.Count());
             Console.WriteLine("3.2 Stock count should decrease by 5");
             retrievalItems.ForEach(r => Console.WriteLine(r.ItemID + "\t" + r.QtyToRetrieve + "\t" + r.QtyInStock));
@@ -58,7 +61,8 @@ namespace ServiceLayer
             Console.WriteLine("Scenario 2 : Dsbursement partially rejected at collection");
             Console.WriteLine("Part 1: Goods retrieved from store");
             req = setupRequisition(10);
-            retrievalItems = disbursementService.getRetrievalForm("E015");
+            retrievalPayload = disbursementService.getRetrievalForm("E015");
+            retrievalItems = retrievalPayload.retrievalItemPayloads;
             Console.WriteLine("1.1 Retrieval item count should be 3 : {0}", retrievalItems.Count());
             Console.WriteLine("1.2 Qty to retrieve for each item should be 10");
             retrievalItems.ForEach(r => Console.WriteLine(r.ItemID + "\t" + r.QtyToRetrieve + "\t" + r.QtyInStock));
@@ -71,7 +75,8 @@ namespace ServiceLayer
             disbursementService.submitDisbursementOfDep(new List<int>() { disDuty.DisbursementDutyID}, "CHEM" , genDisbursementItems(10,5,"broken"), "E015");
             Console.WriteLine("2.1 Retrieval item count should be 3 : {0}", retrievalItems.Count());
             Console.WriteLine("2.2 Stock count should increase by 5");
-            retrievalItems = disbursementService.getRetrievalForm("E015");
+            retrievalPayload = disbursementService.getRetrievalForm("E015");
+            retrievalItems = retrievalPayload.retrievalItemPayloads;
             retrievalItems.ForEach(r => Console.WriteLine(r.ItemID + "\t" + r.QtyToRetrieve + "\t" + r.QtyInStock));
             checkStock();
             Console.WriteLine();
@@ -80,7 +85,8 @@ namespace ServiceLayer
             Console.WriteLine("Scenario 3 : shortage in store");
             Console.WriteLine("Part 1: Goods retrieved from store");
             req = setupRequisition(10000);
-            retrievalItems = disbursementService.getRetrievalForm("E015");
+            retrievalPayload = disbursementService.getRetrievalForm("E015");
+            retrievalItems = retrievalPayload.retrievalItemPayloads;
             Console.WriteLine("1.1 Retrieval item count should be 3 : {0}", retrievalItems.Count());
             Console.WriteLine("1.2 Qty to retrieve for each item should be 10000");
             retrievalItems.ForEach(r => Console.WriteLine(r.ItemID + "\t" + r.QtyToRetrieve + "\t" + r.QtyInStock));
@@ -96,7 +102,8 @@ namespace ServiceLayer
             disbursementService.submitDisbursementOfDep(new List<int>() { disDuty.DisbursementDutyID}, "CHEM" , genDisbursementItems(0,0,"broken"), "E015");
             Console.WriteLine("2.1 Retrieval item count should be 3 : {0}", retrievalItems.Count());
             Console.WriteLine("2.2 Stock count should increase by 5");
-            retrievalItems = disbursementService.getRetrievalForm("E015");
+            retrievalPayload = disbursementService.getRetrievalForm("E015");
+            retrievalItems = retrievalPayload.retrievalItemPayloads;
             retrievalItems.ForEach(r => Console.WriteLine(r.ItemID + "\t" + r.QtyToRetrieve + "\t" + r.QtyInStock));
             checkStock();
             Console.WriteLine();

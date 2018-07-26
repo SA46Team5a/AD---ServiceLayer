@@ -15,7 +15,7 @@ namespace ServiceLayer
         IDepartmentService departmentService = new DepartmentService();
 
         // Retrieve
-        public List<RetrievalItem> getRetrievalForm(string empId)
+        public RetrievalFormPayload getRetrievalForm(string empId)
         {
             bool outstandingRetrievalForm = context.DisbursementDuties
                 .Count(d => d.StoreClerkID == empId && d.isRetrieved == false) > 0 ;
@@ -31,34 +31,37 @@ namespace ServiceLayer
                 return generateNewRetrievalForm(empId);
        }
 
-        public List<RetrievalItem> generateNewRetrievalForm(string empId)
+        public RetrievalFormPayload generateNewRetrievalForm(string empId)
         {
             // Get list of items to retrieve
             List<RequisitionDetail> requisitionDetails = context.RequisitionDetails
                 .Where(rd => (rd.Requisition.RetrievalStatusID == 1 || rd.Requisition.RetrievalStatusID == 3))
                 .ToList();
 
-            List<string> itemsToRetrieve = requisitionDetails.Select(rd => rd.ItemID).Distinct().ToList();
+            List<string> itemIds = requisitionDetails.Select(rd => rd.ItemID).Distinct().ToList();
+            List<Item> itemsToRetrieve = context.Items.Where(i => itemIds.Contains(i.ItemID)).ToList();
 
-            List<RetrievalItem> retrievalItems = new List<RetrievalItem>();           
-            foreach (string item in itemsToRetrieve)
+            List<RetrievalItemPayload> retrievalItems = new List<RetrievalItemPayload>();           
+            foreach (Item item in itemsToRetrieve)
             {
-                RetrievalItem retrievalItem = new RetrievalItem();
-                retrievalItem.ItemID = item;
-                retrievalItem.QtyInStock = stockManagementService.getStockCountOfItem(item);
+                RetrievalItemPayload retrievalItem = new RetrievalItemPayload();
+                retrievalItem.ItemID = item.ItemID;
+                retrievalItem.QtyInStock = stockManagementService.getStockCountOfItem(item.ItemID);
                 int qtyRequested = requisitionDetails
-                    .Where(rd => rd.ItemID == item)
+                    .Where(rd => rd.ItemID == item.ItemID)
                     .Select(rd => rd.Quantity)
                     .Sum();
                 int qtyCollected = requisitionDetails
-                    .Where(rd => rd.ItemID == item)
+                    .Where(rd => rd.ItemID == item.ItemID)
                     .Select(rd => (int) rd.DisbursementDetails.Select(dd => dd.CollectedQty).Sum())
                     .Sum();
-
+                retrievalItem.ItemName = item.ItemName;
+                retrievalItem.UnitOfMeasure = item.UnitOfMeasure;
                 retrievalItem.QtyToRetrieve = qtyRequested - qtyCollected;
                 retrievalItems.Add(retrievalItem);
             }
 
+            int disDutyId = 0;
             if (retrievalItems.Count > 0)
             {
                 // Change status of requsitions to retrieveing so that they won't be 
@@ -72,7 +75,7 @@ namespace ServiceLayer
                 context.SaveChanges();
 
                 // Assign duty to employee
-                int disDutyId = addDisbursementDuty(empId);
+                disDutyId = addDisbursementDuty(empId);
 
                 foreach (Requisition req in requisitions)
                 {
@@ -82,10 +85,14 @@ namespace ServiceLayer
                     req.RequisitionDetails.ToList().ForEach(r => addDisbursementDetailFromRequsitionDetail(r.RequisitionDetailsID, disId, r.Quantity));
                 }
             }
-            return retrievalItems;
+
+            RetrievalFormPayload retrievalFormPayload = new RetrievalFormPayload();
+            retrievalFormPayload.disDutyId = disDutyId;
+            retrievalFormPayload.retrievalItemPayloads = retrievalItems;
+            return retrievalFormPayload;
         }
 
-        public List<RetrievalItem> generateRetrievalFormFromDisbursementDuty(int disDutyId)
+        public RetrievalFormPayload generateRetrievalFormFromDisbursementDuty(int disDutyId)
         {
             List<DisbursementDetail> disbursementDetails = context.DisbursementDetails
                 .Where(d => d.Disbursement.DisbursementDutyID == disDutyId)
@@ -96,21 +103,29 @@ namespace ServiceLayer
                 .Distinct()
                 .ToList();
 
-            List<RetrievalItem> retrievalItems = new List<RetrievalItem>();
+            List<Item> items = context.Items.Where(i => itemIds.Contains(i.ItemID)).ToList();
 
-            RetrievalItem retrievalItem;
-            foreach (string itemId in itemIds)
+            List<RetrievalItemPayload> retrievalItems = new List<RetrievalItemPayload>();
+
+            RetrievalItemPayload retrievalItem;
+            foreach (Item item in items)
             {
-                retrievalItem = new RetrievalItem();
-                retrievalItem.ItemID = itemId;
+                retrievalItem = new RetrievalItemPayload();
+                retrievalItem.ItemID = item.ItemID;
                 retrievalItem.QtyToRetrieve = disbursementDetails
-                    .Where(d => d.RequisitionDetail.ItemID == itemId)
+                    .Where(d => d.RequisitionDetail.ItemID == item.ItemID)
                     .Sum(d => d.Quantity);
-                retrievalItem.QtyInStock = stockManagementService.getStockCountOfItem(itemId);
+                retrievalItem.QtyInStock = stockManagementService.getStockCountOfItem(item.ItemID);
+                retrievalItem.ItemName = item.ItemName;
+                retrievalItem.UnitOfMeasure = item.UnitOfMeasure;
                 retrievalItems.Add(retrievalItem);
             }
 
-            return retrievalItems;
+            RetrievalFormPayload retrievalFormPayload = new RetrievalFormPayload();
+            retrievalFormPayload.disDutyId = disDutyId;
+            retrievalFormPayload.retrievalItemPayloads = retrievalItems;
+            return retrievalFormPayload;
+ 
         }
 
         public DisbursementDuty getDisbursementDutyById(int disDutyId)

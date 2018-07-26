@@ -10,9 +10,9 @@ namespace ServiceLayer
     public interface IDisbursementService
     {
         // Retrieve
-        List<RetrievalItem> getRetrievalForm(string empId);
-        List<RetrievalItem> generateNewRetrievalForm(string empId);
-        List<RetrievalItem> generateRetrievalFormFromDisbursementDuty(int disDutyId);
+        RetrievalFormPayload getRetrievalForm(string empId);
+        RetrievalFormPayload generateNewRetrievalForm(string empId);
+        RetrievalFormPayload generateRetrievalFormFromDisbursementDuty(int disDutyId);
         DisbursementDuty getDisbursementDutyById(int disDutyId);
         DisbursementDuty getDisbursementDutyByStoreClerkEmpId(string empId);
         Disbursement getDisbursementById(int disId);
