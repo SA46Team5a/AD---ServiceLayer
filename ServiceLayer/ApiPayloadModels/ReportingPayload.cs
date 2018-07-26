@@ -14,16 +14,25 @@ namespace ServiceLayer
         public List<decimal> data { get; set; }
     }
 
-    public class ReorderReportingModel
+    public class ReportingModel
     {
         public List<Category> categories { get; set; }
         public List<Supplier> suppliers { get; set; }
+
+        public List<Department> departments { get; set; }
 
         public List<string> month = new List<string> { "January", "February", "March", "April", "May",
             "June", "July", "August", "September", "October", "November", "December" };
     }
 
     public class ReorderRequestPayload
+    {
+        public int category { get; set; }
+        public List<string> department { get; set; }
+        public string duration { get; set; }
+        public List<int> option { get; set; }
+    }
+    public class RequisitionRequestPayload
     {
         public int category { get; set; }
         public List<string> department { get; set; }

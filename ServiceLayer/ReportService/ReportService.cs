@@ -10,9 +10,9 @@ namespace ServiceLayer
     // Author: Jack
     public class ReportService : IReportService
     {
-        List<string> colors = new List<string> {"Blue","BlueViolet","Brown","BurlyWood","CadetBlue","Chartreuse","Chocolate","Coral","CornflowerBlue","DarkGoldenRod","Crimson","Cyan","DarkBlue","DarkCyan" };
+        List<string> colors = new List<string> { "Blue", "BlueViolet", "Brown", "BurlyWood", "CadetBlue", "Chartreuse", "Chocolate", "Coral", "CornflowerBlue", "DarkGoldenRod", "Crimson", "Cyan", "DarkBlue", "DarkCyan" };
         static StationeryStoreEntities context = StationeryStoreEntities.Instance;
-
+        IDepartmentService iDepartmentService;
         public ReportResponsePayload generateReorderCostReport(ReorderRequestPayload payload)
         {
             List<OrderSupplierDetail> orderSupplierDetails = context.OrderSupplierDetails
@@ -71,7 +71,97 @@ namespace ServiceLayer
                         && si.OrderSupplier.Order.OrderDate.Month == month)
                         .Sum(si => si.UnitCost * si.ActualQuantityReceived);
 
-                    chartValues.Add(sum == null ? 0 : (decimal) sum);
+                    chartValues.Add(sum == null ? 0 : (decimal)sum);
+                }
+                reportDataPayload.data = chartValues;
+                reportResponsePayload.datasets.Add(reportDataPayload);
+            }
+
+            return reportResponsePayload;
+        }
+
+        public ReportResponsePayload generateRequisitionCostReport(RequisitionRequestPayload payload)
+        {
+            List<Department> depList = context.Departments.Where(d => payload.department.Contains(d.DepartmentName)).ToList();
+            List<string> depIds = depList.Select(d => d.DepartmentID).ToList();
+            List<Employee> empList = context.Employees.Where(e => depIds.Contains(e.EmployeeID)).ToList();
+            List<string> empIds = empList.Select(e => e.EmployeeID).ToList();
+
+            List<RequisitionDetail> requisitionDetails = context.RequisitionDetails
+               .Where(s => empIds.Contains(s.Requisition.EmployeeID) && s.Item.CategoryID == payload.category)
+               .ToList();
+            
+            switch (payload.duration)
+            {
+                case ("PastThreeMonths"):
+                    return pastThreeMonthsReport(requisitionDetails);
+                case ("OneMonth"):
+                    break;
+                case ("CompareMonths"):
+                    break;
+            }
+            return new ReportResponsePayload();
+        }
+        public ReportResponsePayload pastThreeMonthsReport(List<RequisitionDetail> requisitionDetails)
+        {
+            ReportResponsePayload reportResponsePayload = new ReportResponsePayload();
+            List<string> empIds = requisitionDetails.Select(r => r.Requisition.EmployeeID).ToList();
+            List<string> depList=new List<string>();
+            foreach(string empId in empIds)
+            {
+               depList.Add(iDepartmentService.getDepartmentID(empId));
+            }
+            depList.Distinct();
+            List<Department> departments=context.Departments.Where(d => depList.Contains(d.DepartmentID)).OrderBy(d => d.DepartmentName).ToList();
+
+            //List<Supplier> suppliers = orderSupplierDetails
+            //   .Select(s => s.OrderSupplier.Supplier)
+            //   .Distinct()
+            //   .OrderBy(s => s.SupplierName)
+            //   .ToList();
+
+            reportResponsePayload.labels = new List<string>();
+            for (int i = 3; i > 0; i--)
+            {
+
+                reportResponsePayload.labels.Add(DateTime.Today.AddMonths(-i).ToString("MMMM"));
+            }
+            reportResponsePayload.datasets = new List<ReportDataPayload>();
+
+            ReportDataPayload reportDataPayload;
+            foreach (Department d in departments)
+            {
+                reportDataPayload = new ReportDataPayload();
+                reportDataPayload.label = d.DepartmentName;
+                reportDataPayload.backgroundColor = colors[departments.IndexOf(d)];
+
+                List<decimal> chartValues = new List<decimal>();
+                List<RequisitionDetail> rd = new List<RequisitionDetail>();
+                List<SupplierItem> si = new List<SupplierItem>();
+
+                for (int i = 3; i > 0; i--)
+                {
+                    int month = DateTime.Today.AddMonths(-i).Month;
+                    rd=requisitionDetails.Where(ri => iDepartmentService.getDepartmentID(ri.Requisition.EmployeeID) == d.DepartmentID && ri.Requisition.RequestedDate.Value.Month == month).ToList();
+                    int[] quantity = new int[rd.Count];
+                    decimal[] cost = new decimal[rd.Count];
+                    int j = 0,k=0;
+                    string[] item = new string[rd.Count];
+                    foreach(RequisitionDetail r in rd)
+                    {
+                        item[k++] = r.ItemID;
+                        quantity[j] = r.Quantity;
+                        j++;
+                    }
+                 
+                    //    && 
+                    //decimal? sum = orderSupplierDetails
+                    //    .Where(si => si.OrderSupplier.SupplierID == s.SupplierID
+                    //    && si.OrderSupplier.Order.OrderDate.Month == month)
+                    //    .Sum(si => si.UnitCost * si.ActualQuantityReceived);
+
+
+                   // chartValues.Add(sum == null ? 0 : (decimal)sum);
                 }
                 reportDataPayload.data = chartValues;
                 reportResponsePayload.datasets.Add(reportDataPayload);
