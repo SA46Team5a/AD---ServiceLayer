@@ -16,13 +16,23 @@ namespace ServiceLayer
         public Requisition getUnsubmittedRequisitionOfEmployee(string empId)
         {
             Requisition r = context.Requisitions.
-                FirstOrDefault(rq => rq.EmployeeID == empId
+                FirstOrDefault(rq => rq.EmployeeID.Equals(empId)
                 && rq.ApprovalStatusID==1);
 
             if (r == null)
                 return createNewRequsitionForEmployee(empId);
             else
                 return r;
+        }
+
+        public List<RequisitionDetail> getRequisitionDetails(int reqId)
+        {
+            return context.RequisitionDetails.Where(r => r.RequisitionID == reqId).ToList();
+        }
+
+        public RequisitionDetail getRequisitionDetailById(int reqDetailId)
+        {
+            return context.RequisitionDetails.Where(r => r.RequisitionDetailsID == reqDetailId).FirstOrDefault();
         }
 
         public Requisition getRequisitionById(int reqId) => 

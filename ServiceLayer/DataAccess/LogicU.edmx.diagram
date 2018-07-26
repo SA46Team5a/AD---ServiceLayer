@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="1c642aebd28e4c43a72de5483ec440d8" Name="Diagram1" ZoomLevel="111" ShowGrid="true">
+      <Diagram DiagramId="1c642aebd28e4c43a72de5483ec440d8" Name="Diagram1" ZoomLevel="74" ShowGrid="true">
         <EntityTypeShape EntityType="StationeryStoreModel.ApprovalStatus" Width="2.625" PointX="10.875" PointY="25" />
         <EntityTypeShape EntityType="StationeryStoreModel.Authority" Width="2.625" PointX="10.875" PointY="21.5" />
         <EntityTypeShape EntityType="StationeryStoreModel.Category" Width="2.625" PointX="4.125" PointY="6.5" />
