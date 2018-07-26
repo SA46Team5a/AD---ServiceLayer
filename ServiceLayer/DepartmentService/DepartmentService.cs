@@ -199,6 +199,5 @@ namespace ServiceLayer
             int passcode = num.Next(1000,9999);
             return Convert.ToString(passcode);                
         }
-       
     }
 }
