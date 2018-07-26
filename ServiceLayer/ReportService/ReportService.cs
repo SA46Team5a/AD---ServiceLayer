@@ -71,11 +71,6 @@ namespace ServiceLayer
                         && si.OrderSupplier.Order.OrderDate.Month == month)
                         .Sum(si => si.UnitCost * si.ActualQuantityReceived);
 
-                    context.RequisitionDetails
-                        .Where(rd => rd.Item.CategoryID == categoryID && rd.Requisition.RequestedDate.Value.Month == month && rd.Requisition.Requester.DepartmentID == deptID)
-                        .ToList()
-                        .Sum(rd => rd.)
-
                     chartValues.Add(sum == null ? 0 : (decimal) sum);
                 }
                 reportDataPayload.data = chartValues;
