@@ -40,6 +40,11 @@ namespace ServiceLayer
             Department D = context.Departments.Where(d => d.DepartmentID == E.DepartmentID).First();
             return D.CollectionPoint;
         }
+
+        // Get collection point for department
+        public CollectionPoint getCollectionPointOfDepartment(string depId)
+            => context.Departments.Where(d => d.DepartmentID == depId).First().CollectionPoint;
+
         public bool verifyPassCode(string passcode,string dep)
         {
             DepartmentRepresentative depRep = context.DepartmentRepresentatives

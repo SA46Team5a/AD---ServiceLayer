@@ -17,7 +17,7 @@ namespace ServiceLayer
         List<Department> getDepartments();
         string getDepartmentID(string emp);
         Employee getEmployeeObject(String empName);
-
+        CollectionPoint getCollectionPointOfDepartment(string depId);
         // Create
         void addAuthority(Employee emp, DateTime startdate, DateTime enddate);
 
