@@ -72,18 +72,8 @@ namespace ServiceLayer
 
         public List<StockCountItem> getStockCountItemsByCategory(int categoryId)
         {
-            List<Item> items = context.Items.Where(i => i.CategoryID == categoryId).ToList();
-            List<string> itemIds = new List<string>();
-            items.ForEach(i => itemIds.Add(i.ItemID));
-
-            List<StockCountItem> stockCountItems = new List<StockCountItem>();
-            foreach (StockCountItem sci in context.StockCountItems.ToList())
-            {
-                if (itemIds.Contains(sci.ItemID))
-                    stockCountItems.Add(sci);
-            }           
-
-            return stockCountItems;
+            List<string> itemIds = getItemsOfCategory(categoryId).Select(i => i.ItemID).ToList();
+            return context.StockCountItems.Where(s => itemIds.Contains(s.ItemID)).ToList(); ;
         }
 
         //Method to retrieve the cost of the item
