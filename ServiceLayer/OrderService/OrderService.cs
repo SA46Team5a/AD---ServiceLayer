@@ -16,6 +16,9 @@ namespace ServiceLayer
         public Order getOrder(int orderId)
             => context.Orders.First(o => o.OrderID == orderId);
 
+        public List<Order> getOutstandingOrders()
+            => context.OrderSuppliers.Where(os => os.DeliveryStatusID == 2).Select(os => os.Order).Distinct().ToList();
+
         public OrderSupplier getOrderSupplier(int orderSupplierId)
             => context.OrderSuppliers.First(os => os.OrderSupplierID == orderSupplierId);
 

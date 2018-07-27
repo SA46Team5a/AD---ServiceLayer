@@ -13,6 +13,9 @@ namespace ServiceLayer
          
         static StationeryStoreEntities context = StationeryStoreEntities.Instance;
 
+        public Item getItemById(string itemId)
+            => context.Items.First(i => i.ItemID == itemId);
+
         public  List<Item> getAllItems()
         {
             //List all the items in the store

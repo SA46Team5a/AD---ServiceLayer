@@ -10,6 +10,7 @@ namespace ServiceLayer
     public interface IStockManagementService
     {
         // Retrieve
+        Item getItemById(string itemId);
         // Retrieves list of items
         List<Item> getAllItems();
         //Retrieves all the items with their stock count

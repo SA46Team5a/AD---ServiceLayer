@@ -11,6 +11,7 @@ namespace ServiceLayer
     {
         // Retrieve
         Order getOrder(int orderId);
+        List<Order> getOutstandingOrders();
         OrderSupplier getOrderSupplier(int orderSupplierId);
         OrderSupplierDetail getOrderSupplierDetail(int orderSupplierDetailId);
         List<ReorderDetail> getReorderDetails();
