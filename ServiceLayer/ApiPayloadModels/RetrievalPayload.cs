@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ServiceLayer
 {
-    public class RetrievalItemPayload
+    public class RetrievalItemPayload : ItemPayload
     {
-        public string ItemID;
-        public string ItemName;
-        public string UnitOfMeasure;
-        public int QtyInStock;
-        public int QtyToRetrieve;
+       public int QtyToRetrieve{ get; set; }
     }
 
     public class RetrievalFormPayload

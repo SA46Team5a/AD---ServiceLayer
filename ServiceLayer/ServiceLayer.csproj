@@ -55,10 +55,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiPayloadModels\ClassificationPayload.cs" />
+    <Compile Include="ApiPayloadModels\DepartmentPayload.cs" />
     <Compile Include="ApiPayloadModels\DisbursementItem.cs" />
+    <Compile Include="ApiPayloadModels\OrderPayload.cs" />
     <Compile Include="ApiPayloadModels\ReportingPayload.cs" />
     <Compile Include="ApiPayloadModels\RetrievalPayload.cs" />
     <Compile Include="ApiPayloadModels\RetrievedItemPayload.cs" />
+    <Compile Include="ApiPayloadModels\StockManagementPayloadcs.cs" />
     <Compile Include="ClassificationService\ClassificationService.cs" />
     <Compile Include="ClassificationService\IClassificationService.cs" />
     <Compile Include="DataAccess\ApprovalStatus.cs">
