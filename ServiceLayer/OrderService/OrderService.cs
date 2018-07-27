@@ -11,6 +11,7 @@ namespace ServiceLayer
     public class OrderService : IOrderService
     {
         StationeryStoreEntities context = StationeryStoreEntities.Instance;
+        IStockManagementService stockManagementService = new StockManagementService();
 
         // Retrieve
         public Order getOrder(int orderId)
@@ -79,7 +80,11 @@ namespace ServiceLayer
             }
            
         }
-            
+
+        public List<OrderSupplierDetail> getOrderDetailsOfOrderIdAndSupplier(int orderId, string supplierId)
+            => context.OrderSupplierDetails
+            .Where(o => o.OrderSupplier.OrderID == orderId && o.OrderSupplier.SupplierID == supplierId)
+            .ToList();
 
         // Create
         public int createOrderAndGetOrderId(Dictionary<string, int> itemAndQty, Dictionary<int, int> supplierItemsAndQty)
@@ -165,10 +170,16 @@ namespace ServiceLayer
         }
 
         // Update
-        public void updateQtyRecievedOfOrderSupplierDetail(int orderSupplierDetailId, int qty)
+        public void updateQtyRecievedOfOrderSupplierDetail(int orderSupplierDetailId, int qty, string empId)
         {
             OrderSupplierDetail orderSupplierDetail = getOrderSupplierDetail(orderSupplierDetailId);
-            orderSupplierDetail.ActualQuantityReceived = Math.Min(qty, orderSupplierDetail.Quantity);
+            orderSupplierDetail.ActualQuantityReceived = Math.Min(qty, orderSupplierDetail.Quantity); // excess rejected
+            stockManagementService.addStockTransaction(orderSupplierDetail.Item.ItemID, "restock", empId, qty);
+
+            if (context.OrderSupplierDetails
+                .Count(o => o.OrderSupplierID == orderSupplierDetail.OrderSupplierID && o.ActualQuantityReceived == null) == 0)
+                confirmDeliveryOfOrderSupplier(orderSupplierDetail.OrderSupplierID);
+
             context.SaveChanges();
         }
 

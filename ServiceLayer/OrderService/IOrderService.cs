@@ -19,6 +19,7 @@ namespace ServiceLayer
         List<SupplierItem> getSupplierItemsOfItemIds(List<String> itemIds);
         List<OrderSupplier> getOrderSuppliersOfOrder(int orderId);
         List<OrderSupplierDetail> getOrdersServingOutstandingRequisitions(int reqDetailId);
+        List<OrderSupplierDetail> getOrderDetailsOfOrderIdAndSupplier(int orderId, string supplierId);
 
         // Create
         int createOrderAndGetOrderId(Dictionary<string, int> itemAndQty, Dictionary<int, int> supplierItemsAndQty);
@@ -27,7 +28,7 @@ namespace ServiceLayer
         void allocateQtyToSuppliers(Order order, Dictionary<int, int> supplierItemAndqty, int qty);
 
         // Update
-        void updateQtyRecievedOfOrderSupplierDetail(int orderSupplierDetailId, int qty);
+        void updateQtyRecievedOfOrderSupplierDetail(int orderSupplierDetailId, int qty, string empId);
         void confirmDeliveryOfOrderSupplier(int orderSupplierId);
         void confirmInvoiceUploadStatus(int orderSupplierId);
     }

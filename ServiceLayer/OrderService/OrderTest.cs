@@ -125,13 +125,13 @@ namespace ServiceLayer
             Console.WriteLine("Test update methods");
             Console.WriteLine("Test updateQtyReeivedOfOrderSupplierDetail");
             Console.WriteLine("Scenario 1: When received qty > ordered");
-            OrderService.updateQtyRecievedOfOrderSupplierDetail(orderSupplierDetailId, 8);
+            OrderService.updateQtyRecievedOfOrderSupplierDetail(orderSupplierDetailId, 8, "E001");
             orderSupplierDetail = OrderService.getOrderSupplierDetail(orderSupplierDetail.OrderSupplierDetailsID);
             Console.WriteLine("OrderSupplierDetail {0}'s qty recieved should be 6 : {1}", orderSupplierDetailId, orderSupplierDetail.ActualQuantityReceived);
             Console.WriteLine();
 
             Console.WriteLine("Scenario 2: When received qty < ordered");
-            OrderService.updateQtyRecievedOfOrderSupplierDetail(orderSupplierDetailId, 4);
+            OrderService.updateQtyRecievedOfOrderSupplierDetail(orderSupplierDetailId, 4, "E001");
             Console.WriteLine("OrderSupplierDetail {0}'s qty recieved should be 4 : {1}", orderSupplierDetailId, orderSupplierDetail.ActualQuantityReceived);
             Console.WriteLine();
 
