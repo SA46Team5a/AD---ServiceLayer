@@ -47,6 +47,7 @@ namespace ServiceLayer
             // get the date of latest disbursement associated with outstanding requisition
             DateTime date = context.DisbursementDetails
                 .OrderBy(d => d.Disbursement.DisbursementDuty.DisbursementDate)
+                .ToList()
                 .Last()
                 .Disbursement
                 .DisbursementDuty
@@ -54,21 +55,29 @@ namespace ServiceLayer
 
             // get the orderSupplierDetails that contains the outstanding item
             List<OrderSupplierDetail> orderSupplierDetails = context.OrderSupplierDetails
-                .Where(o => o.ItemID == requisitionDetail.ItemID)
+                .Where(o => o.ItemID == requisitionDetail.ItemID && o.OrderSupplier.Order.OrderDate> date)
                 .ToList();
 
-            // get the order associated with the first orderSupplierDetail after the disbursement date
-            Order order = orderSupplierDetails
-                .OrderBy(o => o.OrderSupplier.Order.OrderDate)
-                .First()
-                .OrderSupplier.Order;
+            if (orderSupplierDetails.Count > 0)
+            {
+                // get the order associated with the first orderSupplierDetail after the disbursement date
+                Order order = orderSupplierDetails
+                    .OrderBy(o => o.OrderSupplier.Order.OrderDate)
+                    .First()
+                    .OrderSupplier.Order;
 
-            // get all order supplier details in the same order that contains the outstanding item
-            List<OrderSupplierDetail> ordersForOutstandingItem = context.OrderSupplierDetails
-                .Where(o => o.OrderSupplier.OrderID == order.OrderID)
-                .ToList();
+                // get all order supplier details in the same order that contains the outstanding item
+                List<OrderSupplierDetail> ordersForOutstandingItem = context.OrderSupplierDetails
+                    .Where(o => o.OrderSupplier.OrderID == order.OrderID && o.ItemID == requisitionDetail.ItemID)
+                    .ToList();
 
-            return ordersForOutstandingItem;
+                return ordersForOutstandingItem;
+            }
+            else
+            {
+                return  new List<OrderSupplierDetail>(1) { new OrderSupplierDetail()};
+            }
+           
         }
             
 

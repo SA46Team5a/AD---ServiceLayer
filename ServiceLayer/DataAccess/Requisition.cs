@@ -11,7 +11,9 @@ namespace ServiceLayer.DataAccess
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
+
     public partial class Requisition
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -23,6 +25,7 @@ namespace ServiceLayer.DataAccess
     
         public int RequisitionID { get; set; }
         public string EmployeeID { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public Nullable<System.DateTime> RequestedDate { get; set; }
         public Nullable<int> AuthorityID { get; set; }
         public Nullable<System.DateTime> ApproveDate { get; set; }
