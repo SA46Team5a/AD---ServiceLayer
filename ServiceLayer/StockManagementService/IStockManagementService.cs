@@ -42,7 +42,7 @@ namespace ServiceLayer
         subsequent StockVoucher needs to be raised */
         void rejectStock(string itemId, string reason, int count, string employeeId);
 
-        void submitStockCountItems(int empId);
+        void submitStockCountItems(List<StockVoucherPayload> vouchers, string empId);
         void submitVouchers();
 
         void closeVoucher(int discrepancyId, string approvedBy, string reason);

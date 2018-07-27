@@ -136,9 +136,13 @@ namespace ServiceLayer
             return;
         }
 
-        public void submitStockCountItems(int empId)
+        public void submitStockCountItems(List<StockVoucherPayload> vouchers, string empId)
         {
-
+            foreach (StockVoucherPayload voucher in vouchers)
+            {
+                if (voucher.ActualCount != getStockCountOfItem(voucher.ItemID))
+                    addStockVoucher(voucher.ItemID, voucher.ActualCount, empId, voucher.Reason == null ? "" : voucher.Reason);
+            }
         }
         public void submitVouchers()
         {
