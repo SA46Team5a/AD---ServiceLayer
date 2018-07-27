@@ -26,7 +26,8 @@ namespace ServiceLayer
         void editRequisitionDetailQtys(Dictionary<int, int> reqDetailIdAndQtys);
         void editRequisitionDetailQty(int reqDetailId, int qty);
 
-        void submitRequisition(int reqId); 
+        void submitRequisition(int reqId);
+        void processRequisition(int reqId, string empId, bool toApprove);
         void rejectRequisition(int reqId, int authId); 
         void approveRequisition(int reqId, int authId);
 
