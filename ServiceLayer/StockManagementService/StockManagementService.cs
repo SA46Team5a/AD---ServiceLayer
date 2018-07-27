@@ -46,9 +46,12 @@ namespace ServiceLayer
             return itemList;
         }
 
-        public List<StockVoucher> getOpenVouchers()
+        public List<StockVoucher> getOpenVouchers(bool isStoreManager)
         {
-            return context.StockVouchers.Where(sv => sv.ApprovedBy == null).ToList();            
+            return context.StockVouchers
+                .Where(sv => sv.ApprovedBy == null
+                && isStoreManager ? Math.Abs((sv.ActualCount - sv.OriginalCount) * sv.ItemCost) > 250 : Math.Abs((sv.ActualCount - sv.OriginalCount) * sv.ItemCost) <= 250 )
+                .ToList();            
         }
 
         public Supplier getFirstSupplierOfItem(string itemId)
@@ -128,7 +131,7 @@ namespace ServiceLayer
         public void closeVoucher(int discrepancyId,string approvedBy,string reason)
         {
             //Retrieve the record from the stock voucher with discrepancy id passed as parameter
-            StockVoucher sv= getOpenVouchers().First(i => i.DiscrepancyID == discrepancyId);
+            StockVoucher sv= context.StockVouchers.First(i => i.DiscrepancyID == discrepancyId);
             sv.ApprovedBy = approvedBy;
             sv.ApprovedDate = DateTime.Today;
             sv.Reason = reason;

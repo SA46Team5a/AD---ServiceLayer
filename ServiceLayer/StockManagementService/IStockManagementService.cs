@@ -21,7 +21,7 @@ namespace ServiceLayer
         string getItemName(string itemId);
         List<Item> getItemsOfCategory(int categoryId);
         // Returns a list of vouchers that have not been approved by supervisor or manager
-        List<StockVoucher> getOpenVouchers();               
+        List<StockVoucher> getOpenVouchers(bool isStoreManager);               
         //Gets the first supplier for the specified item in the parameter.
         Supplier getFirstSupplierOfItem(string itemId);
         //List<Supplier> getFirstSupplierOfItem();
