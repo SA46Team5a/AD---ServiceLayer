@@ -40,7 +40,10 @@ namespace ServiceLayer
             Console.WriteLine("count of departments with disbursement should be 1 : {0}", departments.Count);
             Console.WriteLine("Department should be CHEM : {0}", departments[0].DepartmentID);
 
-            disbursementService.submitDisbursementOfDep("CHEM" , genDisbursementItems(5, 5, null), "E015");
+            List<DisbursementDetailPayload> disbursementDetailPayloads = disbursementService.getUncollectedDisbursementDetailsByDep("chem");
+            disbursementDetailPayloads.ForEach(d => Console.WriteLine(d.ItemName + "\t" + d.DisbursedQuantity + "\t" + d.CollectedQuantity));
+
+            disbursementService.submitDisbursementOfDep("CHEM" , disbursementDetailPayloads, "E015");
             retrievalPayload = disbursementService.getRetrievalForm("E015");
             retrievalItems = retrievalPayload.retrievalItemPayloads;
             Console.WriteLine("2.1 Retrieval item count should be 3 : {0}", retrievalItems.Count());
@@ -51,7 +54,11 @@ namespace ServiceLayer
             Console.WriteLine("Part 3: fully disbursed requisition");
             disDuty = disbursementService.getDisbursementDutyByStoreClerkEmpId("E015");
             disbursementService.submitRetrievalForm(disDuty.DisbursementDutyID, itemsAndQtys);
-            disbursementService.submitDisbursementOfDep("CHEM" , genDisbursementItems(5, 5, null), "E015");
+
+            disbursementDetailPayloads = disbursementService.getUncollectedDisbursementDetailsByDep("chem");
+            disbursementDetailPayloads.ForEach(d => Console.WriteLine(d.ItemName + "\t" + d.DisbursedQuantity + "\t" + d.CollectedQuantity));
+
+            disbursementService.submitDisbursementOfDep("CHEM" , disbursementDetailPayloads, "E015");
             retrievalPayload = disbursementService.getRetrievalForm("E015");
             retrievalItems = retrievalPayload.retrievalItemPayloads;
             Console.WriteLine("3.1 Retrieval item count should be 0 : {0}", retrievalItems.Count());
@@ -76,7 +83,11 @@ namespace ServiceLayer
             disDuty = disbursementService.getDisbursementDutyByStoreClerkEmpId("E015");
             disbursementService.submitRetrievalForm(disDuty.DisbursementDutyID, itemsAndQtys);
             checkStock();
-            disbursementService.submitDisbursementOfDep("CHEM" , genDisbursementItems(10,5,"broken"), "E015");
+
+            disbursementDetailPayloads = disbursementService.getUncollectedDisbursementDetailsByDep("chem");
+            disbursementDetailPayloads.ForEach(d => Console.WriteLine(d.ItemName + "\t" + d.DisbursedQuantity + "\t" + d.CollectedQuantity));
+
+            disbursementService.submitDisbursementOfDep("CHEM" , disbursementDetailPayloads, "E015");
             Console.WriteLine("2.1 Retrieval item count should be 3 : {0}", retrievalItems.Count());
             Console.WriteLine("2.2 Stock count should increase by 5");
             retrievalPayload = disbursementService.getRetrievalForm("E015");
@@ -103,7 +114,11 @@ namespace ServiceLayer
             itemsAndQtys["C003"] = stockManagementService.getStockCountOfItem("C003");
             disbursementService.submitRetrievalForm(disDuty.DisbursementDutyID, itemsAndQtys);
             checkStock();
-            disbursementService.submitDisbursementOfDep("CHEM" , genDisbursementItems(0,0,"broken"), "E015");
+
+            disbursementDetailPayloads = disbursementService.getUncollectedDisbursementDetailsByDep("chem");
+            disbursementDetailPayloads.ForEach(d => Console.WriteLine(d.ItemName + "\t" + d.DisbursedQuantity + "\t" + d.CollectedQuantity));
+
+            disbursementService.submitDisbursementOfDep("CHEM", disbursementDetailPayloads, "E015");
             Console.WriteLine("2.1 Retrieval item count should be 3 : {0}", retrievalItems.Count());
             Console.WriteLine("2.2 Stock count should increase by 5");
             retrievalPayload = disbursementService.getRetrievalForm("E015");

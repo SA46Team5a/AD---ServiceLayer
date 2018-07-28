@@ -23,6 +23,7 @@ namespace ServiceLayer
             ItemId = d.RequisitionDetail.ItemID;
             ItemName = d.RequisitionDetail.Item.ItemName;
             UnitOfMeasure = d.RequisitionDetail.Item.UnitOfMeasure;
+            DisbursementDutyIds = new List<int>();
             Reason = d.Reason;
             DisbursedQuantity = d.Quantity;
             CollectedQuantity = d.CollectedQty;

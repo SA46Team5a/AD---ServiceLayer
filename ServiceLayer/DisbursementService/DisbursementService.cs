@@ -301,7 +301,7 @@ namespace ServiceLayer
                 
                 allocateCollectedQuantityToDisbursementDetails(
                     disDetailsOfItemId,
-                    (int) item.CollectedQuantity,
+                    item.CollectedQuantity == null ? 0 : (int) item.CollectedQuantity,
                     item.Reason);
                 context.SaveChanges();
             }
