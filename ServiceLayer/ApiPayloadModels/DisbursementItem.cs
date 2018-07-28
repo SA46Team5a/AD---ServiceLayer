@@ -10,6 +10,8 @@ namespace ServiceLayer
     public class DisbursementDetailPayload
     {
         public string ItemId { get; set; }
+        public string ItemName { get; set; }
+        public string UnitOfMeasure { get; set; }
         public string Reason { get; set; }
         public List<int> DisbursementDutyIds { get; set; }
         public int DisbursedQuantity { get; set; }
@@ -19,6 +21,8 @@ namespace ServiceLayer
         public DisbursementDetailPayload(DisbursementDetail d)
         {
             ItemId = d.RequisitionDetail.ItemID;
+            ItemName = d.RequisitionDetail.Item.ItemName;
+            UnitOfMeasure = d.RequisitionDetail.Item.UnitOfMeasure;
             Reason = d.Reason;
             DisbursedQuantity = d.Quantity;
             CollectedQuantity = d.CollectedQty;
