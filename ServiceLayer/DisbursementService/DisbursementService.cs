@@ -239,7 +239,7 @@ namespace ServiceLayer
                 .ToList();
 
             List<DisbursementDetail> disbursementDetails = context.DisbursementDetails
-                .Where(d => requisitionDetailsId.Contains(d.DisbursementDetailsID) && d.Disbursement.DisbursementDutyID == disDuty.DisbursementDutyID)
+                .Where(d => requisitionDetailsId.Contains(d.RequisitionDetailsID) && d.Disbursement.DisbursementDutyID == disDuty.DisbursementDutyID)
                 .OrderBy(d => d.Disbursement.Requisition.RequestedDate)
                 .ToList();
 
