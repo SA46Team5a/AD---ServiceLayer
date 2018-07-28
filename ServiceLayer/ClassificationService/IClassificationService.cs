@@ -13,5 +13,6 @@ namespace ServiceLayer
         List<ApprovalStatus> GetApprovalStatus();
         List<RetrievalStatus> GetRetrievalStatus();
         List<CollectionPoint> GetCollectionPoints();
+        List<Item> GetItems();
     }
 }

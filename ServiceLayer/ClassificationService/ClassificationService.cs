@@ -30,5 +30,10 @@ namespace ServiceLayer
         {
             return context.RetrievalStatus1.ToList();
         }
+
+        public List<Item> GetItems()
+        {
+            return context.Items.ToList();
+        }
     }
 }
