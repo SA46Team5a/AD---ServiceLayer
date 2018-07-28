@@ -260,13 +260,15 @@ namespace ServiceLayer
             foreach (KeyValuePair<string, int> item in itemsAndQtys)
             {
                 int qty = Math.Min(item.Value, stockManagementService.getStockCountOfItem(item.Key));
+                stockManagementService.addStockTransaction(item.Key, "Retrieval" , disbursementDuty.StoreClerkID, -qty);
+
                 // Get all requisition details served by disbursement duty
                 List<Disbursement> disbursements = disbursementDuty.Disbursements.ToList();
                 List<RequisitionDetail> requisitionDetails = new List<RequisitionDetail>();
                 disbursements.ForEach(d => requisitionDetails
                     .AddRange(d.Requisition.RequisitionDetails.Where(rd => rd.ItemID == item.Key).ToList()));
 
-                stockManagementService.addStockTransaction(item.Key, "Retrieval" , disbursementDuty.StoreClerkID, -qty);
+                allocateRetrievalToDisbursementDetails(requisitionDetails, disbursementDuty, qty);
             }
 
             // update retrieval status of each requisition within disbursement duty to retrieved
