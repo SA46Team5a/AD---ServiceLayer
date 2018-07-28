@@ -74,16 +74,12 @@ namespace ServiceLayer
     {
         public int DeptRepID { get; set; }
         public string EmployeeName { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
 
         public DepartmentRepresentativePayload() { }
         public DepartmentRepresentativePayload(DepartmentRepresentative d)
         {
             DeptRepID = d.DeptRepID;
             EmployeeName = d.Employee.EmployeeName;
-            StartDate = d.StartDate;
-            EndDate = d.EndDate;
         }
     }
 }
