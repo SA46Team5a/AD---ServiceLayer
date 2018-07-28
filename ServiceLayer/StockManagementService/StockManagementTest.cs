@@ -9,24 +9,24 @@ namespace ServiceLayer
     class StockManagementTest
     {
         public static void main(string[] args) { 
-        Console.WriteLine("Testing ");
+            Console.WriteLine("Testing ");
             IStockManagementService iService = new StockManagementService();
 
 
-        List<Item> itemList = iService.getAllItems();
+            List<Item> itemList = iService.getAllItems();
             foreach(Item i in itemList)
             {
                 Console.Write(i.ItemName + "\t");
                 Console.WriteLine(iService.getStockCountOfItem(i.ItemID));
             }
 
-    itemList = iService.getItemsOfCategory(1);
+            itemList = iService.getItemsOfCategory(1);
             foreach (Item i in itemList)
             {
-               Console.WriteLine(i.ItemName);
+                Console.WriteLine(i.ItemName);
             }
 
-List<StockVoucher> openVoucherList = iService.getOpenVouchers();
+            List<StockVoucher> openVoucherList = iService.getOpenVouchers(true);
             foreach(StockVoucher sv in openVoucherList)
             {
                 Console.WriteLine(sv.ItemID);
@@ -35,14 +35,14 @@ List<StockVoucher> openVoucherList = iService.getOpenVouchers();
             Console.WriteLine("Supplier name:"+iService.getFirstSupplierOfItem("C001").SupplierName);
 
             List<Supplier> supplierList = iService.getSupplierOfItem("C001");
-Console.Write("Suppliers are:");
+            Console.Write("Suppliers are:");
             foreach (Supplier s in supplierList)
             {
                 Console.Write(s.SupplierName);
             }
 
             List<StockCountItem> sciList = iService.getStockCountItemsByCategory(1);
-Console.WriteLine("Stock count item list");
+            Console.WriteLine("Stock count item list");
             foreach(StockCountItem sc in sciList)
             {
                 Console.WriteLine("Item name ,Quantity in  stock" + sc.ItemName + "   " + sc.QtyInStock);
@@ -60,8 +60,8 @@ Console.WriteLine("Stock count item list");
             iService.rejectStock("C001", "opened items", 10, "E001");
 
             Console.WriteLine("Closing the vouchers:");      
-             iService.closeVoucher(11, "E014","broken");
+            iService.closeVoucher(11, "E014","broken");
 
-    }
         }
     }
+}

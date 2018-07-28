@@ -142,10 +142,14 @@ namespace ServiceLayer
             .Where(d => d.Requisition.Requester.DepartmentID == depId && d.CollectedBy == null && d.DisbursementDuty.isRetrieved)
             .ToList();
 
-        public List<DisbursementDetail> getUncollectedDisbursementDetailsByDep(string depId)
-            =>  context.DisbursementDetails
-            .Where(d => d.Disbursement.Requisition.Requester.DepartmentID == depId && d.Disbursement.CollectedBy == null && d.Disbursement.DisbursementDuty.isRetrieved)
-            .ToList();
+        public List<DisbursementDetailPayload> getUncollectedDisbursementDetailsByDep(string depId)
+        {
+            List<DisbursementDetail> disbursementDetails = context.DisbursementDetails
+                .Where(d => d.Disbursement.Requisition.Requester.DepartmentID == depId && d.Disbursement.CollectedBy == null && d.Disbursement.DisbursementDuty.isRetrieved)
+                .ToList();
+
+            return DisbursementDetailPayload.ConvertEntityToPayload(disbursementDetails);
+        }
 
         public List<DisbursementDetail> getDisbursementDetailsByReqId(int reqId)
             => context.DisbursementDetails.Where(d => d.RequisitionDetailsID == reqId).ToList();
@@ -271,8 +275,11 @@ namespace ServiceLayer
             context.SaveChanges();
         }
 
-        public void submitDisbursementOfDep(List<int> disDutyIds, string depId, List<DisbursementDetailPayload> items, string empId)
+        public void submitDisbursementOfDep(string depId, List<DisbursementDetailPayload> items, string empId)
         {
+            List<int> disDutyIds = new List<int>();
+            items.ForEach(i => i.DisbursementDutyIds.ForEach(id => {if (!disDutyIds.Contains(id)) disDutyIds.Add(id); }));
+
             List<DisbursementDetail> disbursementDetails = context.DisbursementDetails
                 .Where(d => disDutyIds.Contains(d.Disbursement.DisbursementDutyID))
                 .OrderBy(d => d.Disbursement.Requisition.RequestedDate)
@@ -283,20 +290,12 @@ namespace ServiceLayer
             {
                 List<DisbursementDetail> disDetailsOfItemId = disbursementDetails.Where(d => d.RequisitionDetail.ItemID == item.ItemId).ToList();
                 if (item.RejectedQuantity > 0)
-                {
                     adjustStockFromRejectedDisbursement(item, empId);
-                    allocateCollectedQuantityToDisbursementDetails(
-                        disDetailsOfItemId,
-                        (int) item.CollectedQuantity,
-                        item.Reason);
-                }
-                else
-                {
-                    allocateCollectedQuantityToDisbursementDetails(
-                        disDetailsOfItemId,
-                        (int) item.CollectedQuantity,
-                        item.Reason);
-                 }
+                
+                allocateCollectedQuantityToDisbursementDetails(
+                    disDetailsOfItemId,
+                    (int) item.CollectedQuantity,
+                    item.Reason);
                 context.SaveChanges();
             }
 

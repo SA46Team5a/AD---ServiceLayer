@@ -11,7 +11,7 @@ namespace ServiceLayer
     {
         public string ItemId { get; set; }
         public string Reason { get; set; }
-        public int DisbursementDutyId { get; set; }
+        public List<int> DisbursementDutyIds { get; set; }
         public int DisbursedQuantity { get; set; }
         public int? CollectedQuantity { get; set; }
         public int? RejectedQuantity { get { return CollectedQuantity is null ? null : DisbursedQuantity - CollectedQuantity; } }
@@ -20,7 +20,6 @@ namespace ServiceLayer
         {
             ItemId = d.RequisitionDetail.ItemID;
             Reason = d.Reason;
-            DisbursementDutyId = d.Disbursement.DisbursementDutyID;
             DisbursedQuantity = d.Quantity;
             CollectedQuantity = d.CollectedQty;
         }
@@ -35,9 +34,20 @@ namespace ServiceLayer
 
         public static List<DisbursementDetailPayload> ConvertEntityToPayload(List<DisbursementDetail> disbursementDetails)
         {
-            List<DisbursementDetailPayload> payload = new List<DisbursementDetailPayload>();
-            disbursementDetails.ForEach(d => payload.Add(new DisbursementDetailPayload(d)));
-            return payload;
+            List<DisbursementDetailPayload> disbursementDetailPayloads = new List<DisbursementDetailPayload>();
+            foreach (DisbursementDetail disbursementDetail in disbursementDetails)
+            {
+                DisbursementDetailPayload disbursementDetailPayload = disbursementDetailPayloads.FirstOrDefault(d => d.ItemId == disbursementDetail.RequisitionDetail.ItemID);
+                if (disbursementDetailPayload is null)
+                {
+                    // create and add a new payload to payload list
+                    disbursementDetailPayload = new DisbursementDetailPayload(disbursementDetail);
+                    disbursementDetailPayloads.Add(disbursementDetailPayload);
+                }
+                // add disbursement duty id
+                disbursementDetailPayload.DisbursementDutyIds.Add(disbursementDetail.Disbursement.DisbursementDutyID);
+            }
+            return disbursementDetailPayloads;
         }
     }
 }
