@@ -234,20 +234,25 @@ namespace ServiceLayer
         // Allocate retrieved quantities 
         public void allocateRetrievalToDisbursementDetails(List<RequisitionDetail> requisitionDetails, DisbursementDuty disDuty, int qty)
         {
-            requisitionDetails = requisitionDetails.OrderBy(rd => rd.Requisition.RequestedDate).ToList();
-            foreach (RequisitionDetail rd in requisitionDetails)
+            List<int> requisitionDetailsId = requisitionDetails
+                .Select(rd => rd.RequisitionDetailsID)
+                .ToList();
+
+            List<DisbursementDetail> disbursementDetails = context.DisbursementDetails
+                .Where(d => requisitionDetailsId.Contains(d.DisbursementDetailsID) && d.Disbursement.DisbursementDutyID == disDuty.DisbursementDutyID)
+                .OrderBy(d => d.Disbursement.Requisition.RequestedDate)
+                .ToList();
+
+            foreach (DisbursementDetail dd in disbursementDetails)
             {
-                int outstandingQty = rd.Quantity - getTotalCountOfItemDisbursedForReqDetailId(rd.RequisitionID);
-                if (qty > 0 && outstandingQty > 0)
-                {
-                    int qtyToDisburse = Math.Min(qty, outstandingQty);
-                    int disId = disDuty.Disbursements.First(d => d.Requisition.RequisitionID == rd.RequisitionID).DisbursementID;
-                    addDisbursementDetailFromRequsitionDetail(rd.RequisitionDetailsID, disId, qtyToDisburse);
-                    qty -= qtyToDisburse;
-                }
-                else if (qty <= 0)
-                    break;
+                if (qty > dd.Quantity)
+                    qty -= dd.Quantity;
+                else if (qty > 0)
+                    dd.Quantity = qty;
+                else
+                    context.DisbursementDetails.Remove(dd);
             }
+            context.SaveChanges();
         }
 
         // Update

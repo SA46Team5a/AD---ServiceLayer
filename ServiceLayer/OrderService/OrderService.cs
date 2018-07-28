@@ -174,7 +174,7 @@ namespace ServiceLayer
         {
             OrderSupplierDetail orderSupplierDetail = getOrderSupplierDetail(orderSupplierDetailId);
             orderSupplierDetail.ActualQuantityReceived = Math.Min(qty, orderSupplierDetail.Quantity); // excess rejected
-            stockManagementService.addStockTransaction(orderSupplierDetail.Item.ItemID, "restock", empId, qty);
+            stockManagementService.addStockTransaction(orderSupplierDetail.ItemID, "restock", empId, qty);
 
             if (context.OrderSupplierDetails
                 .Count(o => o.OrderSupplierID == orderSupplierDetail.OrderSupplierID && o.ActualQuantityReceived == null) == 0)
