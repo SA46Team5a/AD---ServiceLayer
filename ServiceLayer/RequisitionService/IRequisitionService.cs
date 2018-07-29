@@ -15,6 +15,8 @@ namespace ServiceLayer
         List<Requisition> getRequisitionsOfEmployee(string empId);
         List<Requisition> getPendingRequisitionsOfDep(string depId);
         List<RequisitionDetail> getRequisitionDetails(int reqId);
+        List<OutstandingRequisitionView> getOutstandingRequisitionDetails();
+        int getCountOfOutstandingRequisitions();
 
         // Create
         Requisition createNewRequsitionForEmployee(string empId); 

@@ -55,6 +55,12 @@ namespace ServiceLayer
                 OrderByDescending(r => r.RequestedDate).ToList();
         }
 
+        public List<OutstandingRequisitionView> getOutstandingRequisitionDetails()
+            => context.OutstandingRequisitionViews.ToList();
+
+        int getCountOfOutstandingRequisitions()
+            => getOutstandingRequisitionDetails().Select(o => o.RequisitionID).Distinct().ToList().Count;
+
         //Create
         public Requisition createNewRequsitionForEmployee(string empId)
         {
