@@ -60,6 +60,7 @@
     <Compile Include="ApiPayloadModels\DisbursementItem.cs" />
     <Compile Include="ApiPayloadModels\OrderPayload.cs" />
     <Compile Include="ApiPayloadModels\ReportingPayload.cs" />
+    <Compile Include="ApiPayloadModels\RequisitionPayload.cs" />
     <Compile Include="ApiPayloadModels\RetrievalPayload.cs" />
     <Compile Include="ApiPayloadModels\RetrievedItemPayload.cs" />
     <Compile Include="ApiPayloadModels\StockManagementPayload.cs" />
