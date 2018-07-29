@@ -40,6 +40,13 @@ namespace ServiceLayer
         public List<OrderSupplier> getOrderSuppliersOfOrder(int orderId)
             => context.OrderSuppliers.Where(o => o.OrderID == orderId).ToList();
 
+        public List<Supplier> getSuppliersOfOrderIdWithOutstandingInvoice(int orderId)
+            => context.OrderSuppliers
+            .Where(o => o.OrderID == orderId && o.InvoiceUploadStatusID == 2)
+            .Select(o => o.Supplier)
+            .Distinct()
+            .ToList();
+
         public List<OrderSupplierDetail> getOrdersServingOutstandingRequisitions(int reqDetailId)
         {
             // reqDetailId should come from requsition details that are outstanding

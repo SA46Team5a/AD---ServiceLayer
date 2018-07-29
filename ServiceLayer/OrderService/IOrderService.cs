@@ -20,6 +20,7 @@ namespace ServiceLayer
         List<OrderSupplier> getOrderSuppliersOfOrder(int orderId);
         List<OrderSupplierDetail> getOrdersServingOutstandingRequisitions(int reqDetailId);
         List<OrderSupplierDetail> getOrderDetailsOfOrderIdAndSupplier(int orderId, string supplierId);
+        List<Supplier> getSuppliersOfOrderIdWithOutstandingInvoice(int orderId);
 
         // Create
         int createOrderAndGetOrderId(Dictionary<string, int> itemAndQty, Dictionary<int, int> supplierItemsAndQty);
