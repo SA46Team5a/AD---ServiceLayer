@@ -18,6 +18,7 @@ namespace ServiceLayer
     {
         public List<Category> categories { get; set; }
         public List<Supplier> suppliers { get; set; }
+        public List<Item> items { get; set; }
 
         public List<Department> departments { get; set; }
 
@@ -38,6 +39,15 @@ namespace ServiceLayer
         public List<string> department { get; set; }
         public string duration { get; set; }
         public List<int> option { get; set; }
+    }
+
+    public class RequisitionItemPayload
+    {
+        public string item { get; set; }
+        public List<string> department { get; set; }
+        public string duration { get; set; }
+        public List<int> option { get; set; }
+        public string compareElement { get; set; }
     }
 
     public class ReportResponsePayload
