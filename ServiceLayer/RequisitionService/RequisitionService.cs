@@ -58,7 +58,7 @@ namespace ServiceLayer
         public List<OutstandingRequisitionView> getOutstandingRequisitionDetails()
             => context.OutstandingRequisitionViews.ToList();
 
-        int getCountOfOutstandingRequisitions()
+        public int getCountOfOutstandingRequisitions()
             => getOutstandingRequisitionDetails().Select(o => o.RequisitionID).Distinct().ToList().Count;
 
         //Create

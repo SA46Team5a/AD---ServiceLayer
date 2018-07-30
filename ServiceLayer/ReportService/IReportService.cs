@@ -10,5 +10,14 @@ namespace ServiceLayer
     {
         ReportResponsePayload generateReorderCostReport(ReorderRequestPayload payload);
         ReportResponsePayload pastThreeMonthsReport(List<OrderSupplierDetail> orderSupplierDetails);
+
+        ReportResponsePayload oneMonthReport(List<OrderSupplierDetail> orderSupplierDetails,int month);
+        ReportResponsePayload generateRequisitionCostReport(RequisitionRequestPayload payload);
+
+        ReportResponsePayload pastThreeMonthsReport(List<RequisitionDetail> requisitionDetails);
+
+        ReportResponsePayload oneMonthReport(List<RequisitionDetail> requisitionDetails, int month);
+
+        ReportResponsePayload generateRequisitionItemReport(RequisitionItemPayload payload);
     }
 }
