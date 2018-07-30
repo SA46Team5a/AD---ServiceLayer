@@ -8,6 +8,8 @@ using ServiceLayer.DataAccess;
 
 namespace ServiceLayer
 {
+    // TODO: create method for retrieveing employees eligible for dep rep role
+    // TODO: create method for retrieveing employees eligible for delegate authority role
     //Authour: Divyashree
     public class DepartmentService : IDepartmentService
     {

@@ -128,16 +128,6 @@ namespace ServiceLayer
             return;
         }
 
-        public void closeVoucher(int discrepancyId,string approvedBy,string reason)
-        {
-            //Retrieve the record from the stock voucher with discrepancy id passed as parameter
-            StockVoucher sv= context.StockVouchers.First(i => i.DiscrepancyID == discrepancyId);
-            sv.ApprovedBy = approvedBy;
-            sv.ApprovedDate = DateTime.Today;
-            sv.Reason = reason;
-            context.SaveChanges();
-            return;
-        }
 
         public void submitStockCountItems(List<StockVoucherPayload> vouchers, string empId)
         {
@@ -147,14 +137,21 @@ namespace ServiceLayer
                     addStockVoucher(voucher.ItemID, voucher.ActualCount, empId, voucher.Reason == null ? "" : voucher.Reason);
             }
         }
-        public void submitVouchers()
+        public void submitVouchers(List<StockVoucherPayload> stockVoucherPayloads)
         {
-
-        }
-        public void submitRetrievalForm()
-        {
-
+            foreach (StockVoucherPayload sv in stockVoucherPayloads)
+                closeVoucher(sv.DiscrepancyID, sv.VoucherApproverID, sv.Reason);
         }
 
+        public void closeVoucher(int discrepancyId, string approvedBy, string reason)
+        {
+            //Retrieve the record from the stock voucher with discrepancy id passed as parameter
+            StockVoucher sv = context.StockVouchers.First(i => i.DiscrepancyID == discrepancyId);
+            sv.ApprovedBy = approvedBy;
+            sv.ApprovedDate = DateTime.Today;
+            sv.Reason = reason;
+            context.SaveChanges();
+            return;
+        }
     }
 }

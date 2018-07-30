@@ -15,17 +15,34 @@ namespace ServiceLayer
         public int QtyInStock { get; set; }
     }
 
-    public class StockCountPayload : ItemPayload
+    public class StockVoucherPayload : ItemPayload
     {
-        public int ActualStock { get; set; }
-    }
-
-    public class StockVoucherPayload
-    {
-        public string ItemID { get; set; }
+        public int DiscrepancyID { get; set; }
         public int ActualCount { get; set; }
-        public string EmployeeID { get; set; }
+        public decimal UnitCost { get; set; }
+        public string VoucherRaiserID { get; set; }
+        public string VoucherApproverID { get; set; }
         public string Reason { get; set; }
+
+        public StockVoucherPayload(StockVoucher sv)
+        {
+            DiscrepancyID = sv.DiscrepancyID;
+            ItemID = sv.ItemID;
+            ItemName = sv.Item.ItemName;
+            UnitOfMeasure = sv.Item.UnitOfMeasure;
+            QtyInStock = sv.OriginalCount;
+            UnitCost = sv.ItemCost;
+            VoucherRaiserID = sv.VoucherRaiser.EmployeeID;
+            Reason = sv.Reason;
+        }
+
+        public static List<StockVoucherPayload> ConvertEntityToPayload(List<StockVoucher> stockVouchers)
+        {
+            List<StockVoucherPayload> payload = new List<StockVoucherPayload>();
+            if (stockVouchers != null && stockVouchers.Count > 0)
+                stockVouchers.ForEach(sv => payload.Add(new StockVoucherPayload(sv)));
+            return payload;
+        }
     }
 
     public class OrderDetailsPayload : ItemPayload
