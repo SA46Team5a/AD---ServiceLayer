@@ -8,7 +8,7 @@ namespace ServiceLayer
     public interface IDepartmentService
     {
         // Retrieve
-        Authority getCurrentAuthority(string dept);
+        Authority getDelegatedAuthority(string dept);
         DepartmentRepresentative getCurrentDepartmentRepresentative(string dept);
         CollectionPoint getCollectionPointOfEmployee(string emp);
         bool verifyPassCode(string passcode, string dep);
@@ -18,6 +18,9 @@ namespace ServiceLayer
         string getDepartmentID(string emp);
         Employee getEmployeeObject(String empName);
         CollectionPoint getCollectionPointOfDepartment(string depId);
+        List<Employee> getEligibleDepartmentRepresentatives(string deptId);
+        List<Employee> getEligibleDelegatedAuthority(string deptId);
+
         // Create
         void addAuthority(Employee emp, DateTime startdate, DateTime enddate);
 

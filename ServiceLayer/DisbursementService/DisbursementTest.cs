@@ -135,7 +135,7 @@ namespace ServiceLayer
             Dictionary<string, int> itemAndQty = generateItemAndQtys(qty);
             requisitionService.addNewRequisitionsDetails(req, itemAndQty);
             requisitionService.submitRequisition(req.RequisitionID);
-            requisitionService.approveRequisition(req.RequisitionID, departmentService.getCurrentAuthority("CHEM").AuthorityID);
+            requisitionService.approveRequisition(req.RequisitionID, departmentService.getDelegatedAuthority("CHEM").AuthorityID);
             return req;
         }
 

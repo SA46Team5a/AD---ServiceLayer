@@ -8,33 +8,31 @@ using ServiceLayer.DataAccess;
 
 namespace ServiceLayer
 {
-    // TODO: create method for retrieveing employees eligible for dep rep role
-    // TODO: create method for retrieveing employees eligible for delegate authority role
-    //Authour: Divyashree
+    // Author: Divyashree, Jack
     public class DepartmentService : IDepartmentService
     {
         static StationeryStoreEntities context = StationeryStoreEntities.Instance;
         // Retrieve
         //to get current authorized employee when dept ID is passed
-        public Authority getCurrentAuthority(string dept)
+        public Authority getDelegatedAuthority(string dept)
         {
             DateTime today = DateTime.Today;
-            return context.Authorities
-                .OrderBy(a => a.StartDate)
-                .First(a => a.Employee.DepartmentID == dept
-                && (a.EndDate >= today || a.EndDate == null));           
+            String deptHeadId = context.Departments.First(d => d.DepartmentID == dept).DepartmentHeadID;
+            List<Authority> allDelegatedAuthorities = context.Authorities
+                .Where(a => a.Employee.DepartmentID == dept && a.EmployeeID != deptHeadId)
+                .ToList();
+            return allDelegatedAuthorities.OrderByDescending(o => o.EndDate).First();
         }
 
         //To get current the departmentrepresentative for the particular department
         public DepartmentRepresentative getCurrentDepartmentRepresentative(string dept)
         {           
             Department department = context.Departments.First(d => d.DepartmentID == dept);       
-            return context.DepartmentRepresentatives.
-                Where(r => r.EndDate == null)
+            return context.DepartmentRepresentatives
+                .Where(r => r.EndDate == null)
                 .First(r => r.Employee.DepartmentID == department.DepartmentID);            
         }
 
-       
         //To get the collection point object for particular employee of department
         public CollectionPoint getCollectionPointOfEmployee(string emp)
         {
@@ -88,11 +86,9 @@ namespace ServiceLayer
         public void addAuthority(Employee emp, DateTime startDate, DateTime endDate)
         {
             // 1 Update Dept Head's Authority with End Date          
-           
             Employee deptHead = emp.Department.DepartmentHead;
             Authority authority = context.Authorities.Where(a => a.EmployeeID == deptHead.EmployeeID && a.EndDate == null).First();
             authority.EndDate = startDate.AddDays(-1);
-
 
             // 2 Creating new Authority Object
             Authority auth = new Authority();
@@ -107,63 +103,47 @@ namespace ServiceLayer
             autho.StartDate = endDate.AddDays(1);
             context.Authorities.Add(autho);             
             context.SaveChanges();
+        }
 
+        public List<Employee> getEligibleDepartmentRepresentatives(string deptId)
+        {
+            List<Employee> employees = getEmployeesOfDepartment(deptId);
+            List<string> ineligibleEmployees = new List<string>();
+            ineligibleEmployees.Add(context.Departments.First(d => d.DepartmentID == deptId).DepartmentHeadID);
+            ineligibleEmployees.Add(getDelegatedAuthority(deptId).EmployeeID);
+            return employees.Where(e => !ineligibleEmployees.Contains(e.EmployeeID)).ToList();
+        }
+
+        public List<Employee> getEligibleDelegatedAuthority(string deptId)
+        {
+            List<Employee> employees = getEmployeesOfDepartment(deptId);
+            List<string> ineligibleEmployees = new List<string>();
+            ineligibleEmployees.Add(context.Departments.First(d => d.DepartmentID == deptId).DepartmentHeadID);
+            ineligibleEmployees.Add(getCurrentDepartmentRepresentative(deptId).EmployeeID);
+            return employees.Where(e => !ineligibleEmployees.Contains(e.EmployeeID)).ToList();
         }
 
         // Update
         //updating the authority table
         public void updateAuthority(Authority auth)
-       
         {
-            Authority A = context.Authorities.First(a => a.Employee.EmployeeID == auth.EmployeeID);
-            A.EmployeeID = auth.EmployeeID;
-            A.StartDate = auth.StartDate;
-            A.EndDate = auth.EndDate;
+            Authority delegatedAuthority = context.Authorities.First(a => a.Employee.EmployeeID == auth.EmployeeID);
+            delegatedAuthority.EmployeeID = auth.EmployeeID;
+            delegatedAuthority.StartDate = auth.StartDate < DateTime.Today ? delegatedAuthority.StartDate : auth.StartDate;
+            delegatedAuthority.EndDate = auth.EndDate;
             context.SaveChanges();         
         }
-
 
         public void rescindAuthority(Authority auth)
         {
             // 1 Change end date of current auth to today
+            String deptId = context.Employees.First(e => e.EmployeeID == auth.EmployeeID).DepartmentID;
+            Authority delegatedAuthority = getDelegatedAuthority(deptId);
+            delegatedAuthority.EndDate = DateTime.Today;
 
-            Authority authority = context.Authorities
-                .Where(a => a.EmployeeID == auth.EmployeeID && a.EndDate >= DateTime.Today).First();          
-            authority.EndDate = DateTime.Today;
-
-            // 2 if authorised person start date greater than today and head want to take back the authority
-
-            //getting current authorsed person department ID
-            Employee curAuthoEmployee = context.Employees.Where(ce => ce.EmployeeID == authority.EmployeeID).First();
-            string curAuthoDeptID = curAuthoEmployee.DepartmentID;
-
-            //getting the list of employees whose startdate is greater than today's date
-            List<Authority> empList = context.Authorities.Where(a => a.StartDate > DateTime.Today).ToList();
-
-            foreach (Authority emp in empList)
-            {             
-              
-                String dep = getDepartmentID(emp.EmployeeID);
-                
-                if (dep == curAuthoDeptID)
-                {
-                    emp.StartDate = DateTime.Today.AddDays(-1);
-                    emp.EndDate = DateTime.Today.AddDays(-1);
-                        break;
-                }
-            }
-
-            // 3 Change start date of the next auth (which is dept head) to tmr
-
-            List<Authority> headList = context.Authorities.Where(a => a.EndDate == null).ToList();           
-            foreach (Authority heademp in headList)
-            {
-                String HeadDeptID = getDepartmentID(heademp.EmployeeID);
-                if (HeadDeptID == curAuthoDeptID)
-                {
-                    heademp.StartDate = DateTime.Today;
-                }              
-            }
+            // 2 Change start date of the next auth (which is dept head) to tmr
+            Authority deptHead = context.Authorities.First(a => a.EndDate == null);
+            deptHead.StartDate = DateTime.Today.AddDays(1);
             context.SaveChanges();
         }
 
