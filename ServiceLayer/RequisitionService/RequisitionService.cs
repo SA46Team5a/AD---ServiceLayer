@@ -47,6 +47,14 @@ namespace ServiceLayer
                 OrderByDescending(r => r.RequestedDate).ToList();
         }
 
+        public List<Requisition> getRequisitionsByEmpIdAndStatus(string empId, string statusName)
+        {
+            return context.Requisitions
+                .Where(r => r.EmployeeID == empId 
+                && r.ApprovalStatus.ApprovalStatusName == statusName)
+                .ToList();
+        }
+
         public List<Requisition> getPendingRequisitionsOfDep(string depId)
         {            
             return context.Requisitions.
