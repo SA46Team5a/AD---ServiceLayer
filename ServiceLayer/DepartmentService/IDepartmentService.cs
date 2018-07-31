@@ -27,7 +27,7 @@ namespace ServiceLayer
 
         // Update
         void updateAuthority(Authority auth);
-        void rescindAuthority(Authority auth);        
+        void rescindAuthority(string empId);        
         void updateDepartmentRepresentative(int currentDeptRepId, string newRepEmpId);
         void updateCollectionPoint(string dep, int cp);
         string generateNewPasscode(string dep);

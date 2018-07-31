@@ -134,10 +134,10 @@ namespace ServiceLayer
             context.SaveChanges();         
         }
 
-        public void rescindAuthority(Authority auth)
+        public void rescindAuthority(string empId)
         {
             // 1 Change end date of current auth to today
-            String deptId = context.Employees.First(e => e.EmployeeID == auth.EmployeeID).DepartmentID;
+            String deptId = context.Employees.First(e => e.EmployeeID == empId).DepartmentID;
             Authority delegatedAuthority = getDelegatedAuthority(deptId);
             delegatedAuthority.EndDate = DateTime.Today;
 
