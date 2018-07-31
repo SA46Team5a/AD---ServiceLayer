@@ -19,7 +19,7 @@ namespace ServiceLayer.DataAccess
         public int OrderSupplierID { get; set; }
         public string ItemID { get; set; }
         public int Quantity { get; set; }
-        [DisplayFormat(DataFormatString = "{0:C0}")]
+        [DisplayFormat(DataFormatString = "{0:C2}")]
         public decimal UnitCost { get; set; }
         public Nullable<int> ActualQuantityReceived { get; set; }
     
