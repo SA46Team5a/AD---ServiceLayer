@@ -11,13 +11,15 @@ namespace ServiceLayer.DataAccess
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class OrderSupplierDetail
     {
         public int OrderSupplierDetailsID { get; set; }
         public int OrderSupplierID { get; set; }
         public string ItemID { get; set; }
         public int Quantity { get; set; }
+        [DisplayFormat(DataFormatString = "{0:C0}")]
         public decimal UnitCost { get; set; }
         public Nullable<int> ActualQuantityReceived { get; set; }
     
