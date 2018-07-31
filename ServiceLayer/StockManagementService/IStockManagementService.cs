@@ -43,10 +43,8 @@ namespace ServiceLayer
         void rejectStock(string itemId, string reason, int count, string employeeId);
 
         void submitStockCountItems(List<StockVoucherPayload> vouchers, string empId);
-        void submitVouchers();
+        void submitVouchers(List<StockVoucherPayload> stockVoucherPayloads);
 
         void closeVoucher(int discrepancyId, string approvedBy, string reason);
-
-        void submitRetrievalForm();
     }
 }

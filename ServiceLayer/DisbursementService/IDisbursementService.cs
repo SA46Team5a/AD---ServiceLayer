@@ -37,7 +37,5 @@ namespace ServiceLayer
         void adjustStockFromRejectedDisbursement(DisbursementDetailPayload di, string empId);
         void allocateCollectedQuantityToDisbursementDetails(List<DisbursementDetail> disbursementDetails, int collectedQty, string reason);
         void updateRequsitionRetrievalStatusBasedOnTotalDisbursed(int disDutyId);
-
-
     }
 }

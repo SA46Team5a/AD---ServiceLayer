@@ -158,6 +158,7 @@ namespace ServiceLayer
 
         public void processRequisition(int reqId, string empId, bool toApprove)
         {
+            // TODO: Investigate logic for retrieving correct authority. Suspect some issues.
             int authId = context.Authorities
                 .OrderBy(a => a.StartDate)
                 .ToList()
