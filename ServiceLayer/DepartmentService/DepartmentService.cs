@@ -13,7 +13,7 @@ namespace ServiceLayer
     {
         static StationeryStoreEntities context = StationeryStoreEntities.Instance;
         // Retrieve
-        //to get current authorized employee when dept ID is passed
+        //to get current or upcoming authorized employee when dept ID is passed, if no one is assigned, return null
         public Authority getDelegatedAuthority(string dept)
         {
             DateTime today = DateTime.Today;
@@ -23,6 +23,13 @@ namespace ServiceLayer
                 .ToList();
             return allDelegatedAuthorities.OrderByDescending(o => o.EndDate).First();
         }
+
+        // gets current authority
+        public Authority getCurrentAuthority(string dept)
+            => context.Authorities
+                .Where(a => a.Employee.DepartmentID == dept)
+                .OrderBy(a => a.StartDate)
+                .First(a => a.StartDate <= DateTime.Today && (a.EndDate == null || a.EndDate >= a.StartDate) );
 
         //To get current the departmentrepresentative for the particular department
         public DepartmentRepresentative getCurrentDepartmentRepresentative(string dept)
