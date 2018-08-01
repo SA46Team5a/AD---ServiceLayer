@@ -48,10 +48,13 @@ namespace ServiceLayer
 
         public List<StockVoucher> getOpenVouchers(bool isStoreManager)
         {
-            return context.StockVouchers
-                .Where(sv => sv.ApprovedBy == null
-                && isStoreManager ? Math.Abs((sv.ActualCount - sv.OriginalCount) * sv.ItemCost) > 250 : Math.Abs((sv.ActualCount - sv.OriginalCount) * sv.ItemCost) <= 250 )
-                .ToList();            
+            List<StockVoucher> openVouchers = context.StockVouchers
+                .Where(sv => sv.ApprovedBy == null).ToList();
+
+            if (isStoreManager)
+                return openVouchers.Where(sv => (sv.ActualCount - sv.OriginalCount) * sv.ItemCost > 250).ToList();
+            else
+                return openVouchers.Where(sv => (sv.ActualCount - sv.OriginalCount) * sv.ItemCost <= 250).ToList();
         }
 
         public Supplier getFirstSupplierOfItem(string itemId)
@@ -137,6 +140,7 @@ namespace ServiceLayer
                     addStockVoucher(voucher.ItemID, voucher.ActualCount, empId, voucher.Reason == null ? "" : voucher.Reason);
             }
         }
+
         public void submitVouchers(List<StockVoucherPayload> stockVoucherPayloads)
         {
             foreach (StockVoucherPayload sv in stockVoucherPayloads)

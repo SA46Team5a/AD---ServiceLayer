@@ -8,7 +8,7 @@ namespace ServiceLayer
 {
     class StockManagementTest
     {
-        public static void main(string[] args) { 
+        public static void Main(string[] args) { 
             Console.WriteLine("Testing ");
             IStockManagementService iService = new StockManagementService();
 
@@ -61,6 +61,10 @@ namespace ServiceLayer
 
             Console.WriteLine("Closing the vouchers:");      
             iService.closeVoucher(11, "E014","broken");
+
+            List<StockVoucher> svs = iService.getOpenVouchers(false);
+            Console.WriteLine(svs);
+            svs.ForEach(s => Console.WriteLine((s.ActualCount - s.OriginalCount) * s.ItemCost));
 
         }
     }
