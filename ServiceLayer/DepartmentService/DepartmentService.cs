@@ -18,10 +18,10 @@ namespace ServiceLayer
         {
             DateTime today = DateTime.Today;
             String deptHeadId = context.Departments.First(d => d.DepartmentID == dept).DepartmentHeadID;
-            List<Authority> allDelegatedAuthorities = context.Authorities
-                .Where(a => a.Employee.DepartmentID == dept && a.EmployeeID != deptHeadId)
-                .ToList();
-            return allDelegatedAuthorities.OrderByDescending(o => o.EndDate).First();
+            return context.Authorities
+                .OrderBy(a => a.EndDate)
+                .Where(a => a.Employee.DepartmentID == dept && a.EmployeeID != deptHeadId && a.EndDate > DateTime.Today)
+                .FirstOrDefault();
         }
 
         // gets current authority
