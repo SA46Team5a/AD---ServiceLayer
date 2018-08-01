@@ -15,12 +15,15 @@ namespace ServiceLayer
         OrderSupplier getOrderSupplier(int orderSupplierId);
         OrderSupplierDetail getOrderSupplierDetail(int orderSupplierDetailId);
         List<ReorderDetail> getReorderDetails();
+        Supplier getSupplierById(string supplierId);
         List<Supplier> getSuppliers();
         List<SupplierItem> getSupplierItemsOfItemIds(List<String> itemIds);
         List<OrderSupplier> getOrderSuppliersOfOrder(int orderId);
+        List<OrderSupplierDetail> getOrderSupplierDetailsOfOrder(int orderId);
         List<OrderSupplierDetail> getOrdersServingOutstandingRequisitions(int reqDetailId);
         List<OrderSupplierDetail> getOrderDetailsOfOrderIdAndSupplier(int orderId, string supplierId);
         List<int> getOrderIdsWithOutStandingInvoices();
+        List<OrderSupplier> getOrderSuppliersWithOutstandingInvoice();
         List<Supplier> getSuppliersOfOrderIdWithOutstandingInvoice(int orderId);
 
         // Create

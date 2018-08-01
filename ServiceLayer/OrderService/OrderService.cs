@@ -29,6 +29,9 @@ namespace ServiceLayer
         public List<ReorderDetail> getReorderDetails()
             => context.ReorderDetails.ToList();
 
+        public Supplier getSupplierById(string supplierId)
+            => context.Suppliers.First(s => s.SupplierID == supplierId);
+
         public List<Supplier> getSuppliers()
             => context.Suppliers.ToList();
 
@@ -39,6 +42,12 @@ namespace ServiceLayer
 
         public List<OrderSupplier> getOrderSuppliersOfOrder(int orderId)
             => context.OrderSuppliers.Where(o => o.OrderID == orderId).ToList();
+
+        public List<OrderSupplierDetail> getOrderSupplierDetailsOfOrder(int orderId)
+            => context.OrderSupplierDetails.Where(o => o.OrderSupplier.OrderID == orderId).ToList();
+
+        public List<OrderSupplier> getOrderSuppliersWithOutstandingInvoice()
+            => context.OrderSuppliers.Where(o => o.InvoiceUploadStatusID == 2).ToList();
 
         public List<int> getOrderIdsWithOutStandingInvoices()
             => context.OrderSuppliers
