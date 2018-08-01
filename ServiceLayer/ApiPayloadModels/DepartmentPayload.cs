@@ -57,6 +57,7 @@ namespace ServiceLayer
     {
         public int AuthorityID { get; set; }
         public string EmployeeName { get; set; }
+        public string EmployeeID { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
 
@@ -64,6 +65,7 @@ namespace ServiceLayer
         public AuthorityPayload(Authority a)
         {
             AuthorityID = a.AuthorityID;
+            EmployeeID = a.EmployeeID;
             EmployeeName = a.Employee.EmployeeName;
             StartDate = a.StartDate;
             EndDate = a.EndDate;

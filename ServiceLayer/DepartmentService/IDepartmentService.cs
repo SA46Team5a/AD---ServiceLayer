@@ -9,6 +9,7 @@ namespace ServiceLayer
     {
         // Retrieve
         Authority getDelegatedAuthority(string dept);
+        Authority getCurrentAuthority(string dept);
         DepartmentRepresentative getCurrentDepartmentRepresentative(string dept);
         CollectionPoint getCollectionPointOfEmployee(string emp);
         bool verifyPassCode(string passcode, string dep);

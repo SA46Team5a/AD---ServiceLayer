@@ -31,6 +31,7 @@ namespace ServiceLayer
             ItemName = sv.Item.ItemName;
             UnitOfMeasure = sv.Item.UnitOfMeasure;
             QtyInStock = sv.OriginalCount;
+            ActualCount = sv.ActualCount;
             UnitCost = sv.ItemCost;
             VoucherRaiserID = sv.VoucherRaiser.EmployeeID;
             Reason = sv.Reason;
