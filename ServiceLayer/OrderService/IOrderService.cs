@@ -24,6 +24,7 @@ namespace ServiceLayer
         List<OrderSupplierDetail> getOrderDetailsOfOrderIdAndSupplier(int orderId, string supplierId);
         List<int> getOrderIdsWithOutStandingInvoices();
         List<OrderSupplier> getOrderSuppliersWithOutstandingInvoice();
+        List<Order> getReceivedOrders();
         List<Supplier> getSuppliersOfOrderIdWithOutstandingInvoice(int orderId);
 
         // Create

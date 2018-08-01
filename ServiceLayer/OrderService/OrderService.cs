@@ -56,6 +56,16 @@ namespace ServiceLayer
             .Distinct()
             .ToList();
 
+        public List<Order> getReceivedOrders()
+        {
+            List<Order> orders = new List<Order>();
+            foreach (Order order in context.Orders.ToList())
+            {
+                if (!order.OrderSuppliers.Select(o => o.DeliveryStatusID).ToList().Contains(2))
+                    orders.Add(order);
+            }
+            return orders;
+        }
         public List<Supplier> getSuppliersOfOrderIdWithOutstandingInvoice(int orderId)
             => context.OrderSuppliers
             .Where(o => o.OrderID == orderId && o.InvoiceUploadStatusID == 2)
