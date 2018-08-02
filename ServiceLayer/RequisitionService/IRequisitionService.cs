@@ -30,7 +30,7 @@ namespace ServiceLayer
         void editRequisitionDetailQty(int reqDetailId, int qty);
 
         void submitRequisition(int reqId);
-        void processRequisition(int reqId, string empId, bool toApprove);
+        void processRequisition(int reqId, string empId, bool toApprove, IDepartmentService departmentService);
         void rejectRequisition(int reqId, int authId); 
         void approveRequisition(int reqId, int authId);
 

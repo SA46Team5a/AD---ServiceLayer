@@ -156,14 +156,11 @@ namespace ServiceLayer
             context.SaveChanges();
         }
 
-        public void processRequisition(int reqId, string empId, bool toApprove)
+        public void processRequisition(int reqId, string empId, bool toApprove, IDepartmentService departmentService)
         {
             // TODO: Investigate logic for retrieving correct authority. Suspect some issues.
-            int authId = context.Authorities
-                .OrderBy(a => a.StartDate)
-                .ToList()
-                .Last(a => a.EmployeeID == empId && a.StartDate < DateTime.Today)
-                .AuthorityID;
+            string dept = departmentService.getDepartmentID(empId);
+            int authId = departmentService.getCurrentAuthority(dept).AuthorityID;
 
             if (toApprove)
                 approveRequisition(reqId, authId);
