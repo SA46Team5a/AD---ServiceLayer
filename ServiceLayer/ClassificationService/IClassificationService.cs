@@ -11,6 +11,7 @@ namespace ServiceLayer
     {
         List<Category> GetCategories();
         List<ApprovalStatus> GetApprovalStatus();
+        List<string> GetApprovalStatusNames();
         List<RetrievalStatus> GetRetrievalStatus();
         List<CollectionPoint> GetCollectionPoints();
         List<Item> GetItems();

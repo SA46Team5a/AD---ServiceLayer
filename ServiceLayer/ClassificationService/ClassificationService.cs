@@ -13,7 +13,14 @@ namespace ServiceLayer
         static StationeryStoreEntities context = StationeryStoreEntities.Instance;
         public List<ApprovalStatus> GetApprovalStatus()
         {
-            return context.ApprovalStatus1.ToList();
+            return context.ApprovalStatus1.Where(a => a.ApprovalStatusID < 5).ToList();
+        }
+
+        public List<string> GetApprovalStatusNames()
+        {
+            List<string> approvalStatuses = new List<string>() { "All " };
+            approvalStatuses.AddRange(GetApprovalStatus().Select(a => a.ApprovalStatusName).ToList());
+            return approvalStatuses;
         }
 
         public List<Category> GetCategories()
