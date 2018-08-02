@@ -83,5 +83,13 @@ namespace ServiceLayer
             DeptRepID = d.DeptRepID;
             EmployeeName = d.Employee.EmployeeName;
         }
+
+        public static DepartmentRepresentativePayload ConvertToDepartmentRepresentativePayload(DepartmentRepresentative d)
+        {
+            if (d != null)
+                return new DepartmentRepresentativePayload(d);
+            else
+                return null;
+        }
     }
 }

@@ -158,8 +158,10 @@ namespace ServiceLayer
         public void updateDepartmentRepresentative(int currentDeptRepId, string newRepEmpId)
         {         
             DepartmentRepresentative currentDeptRepresentative = context.DepartmentRepresentatives
-                .Where(d => d.DeptRepID == currentDeptRepId).First();
-            currentDeptRepresentative.EndDate = DateTime.Today;
+                .Where(d => d.DeptRepID == currentDeptRepId).FirstOrDefault();
+            if (currentDeptRepresentative != null)
+                currentDeptRepresentative.EndDate = DateTime.Today;
+
             DepartmentRepresentative newDepRep = new DepartmentRepresentative();
 
             newDepRep.EmployeeID = newRepEmpId;
