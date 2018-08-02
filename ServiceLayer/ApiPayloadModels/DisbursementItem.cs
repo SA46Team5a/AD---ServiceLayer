@@ -18,6 +18,13 @@ namespace ServiceLayer
         public int? CollectedQuantity { get; set; }
         public int? RejectedQuantity { get { return CollectedQuantity is null ? null : DisbursedQuantity - CollectedQuantity; } }
 
+        public DisbursementDetailPayload(Item i)
+        {
+            ItemId = i.ItemID;
+            ItemName = i.ItemName;
+            UnitOfMeasure = i.UnitOfMeasure;
+        }
+
         public DisbursementDetailPayload(DisbursementDetail d)
         {
             ItemId = d.RequisitionDetail.ItemID;
@@ -40,18 +47,18 @@ namespace ServiceLayer
         public static List<DisbursementDetailPayload> ConvertEntityToPayload(List<DisbursementDetail> disbursementDetails)
         {
             List<DisbursementDetailPayload> disbursementDetailPayloads = new List<DisbursementDetailPayload>();
-            foreach (DisbursementDetail disbursementDetail in disbursementDetails)
+            List<Item> items = disbursementDetails.Select(d => d.RequisitionDetail.Item).ToList();
+            List<DisbursementDetail> details;
+            DisbursementDetailPayload payload;
+
+            foreach (Item item in items)
             {
-                DisbursementDetailPayload disbursementDetailPayload = disbursementDetailPayloads.FirstOrDefault(d => d.ItemId == disbursementDetail.RequisitionDetail.ItemID);
-                if (disbursementDetailPayload is null)
-                {
-                    // create and add a new payload to payload list
-                    disbursementDetailPayload = new DisbursementDetailPayload(disbursementDetail);
-                    disbursementDetailPayloads.Add(disbursementDetailPayload);
-                }
-                // add disbursement duty id
-                disbursementDetailPayload.DisbursementDutyIds.Add(disbursementDetail.Disbursement.DisbursementDutyID);
+                details = disbursementDetails.Where(d => d.RequisitionDetail.ItemID == item.ItemID).ToList();
+                payload = new DisbursementDetailPayload(item);
+                details.ForEach(d => payload.DisbursedQuantity += d.Quantity);
+                payload.DisbursementDutyIds = details.Select(d => d.Disbursement.DisbursementDutyID).Distinct().ToList();
             }
+            
             return disbursementDetailPayloads;
         }
     }
