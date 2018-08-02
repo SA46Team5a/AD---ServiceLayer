@@ -35,7 +35,8 @@ namespace ServiceLayer
         {
             // Get list of items to retrieve
             List<RequisitionDetail> requisitionDetails = context.RequisitionDetails
-                .Where(rd => (rd.Requisition.RetrievalStatusID == 1 || rd.Requisition.RetrievalStatusID == 3))
+                .Where(rd => rd.Requisition.ApprovalStatusID == 3) // approved requisitions
+                .Where(rd => (rd.Requisition.RetrievalStatusID == 1 || rd.Requisition.RetrievalStatusID == 3)) // incomplete requisitions
                 .ToList();
 
             List<string> itemIds = requisitionDetails.Select(rd => rd.ItemID).Distinct().ToList();
@@ -68,6 +69,7 @@ namespace ServiceLayer
                 // doubly selected for retrieval
      
                 List<Requisition> requisitions = context.Requisitions
+                    .Where(r => r.ApprovalStatusID == 3)
                     .Where(r => r.RetrievalStatusID == 1 || r.RetrievalStatusID == 3)
                     .ToList();
      
@@ -362,7 +364,7 @@ namespace ServiceLayer
             foreach (Disbursement disbursement in disbursementDuty.Disbursements)
             {
                 bool fullyRetrieved = true;
-                foreach (RequisitionDetail reqDetail in disbursement.Requisition.RequisitionDetails)
+                foreach (RequisitionDetail reqDetail in disbursement.Requisition.RequisitionDetails.Where(r => r.Requisition.ApprovalStatusID == 3).ToList())
                 {
                     int qtyDisbursed = getTotalCountOfItemDisbursedForReqDetailId(reqDetail.RequisitionDetailsID);
                     if (qtyDisbursed < reqDetail.Quantity)
