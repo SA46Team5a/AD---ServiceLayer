@@ -11,7 +11,8 @@ namespace ServiceLayer.DataAccess
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Order
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,6 +22,7 @@ namespace ServiceLayer.DataAccess
         }
     
         public int OrderID { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}")]
         public System.DateTime OrderDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
