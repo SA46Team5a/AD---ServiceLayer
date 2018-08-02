@@ -37,7 +37,9 @@ namespace ServiceLayer
             Department department = context.Departments.First(d => d.DepartmentID == dept);       
             return context.DepartmentRepresentatives
                 .Where(r => r.EndDate == null)
-                .First(r => r.Employee.DepartmentID == department.DepartmentID);            
+                .ToList()
+                .OrderBy(d => d.DeptRepID)
+                .Last(r => r.Employee.DepartmentID == department.DepartmentID);            
         }
 
         //To get the collection point object for particular employee of department
