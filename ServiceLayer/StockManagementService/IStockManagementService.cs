@@ -11,6 +11,7 @@ namespace ServiceLayer
     {
         // Retrieve
         Item getItemById(string itemId);
+        decimal getUnitCostOfItem(string itemId);
         // Retrieves list of items
         List<Item> getAllItems();
         //Retrieves all the items with their stock count

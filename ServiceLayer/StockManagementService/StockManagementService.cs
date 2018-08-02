@@ -16,6 +16,11 @@ namespace ServiceLayer
         public Item getItemById(string itemId)
             => context.Items.First(i => i.ItemID == itemId);
 
+        public decimal getUnitCostOfItem(string itemId)
+        {
+            decimal? cost = context.SupplierItems.OrderBy(s => s.Rank).First(s => s.ItemID == itemId).Cost;
+            return cost is null ? 0 : (decimal)cost;
+        }
         public  List<Item> getAllItems()
         {
             //List all the items in the store

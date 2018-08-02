@@ -37,6 +37,25 @@ namespace ServiceLayer
             Reason = sv.Reason;
         }
 
+        public StockVoucherPayload(StockCountItem sci, IStockManagementService stockManagementService)
+        {
+            ItemID = sci.ItemID;
+            ItemName = sci.ItemName;
+            UnitOfMeasure = sci.UnitOfMeasure;
+            QtyInStock = sci.QtyInStock;
+            UnitCost = stockManagementService.getUnitCostOfItem(ItemID);
+        }
+
+        public static List<StockVoucherPayload> ConvertEntityToPayload(List<StockCountItem> stockCountItems, IStockManagementService stockManagementService)
+        {
+            List<StockVoucherPayload> payload = new List<StockVoucherPayload>();
+            if (stockCountItems != null && stockCountItems.Count > 0)
+            {
+                stockCountItems.ForEach(s => payload.Add(new StockVoucherPayload(s, stockManagementService)));
+            }
+            return payload;
+        }
+
         public static List<StockVoucherPayload> ConvertEntityToPayload(List<StockVoucher> stockVouchers)
         {
             List<StockVoucherPayload> payload = new List<StockVoucherPayload>();
