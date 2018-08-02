@@ -51,7 +51,7 @@ namespace ServiceLayer
                 .Where(r => r.EndDate == null)
                 .ToList()
                 .OrderBy(d => d.DeptRepID)
-                .Last(r => r.Employee.DepartmentID == department.DepartmentID);            
+                .LastOrDefault(r => r.Employee.DepartmentID == department.DepartmentID);            
         }
 
         //To get the collection point object for particular employee of department
@@ -129,19 +129,23 @@ namespace ServiceLayer
         public List<Employee> getEligibleDepartmentRepresentatives(string deptId)
         {
             List<Employee> employees = getEmployeesOfDepartment(deptId);
-            List<string> ineligibleEmployees = new List<string>();
-            ineligibleEmployees.Add(context.Departments.First(d => d.DepartmentID == deptId).DepartmentHeadID);
-            ineligibleEmployees.Add(getDelegatedAuthority(deptId).EmployeeID);
-            return employees.Where(e => !ineligibleEmployees.Contains(e.EmployeeID)).ToList();
+            List<Employee> ineligibleEmployees = new List<Employee>();
+            ineligibleEmployees.Add(context.Departments.First(d => d.DepartmentID == deptId).DepartmentHead);
+            Authority delegatedAuthority = getDelegatedAuthority(deptId);
+            if (delegatedAuthority != null)
+                ineligibleEmployees.Add(delegatedAuthority.Employee);
+            return employees.Where(e => !ineligibleEmployees.Contains(e)).ToList();
         }
 
         public List<Employee> getEligibleDelegatedAuthority(string deptId)
         {
             List<Employee> employees = getEmployeesOfDepartment(deptId);
-            List<string> ineligibleEmployees = new List<string>();
-            ineligibleEmployees.Add(context.Departments.First(d => d.DepartmentID == deptId).DepartmentHeadID);
-            ineligibleEmployees.Add(getCurrentDepartmentRepresentative(deptId).EmployeeID);
-            return employees.Where(e => !ineligibleEmployees.Contains(e.EmployeeID)).ToList();
+            List<Employee> ineligibleEmployees = new List<Employee>();
+            ineligibleEmployees.Add(context.Departments.First(d => d.DepartmentID == deptId).DepartmentHead);
+            DepartmentRepresentative currentDeptRepresentative = getCurrentDepartmentRepresentative(deptId);
+            if (currentDeptRepresentative != null)
+                ineligibleEmployees.Add(currentDeptRepresentative.Employee);
+            return employees.Where(e => !ineligibleEmployees.Contains(e)).ToList();
         }
 
         // Update

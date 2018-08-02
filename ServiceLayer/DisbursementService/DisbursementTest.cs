@@ -18,6 +18,8 @@ namespace ServiceLayer
 
         static void Main(string[] args)
         {
+            disbursementService.getUncollectedDisbursementDetailsByDep("CPSC");
+
             clearTables();
 
             Console.WriteLine("-- Test Retrieval to disbursement process--");
@@ -126,6 +128,8 @@ namespace ServiceLayer
             retrievalItems.ForEach(r => Console.WriteLine(r.ItemID + "\t" + r.QtyToRetrieve + "\t" + r.QtyInStock));
             checkStock();
             Console.WriteLine();
+
+
         }
 
         static Requisition setupRequisition(int qty)

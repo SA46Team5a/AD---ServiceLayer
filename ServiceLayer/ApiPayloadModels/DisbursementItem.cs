@@ -47,7 +47,7 @@ namespace ServiceLayer
         public static List<DisbursementDetailPayload> ConvertEntityToPayload(List<DisbursementDetail> disbursementDetails)
         {
             List<DisbursementDetailPayload> disbursementDetailPayloads = new List<DisbursementDetailPayload>();
-            List<Item> items = disbursementDetails.Select(d => d.RequisitionDetail.Item).ToList();
+            List<Item> items = disbursementDetails.Select(d => d.RequisitionDetail.Item).Distinct().OrderBy(i => i.ItemID).ToList();
             List<DisbursementDetail> details;
             DisbursementDetailPayload payload;
 
@@ -57,6 +57,8 @@ namespace ServiceLayer
                 payload = new DisbursementDetailPayload(item);
                 details.ForEach(d => payload.DisbursedQuantity += d.Quantity);
                 payload.DisbursementDutyIds = details.Select(d => d.Disbursement.DisbursementDutyID).Distinct().ToList();
+                disbursementDetailPayloads.Add(payload);
+
             }
             
             return disbursementDetailPayloads;
