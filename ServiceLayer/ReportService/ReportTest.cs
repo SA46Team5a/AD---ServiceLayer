@@ -17,7 +17,7 @@ namespace ServiceLayer
 
            // Test 1
             // Reorder Cost Report last 3 months
-            Console.WriteLine("=== Test generateReorderCostReport ===");
+        //    Console.WriteLine("=== Test generateReorderCostReport ===");
          //   Console.WriteLine("1. PastThreeMonths report");
 
             // set up reorder request payload
@@ -28,7 +28,7 @@ namespace ServiceLayer
             //reqPayload.option = null;
 
             //// Test
-           // ReportResponsePayload respPayload = reportService.generateReorderCostReport(reqPayload);
+            // ReportResponsePayload respPayload = reportService.generateReorderCostReport(reqPayload);
             //Console.WriteLine(respPayload.labels[0]);
             //Console.WriteLine(respPayload.datasets[0].label);
             //Console.WriteLine(respPayload.datasets[0].backgroundColor);
@@ -36,42 +36,42 @@ namespace ServiceLayer
 
             //Test for one month report
 
-            Console.WriteLine("1. One month report");
-            reqPayload.category = 1;
-            reqPayload.department = new List<string> { "ALPA" };
-            reqPayload.duration = "OneMonth";
-            reqPayload.option = new List<int> { 0 };
+            //Console.WriteLine("1. One month report");
+            //reqPayload.category = 1;
+            //reqPayload.department = new List<string> { "ALPA" };
+            //reqPayload.duration = "OneMonth";
+            //reqPayload.option = new List<int> { 0 };
 
-            ReportResponsePayload respPayload = reportService.generateReorderCostReport(reqPayload);
-            Console.WriteLine(respPayload.labels[0]);
+            //ReportResponsePayload respPayload = reportService.generateReorderCostReport(reqPayload);
+            //Console.WriteLine(respPayload.labels[0]);
 
-            Console.WriteLine(respPayload.datasets[0].label);
-            Console.WriteLine(respPayload.datasets[0].backgroundColor);
-            respPayload.datasets[0].data.ForEach(d => Console.WriteLine(d));
+            //Console.WriteLine(respPayload.datasets[0].label);
+            //Console.WriteLine(respPayload.datasets[0].backgroundColor);
+            //respPayload.datasets[0].data.ForEach(d => Console.WriteLine(d));
 
             // Test 2
             // Requisition Cost Report last 3 months
-            // Console.WriteLine("=== Test generateRequisitionCostReport ===");
-            ////  Console.WriteLine("1. PastThreeMonths report");
+            Console.WriteLine("=== Test generateRequisitionCostReport ===");
+            //  Console.WriteLine("1. PastThreeMonths report");
 
-            //  // set up requistion request payload
-            // RequisitionRequestPayload reqPayload1 = new RequisitionRequestPayload();
+            // set up requistion request payload
+            RequisitionRequestPayload reqPayload1 = new RequisitionRequestPayload();
 
-            //reqPayload1.category = 2;
-            //reqPayload1.department = new List<string> { "CHEM" };
-            //reqPayload1.duration = "PastThreeMonths";
-            //reqPayload1.option = null;
+            reqPayload1.category = 2;
+            reqPayload1.department = new List<string> { "CHEM" };
+            reqPayload1.duration = "PastThreeMonths";
+            reqPayload1.option = null;
 
 
-            //// Test
-            //ReportResponsePayload respPayload1 = reportService.generateRequisitionCostReport(reqPayload1);
-            //Console.WriteLine(respPayload1.labels[0]);
-            //Console.WriteLine(respPayload1.datasets[0].label);
-            //Console.WriteLine(respPayload1.datasets[0].backgroundColor);
-            //respPayload1.datasets[0].data.ForEach(d => Console.WriteLine(d));
+            // Test
+            ReportResponsePayload respPayload1 = reportService.generateRequisitionCostReport(reqPayload1);
+            Console.WriteLine(respPayload1.labels[0]);
+            Console.WriteLine(respPayload1.datasets[0].label);
+            Console.WriteLine(respPayload1.datasets[0].backgroundColor);
+            respPayload1.datasets[0].data.ForEach(d => Console.WriteLine(d));
 
             //Console.WriteLine("2. One month report");
-            //RequisitionRequestPayload reqPayload1 = new RequisitionRequestPayload();
+           // RequisitionRequestPayload reqPayload1 = new RequisitionRequestPayload();
 
             //reqPayload1.category = 2;
             //reqPayload1.department = new List<string> { "CHEM" };
