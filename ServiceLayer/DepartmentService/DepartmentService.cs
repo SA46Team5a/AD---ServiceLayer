@@ -26,11 +26,23 @@ namespace ServiceLayer
 
         // gets current authority
         public Authority getCurrentAuthority(string dept)
-            => context.Authorities
+        {
+            Authority authority = context.Authorities
                 .Where(a => a.Employee.DepartmentID == dept)
                 .OrderBy(a => a.StartDate)
-                .First(a => a.StartDate <= DateTime.Today && (a.EndDate == null || a.EndDate >= a.StartDate) );
-
+                .FirstOrDefault(a => a.StartDate <= DateTime.Today && (a.EndDate == null || a.EndDate >= a.StartDate));
+            if (authority is null)
+            {
+                authority = new Authority();
+                authority.StartDate = DateTime.Today;
+                authority.EmployeeID = context.Departments.First(d => d.DepartmentID == dept).DepartmentHeadID;
+                context.Authorities.Add(authority);
+                context.SaveChanges();
+                return authority;
+            }
+            else
+                return authority;   
+        }
         //To get current the departmentrepresentative for the particular department
         public DepartmentRepresentative getCurrentDepartmentRepresentative(string dept)
         {           
