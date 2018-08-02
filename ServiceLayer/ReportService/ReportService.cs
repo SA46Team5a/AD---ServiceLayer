@@ -118,6 +118,7 @@ namespace ServiceLayer
         }
         public ReportResponsePayload pastThreeMonthsReport(List<RequisitionDetail> requisitionDetails)
         {
+            
             ReportResponsePayload reportResponsePayload = new ReportResponsePayload();
            
             //Distinct list of departments
@@ -136,21 +137,24 @@ namespace ServiceLayer
             ReportDataPayload reportDataPayload;
             foreach (Department d in departments)
             {
+                
                 reportDataPayload = new ReportDataPayload();
                 reportDataPayload.label = d.DepartmentName;
                 reportDataPayload.backgroundColor = colors[departments.IndexOf(d)];
 
-                List<decimal> chartValues = new List<decimal>();
-               
+                List<decimal> chartValues = new List<decimal>();               
+
 
                 for (int i = 3; i >= 0; i--)
                 {
                     int j = 0;
                     int month = DateTime.Today.AddMonths(-i).Month;
-                    List<RequisitionDetail> newList = requisitionDetails
-                        .Where(r => r.Requisition.RequestedDate.Value.Month == month && r.Requisition.Requester.DepartmentID == d.DepartmentID)
-                        .ToList();
-                    var count = newList.Where(ri => ri.Quantity > 0).Count();                  
+                    List<RequisitionDetail> newList = new List<RequisitionDetail>();
+
+                    newList = requisitionDetails
+                            .Where(r =>r.Requisition.RequestedDate.HasValue&& r.Requisition.RequestedDate.Value.Month == month && r.Requisition.Requester.DepartmentID.Equals(d.DepartmentID))
+                            .ToList();
+                    var count = newList.Where(ri => ri.Quantity > 0).Count();
 
                     int[] quantity = new int[count];
                     decimal?[] cost = new decimal?[count];
@@ -160,12 +164,11 @@ namespace ServiceLayer
                         quantity[j] = rdetail.Quantity;
                         supItem = context.SupplierItems.Where(s => s.Rank == 1 && s.ItemID == rdetail.ItemID).FirstOrDefault();
                         cost[j] = (supItem.Cost == null) ? (decimal?)null : Convert.ToDecimal(supItem.Cost);
-
+                        
                         j++;
 
                     }
-                   
-                    Console.WriteLine(j);
+
                     decimal? sum = 0;
                     for (int m = 0; m < newList.Count; m++)
                     {
@@ -173,6 +176,7 @@ namespace ServiceLayer
                     }
                     chartValues.Add(sum == null ? 0 : (decimal)sum);
                 }
+            
                 reportDataPayload.data = chartValues;
                 reportResponsePayload.datasets.Add(reportDataPayload);
             }
@@ -313,7 +317,7 @@ namespace ServiceLayer
                     int year = DateTime.Today.AddYears(-i - excludeCurrentYear).Year;
                     int j = 0;
                     List<RequisitionDetail> newList = requisitionDetails
-                       .Where(r => r.Requisition.RequestedDate.Value.Month == month && r.Requisition.Requester.DepartmentID == d.DepartmentID
+                       .Where(r =>r.Requisition.RequestedDate.HasValue && r.Requisition.RequestedDate.Value.Month == month && r.Requisition.Requester.DepartmentID == d.DepartmentID
                        &&r.Requisition.RequestedDate.Value.Year==year)
                        .ToList();
                     var count = newList.Where(ri => ri.Quantity > 0).Count();
@@ -377,7 +381,7 @@ namespace ServiceLayer
                     //summing up the quantitities filtered based on department id,month chosen
                     decimal? sum = requisitionDetails
                         .Where(rd => rd.Requisition.Requester.DepartmentID == d.DepartmentID
-                        && rd.Requisition.RequestedDate.Value.Month == month)
+                        && rd.Requisition.RequestedDate.HasValue && rd.Requisition.RequestedDate.Value.Month == month)
                         .Sum(rd => rd.Quantity);
 
                     chartValues.Add(sum == null ? 0 : (decimal)sum);
@@ -427,6 +431,7 @@ namespace ServiceLayer
 
                     decimal? sum = requisitionDetails
                         .Where(rd => rd.Requisition.Requester.DepartmentID == d.DepartmentID
+                        && rd.Requisition.RequestedDate.HasValue
                         && rd.Requisition.RequestedDate.Value.Month == month
                         && rd.Requisition.RequestedDate.Value.Year==year)
                         .Sum(rd => rd.Quantity);
