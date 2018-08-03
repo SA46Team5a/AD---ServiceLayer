@@ -298,7 +298,7 @@ namespace ServiceLayer
             foreach (DisbursementDetailPayload item in items)
             {
                 List<DisbursementDetail> disDetailsOfItemId = disbursementDetails.Where(d => d.RequisitionDetail.ItemID == item.ItemId).ToList();
-                if (item.RejectedQuantity > 0)
+                if (item.DisbursedQuantity - item.CollectedQuantity > 0)
                     adjustStockFromRejectedDisbursement(item, empId);
                 
                 allocateCollectedQuantityToDisbursementDetails(
@@ -330,10 +330,10 @@ namespace ServiceLayer
         public void adjustStockFromRejectedDisbursement(DisbursementDetailPayload di, string empId)
         {
             // do a stock transaction to add qty - qtyCollected back to stock
-            stockManagementService.addStockTransaction(di.ItemId, di.Reason, empId, (int) di.RejectedQuantity);
+            stockManagementService.addStockTransaction(di.ItemId, di.Reason, empId, di.DisbursedQuantity - (int) di.CollectedQuantity);
 
             // raise a stock voucher
-            int actualStockCount = stockManagementService.getStockCountOfItem(di.ItemId) - (int) di.RejectedQuantity;
+            int actualStockCount = stockManagementService.getStockCountOfItem(di.ItemId) - di.DisbursedQuantity - (int) di.CollectedQuantity;
             stockManagementService.addStockVoucher(di.ItemId, actualStockCount, empId, di.Reason);
             
             context.SaveChanges();
