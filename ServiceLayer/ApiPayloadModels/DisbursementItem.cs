@@ -16,8 +16,8 @@ namespace ServiceLayer
         public List<int> DisbursementDutyIds { get; set; }
         public int DisbursedQuantity { get; set; }
         public int? CollectedQuantity { get; set; }
-        public int? RejectedQuantity { get { return CollectedQuantity is null ? null : DisbursedQuantity - CollectedQuantity; } }
 
+        public DisbursementDetailPayload() { }
         public DisbursementDetailPayload(Item i)
         {
             ItemId = i.ItemID;
@@ -58,7 +58,6 @@ namespace ServiceLayer
                 details.ForEach(d => payload.DisbursedQuantity += d.Quantity);
                 payload.DisbursementDutyIds = details.Select(d => d.Disbursement.DisbursementDutyID).Distinct().ToList();
                 disbursementDetailPayloads.Add(payload);
-
             }
             
             return disbursementDetailPayloads;

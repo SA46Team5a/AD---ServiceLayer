@@ -68,8 +68,7 @@ namespace ServiceLayer
 
         public bool verifyPassCode(string passcode,string dep)
         {
-            DepartmentRepresentative depRep = context.DepartmentRepresentatives
-                .First(dr => dr.Employee.DepartmentID == dep);                  
+            DepartmentRepresentative depRep = getCurrentDepartmentRepresentative(dep);                  
             return depRep.Passcode == passcode;
         }
 
