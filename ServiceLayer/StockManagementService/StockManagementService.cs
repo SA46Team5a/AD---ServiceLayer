@@ -57,9 +57,9 @@ namespace ServiceLayer
                 .Where(sv => sv.ApprovedBy == null).ToList();
 
             if (isStoreManager)
-                return openVouchers.Where(sv => (sv.ActualCount - sv.OriginalCount) * sv.ItemCost > 250).ToList();
+                return openVouchers.Where(sv => Math.Abs((sv.ActualCount - sv.OriginalCount) * sv.ItemCost) > 250).ToList();
             else
-                return openVouchers.Where(sv => (sv.ActualCount - sv.OriginalCount) * sv.ItemCost <= 250).ToList();
+                return openVouchers.Where(sv => Math.Abs((sv.ActualCount - sv.OriginalCount) * sv.ItemCost) <= 250).ToList();
         }
 
         public Supplier getFirstSupplierOfItem(string itemId)

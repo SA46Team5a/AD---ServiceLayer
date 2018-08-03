@@ -47,9 +47,14 @@ namespace ServiceLayer
 
         public static List<EmployeePayload> ConvertEntityToPayload(List<Employee> employees)
         {
-            List<EmployeePayload> payload = new List<EmployeePayload>();
-            employees.ForEach(e => payload.Add(new EmployeePayload(e)));
-            return payload;
+            if (employees is null)
+                return null;
+            else
+            {
+                List<EmployeePayload> payload = new List<EmployeePayload>();
+                employees.ForEach(e => payload.Add(new EmployeePayload(e)));
+                return payload;
+            }
         }
     }
 
