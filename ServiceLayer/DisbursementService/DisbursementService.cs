@@ -158,13 +158,21 @@ namespace ServiceLayer
 
         public int getTotalCountOfItemDisbursedForReqDetailId(int reqId)
         {
-            int? count = context.DisbursementDetails
-                .Where(dd => dd.RequisitionDetailsID == reqId)
-                .Select(dd => dd.CollectedQty)
-                .Sum();
 
-            return count is null ? 0 : (int) count;
+             List<DisbursementDetail> ddList = context.DisbursementDetails
+                .Where(dd => dd.RequisitionDetailsID == reqId).ToList();
+            if(ddList.Count > 0)
+            {
+                int? count = ddList
+                                .Select(dd => dd.CollectedQty)
+                                .Sum();
 
+                return count is null ? 0 : (int)count;
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         public List<Department> getDepartmentsWithDisbursements()
@@ -221,6 +229,7 @@ namespace ServiceLayer
 
             return disbursement.DisbursementID;
         }
+      
 
         public void addDisbursementDetailFromRequsitionDetail(int reqDetailId, int disId, int quantity)
         {
