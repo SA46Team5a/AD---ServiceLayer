@@ -12,7 +12,7 @@ namespace ServiceLayer
         Authority getCurrentAuthority(string dept);
         DepartmentRepresentative getCurrentDepartmentRepresentative(string dept);
         CollectionPoint getCollectionPointOfEmployee(string emp);
-        string verifyPassCode(string passcode, string dep);
+        bool verifyPassCode(string passcode, string dep);
         Employee getEmployeeById(string emp);
         List<Employee> getEmployeesOfDepartment(string dep);
         List<Department> getDepartments();
