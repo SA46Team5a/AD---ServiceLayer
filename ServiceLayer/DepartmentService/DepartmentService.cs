@@ -66,11 +66,10 @@ namespace ServiceLayer
         public CollectionPoint getCollectionPointOfDepartment(string depId)
             => context.Departments.Where(d => d.DepartmentID == depId).First().CollectionPoint;
 
-        public bool verifyPassCode(string passcode,string dep)
+        public string verifyPassCode(string passcode,string dep)
         {
-            DepartmentRepresentative depRep = context.DepartmentRepresentatives
-                .First(dr => dr.Employee.DepartmentID == dep);                  
-            return depRep.Passcode == passcode;
+            DepartmentRepresentative depRep = getCurrentDepartmentRepresentative(dep);                  
+            return depRep.Passcode;
         }
 
         // get employees of department

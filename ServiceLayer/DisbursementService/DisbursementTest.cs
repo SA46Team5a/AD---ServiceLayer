@@ -18,8 +18,6 @@ namespace ServiceLayer
 
         static void Main(string[] args)
         {
-            disbursementService.getUncollectedDisbursementDetailsByDep("CPSC");
-
             clearTables();
 
             Console.WriteLine("-- Test Retrieval to disbursement process--");
@@ -40,7 +38,7 @@ namespace ServiceLayer
             disbursementService.submitRetrievalForm(disDuty.DisbursementDutyID, itemsAndQtys);
             List<Department> departments = disbursementService.getDepartmentsWithDisbursements();
             Console.WriteLine("count of departments with disbursement should be 1 : {0}", departments.Count);
-            Console.WriteLine("Department should be CHEM : {0}", departments[0].DepartmentID);
+            //Console.WriteLine("Department should be CHEM : {0}", departments[0].DepartmentID);
 
             List<DisbursementDetailPayload> disbursementDetailPayloads = disbursementService.getUncollectedDisbursementDetailsByDep("chem");
             disbursementDetailPayloads.ForEach(d => Console.WriteLine(d.ItemName + "\t" + d.DisbursedQuantity + "\t" + d.CollectedQuantity));

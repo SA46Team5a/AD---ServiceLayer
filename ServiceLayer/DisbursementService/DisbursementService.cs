@@ -286,9 +286,12 @@ namespace ServiceLayer
 
         public void submitDisbursementOfDep(string depId, List<DisbursementDetailPayload> items, string empId)
         {
+            // retrieve all disbursement duty ids for collating all the details to be updated later
             List<int> disDutyIds = new List<int>();
-            items.ForEach(i => i.DisbursementDutyIds.ForEach(id => {if (!disDutyIds.Contains(id)) disDutyIds.Add(id); }));
+            items.ForEach(i => disDutyIds.AddRange(i.DisbursementDutyIds));
+            disDutyIds = disDutyIds.Distinct().ToList();
 
+            // gets all disbursement details that are included in the collection 
             List<DisbursementDetail> disbursementDetails = context.DisbursementDetails
                 .Where(d => disDutyIds.Contains(d.Disbursement.DisbursementDutyID))
                 .OrderBy(d => d.Disbursement.Requisition.RequestedDate)
@@ -298,6 +301,7 @@ namespace ServiceLayer
             foreach (DisbursementDetailPayload item in items)
             {
                 List<DisbursementDetail> disDetailsOfItemId = disbursementDetails.Where(d => d.RequisitionDetail.ItemID == item.ItemId).ToList();
+
                 if (item.DisbursedQuantity - item.CollectedQuantity > 0)
                     adjustStockFromRejectedDisbursement(item, empId);
                 
@@ -310,6 +314,12 @@ namespace ServiceLayer
 
             // Update disbursement with department rep
             Department department = context.Departments.First(d => d.DepartmentID == depId);
+            //List<Disbursement> disbursements = disbursementDetails
+            //    .Select(d => d.Disbursement)
+            //    .Distinct()
+            //    .Where(d => d.Requisition.Requester.DepartmentID == depId)
+            //    .ToList();
+
             List<Disbursement> disbursements = disbursementDetails
                 .Where(d => department.Employees.Select(dep => dep.EmployeeID).Contains(d.RequisitionDetail.Requisition.EmployeeID))
                 .Select(d => d.Disbursement)
@@ -350,11 +360,11 @@ namespace ServiceLayer
                     dd.CollectedQty = Math.Min(dd.Quantity, collectedQty);
                     collectedQty -= dd.Quantity;
                     dd.Reason = reason;
+                    context.SaveChanges();
                 }
                 else
                     break;
             }
-            context.SaveChanges();
         }
 
         public void updateRequsitionRetrievalStatusBasedOnTotalDisbursed(int disDutyId)
