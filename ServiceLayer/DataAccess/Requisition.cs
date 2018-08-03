@@ -25,7 +25,7 @@ namespace ServiceLayer.DataAccess
     
         public int RequisitionID { get; set; }
         public string EmployeeID { get; set; }
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MMM-yyyy}")]
         public Nullable<System.DateTime> RequestedDate { get; set; }
         public Nullable<int> AuthorityID { get; set; }
         public Nullable<System.DateTime> ApproveDate { get; set; }

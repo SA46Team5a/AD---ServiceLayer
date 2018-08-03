@@ -11,7 +11,8 @@ namespace ServiceLayer.DataAccess
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Authority
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,7 +23,11 @@ namespace ServiceLayer.DataAccess
     
         public int AuthorityID { get; set; }
         public string EmployeeID { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy}")]
         public System.DateTime StartDate { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy}")]
         public Nullable<System.DateTime> EndDate { get; set; }
     
         public virtual Employee Employee { get; set; }
