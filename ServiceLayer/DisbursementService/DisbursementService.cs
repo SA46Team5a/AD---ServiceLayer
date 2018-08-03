@@ -158,13 +158,21 @@ namespace ServiceLayer
 
         public int getTotalCountOfItemDisbursedForReqDetailId(int reqId)
         {
-            int? count = context.DisbursementDetails
-                .Where(dd => dd.RequisitionDetailsID == reqId)
-                .Select(dd => dd.CollectedQty)
-                .Sum();
 
-            return count is null ? 0 : (int) count;
+             List<DisbursementDetail> ddList = context.DisbursementDetails
+                .Where(dd => dd.RequisitionDetailsID == reqId).ToList();
+            if(ddList.Count > 0)
+            {
+                int? count = ddList
+                                .Select(dd => dd.CollectedQty)
+                                .Sum();
 
+                return count is null ? 0 : (int)count;
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         public List<Department> getDepartmentsWithDisbursements()
@@ -221,6 +229,7 @@ namespace ServiceLayer
 
             return disbursement.DisbursementID;
         }
+      
 
         public void addDisbursementDetailFromRequsitionDetail(int reqDetailId, int disId, int quantity)
         {
@@ -286,9 +295,12 @@ namespace ServiceLayer
 
         public void submitDisbursementOfDep(string depId, List<DisbursementDetailPayload> items, string empId)
         {
+            // retrieve all disbursement duty ids for collating all the details to be updated later
             List<int> disDutyIds = new List<int>();
-            items.ForEach(i => i.DisbursementDutyIds.ForEach(id => {if (!disDutyIds.Contains(id)) disDutyIds.Add(id); }));
+            items.ForEach(i => disDutyIds.AddRange(i.DisbursementDutyIds));
+            disDutyIds = disDutyIds.Distinct().ToList();
 
+            // gets all disbursement details that are included in the collection 
             List<DisbursementDetail> disbursementDetails = context.DisbursementDetails
                 .Where(d => disDutyIds.Contains(d.Disbursement.DisbursementDutyID))
                 .OrderBy(d => d.Disbursement.Requisition.RequestedDate)
@@ -298,7 +310,8 @@ namespace ServiceLayer
             foreach (DisbursementDetailPayload item in items)
             {
                 List<DisbursementDetail> disDetailsOfItemId = disbursementDetails.Where(d => d.RequisitionDetail.ItemID == item.ItemId).ToList();
-                if (item.RejectedQuantity > 0)
+
+                if (item.DisbursedQuantity - item.CollectedQuantity > 0)
                     adjustStockFromRejectedDisbursement(item, empId);
                 
                 allocateCollectedQuantityToDisbursementDetails(
@@ -310,6 +323,12 @@ namespace ServiceLayer
 
             // Update disbursement with department rep
             Department department = context.Departments.First(d => d.DepartmentID == depId);
+            //List<Disbursement> disbursements = disbursementDetails
+            //    .Select(d => d.Disbursement)
+            //    .Distinct()
+            //    .Where(d => d.Requisition.Requester.DepartmentID == depId)
+            //    .ToList();
+
             List<Disbursement> disbursements = disbursementDetails
                 .Where(d => department.Employees.Select(dep => dep.EmployeeID).Contains(d.RequisitionDetail.Requisition.EmployeeID))
                 .Select(d => d.Disbursement)
@@ -330,10 +349,10 @@ namespace ServiceLayer
         public void adjustStockFromRejectedDisbursement(DisbursementDetailPayload di, string empId)
         {
             // do a stock transaction to add qty - qtyCollected back to stock
-            stockManagementService.addStockTransaction(di.ItemId, di.Reason, empId, (int) di.RejectedQuantity);
+            stockManagementService.addStockTransaction(di.ItemId, di.Reason, empId, di.DisbursedQuantity - (int) di.CollectedQuantity);
 
             // raise a stock voucher
-            int actualStockCount = stockManagementService.getStockCountOfItem(di.ItemId) - (int) di.RejectedQuantity;
+            int actualStockCount = stockManagementService.getStockCountOfItem(di.ItemId) - di.DisbursedQuantity - (int) di.CollectedQuantity;
             stockManagementService.addStockVoucher(di.ItemId, actualStockCount, empId, di.Reason);
             
             context.SaveChanges();
@@ -350,11 +369,11 @@ namespace ServiceLayer
                     dd.CollectedQty = Math.Min(dd.Quantity, collectedQty);
                     collectedQty -= dd.Quantity;
                     dd.Reason = reason;
+                    context.SaveChanges();
                 }
                 else
                     break;
             }
-            context.SaveChanges();
         }
 
         public void updateRequsitionRetrievalStatusBasedOnTotalDisbursed(int disDutyId)
