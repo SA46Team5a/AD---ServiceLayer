@@ -59,10 +59,20 @@ namespace ServiceLayer
         public List<Order> getReceivedOrders()
         {
             List<Order> orders = new List<Order>();
+            //List<OrderSupplierDetail> osdList= context.OrderSupplierDetails.Where(os => os.Item.ItemID != null).ToList();
+            //osdList=osdList.Where(osd => osd.OrderSupplier.DeliveryStatusID == 1).ToList();
+
+            //foreach(OrderSupplierDetail osd in osdList)
+            //{
+            //    if (!orders.Contains(osd.OrderSupplier.Order))
+            //        orders.Add(osd.OrderSupplier.Order);
+            //}
+
             foreach (Order order in context.Orders.ToList())
             {
                 if (!order.OrderSuppliers.Select(o => o.DeliveryStatusID).ToList().Contains(2))
                     orders.Add(order);
+
             }
             return orders;
         }
@@ -116,7 +126,7 @@ namespace ServiceLayer
 
         public List<OrderSupplierDetail> getOrderDetailsOfOrderIdAndSupplier(int orderId, string supplierId)
             => context.OrderSupplierDetails
-            .Where(o => o.OrderSupplier.OrderID == orderId && o.OrderSupplier.SupplierID == supplierId)
+            .Where(o => o.OrderSupplier.OrderID == orderId && o.OrderSupplier.SupplierID == supplierId && o.OrderSupplier.DeliveryStatusID == 2)
             .ToList();
 
         public List<OutstandingRequisitionRow> getOutstandingRequisitionRows()
