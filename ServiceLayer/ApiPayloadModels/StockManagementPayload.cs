@@ -35,7 +35,7 @@ namespace ServiceLayer
             QtyInStock = sv.OriginalCount;
             ActualCount = sv.ActualCount;
             UnitCost = sv.ItemCost;
-            VoucherRaiserID = sv.VoucherRaiser.EmployeeID;
+            VoucherRaiserID = sv.RaisedBy;
             Reason = sv.Reason;
         }
 
