@@ -12,6 +12,7 @@ namespace ServiceLayer
         public string SupplierID { get; set; }
         public string SupplierName { get; set; }
 
+        public SupplierPayload(){ }
         public SupplierPayload(Supplier s)
         {
             SupplierID = s.SupplierID;
