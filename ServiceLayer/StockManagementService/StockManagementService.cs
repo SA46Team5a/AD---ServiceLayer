@@ -159,8 +159,7 @@ namespace ServiceLayer
             sv.ApprovedBy = approvedBy;
             sv.ApprovedDate = DateTime.Today;
             sv.Reason = reason;
-            context.SaveChanges();
-            return;
+            addStockTransaction(sv.ItemID, sv.Reason, sv.RaisedBy, sv.ActualCount - sv.OriginalCount);
         }
     }
 }
