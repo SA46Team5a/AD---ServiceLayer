@@ -24,6 +24,7 @@ namespace ServiceLayer
         public string VoucherApproverID { get; set; }
         public string Reason { get; set; }
 
+        public StockVoucherPayload() { }
         public StockVoucherPayload(StockVoucher sv)
         {
             DiscrepancyID = sv.DiscrepancyID;
@@ -69,6 +70,7 @@ namespace ServiceLayer
     {
         public string CategoryName { get; set; }
         public int OrderSupplierDetailId { get; set; }
+        public int OrderedQty { get; set; }
         private readonly IStockManagementService stockManagementService;
 
         public OrderDetailsPayload(OrderSupplierDetail orderSupplierDetail, IStockManagementService stockManagementService)
@@ -79,6 +81,7 @@ namespace ServiceLayer
             ItemName = orderSupplierDetail.Item.ItemName;
             UnitOfMeasure = orderSupplierDetail.Item.UnitOfMeasure;
             QtyInStock = stockManagementService.getStockCountOfItem(ItemID);
+            OrderedQty = orderSupplierDetail.Quantity;
             OrderSupplierDetailId = orderSupplierDetail.OrderSupplierDetailsID;
         }
 
