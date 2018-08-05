@@ -9,6 +9,7 @@ namespace ServiceLayer
 {
     public class ReportDataPayload
     {
+        public ReportDataPayload(){}
         public string label { get; set; }
         public string backgroundColor { get; set; }
         public List<decimal> data { get; set; }
@@ -16,6 +17,7 @@ namespace ServiceLayer
 
     public class ReportingModel
     {
+        public ReportingModel(){}
         public List<Category> categories { get; set; }
         public List<Supplier> suppliers { get; set; }
         public List<Item> items { get; set; }
@@ -28,6 +30,7 @@ namespace ServiceLayer
 
     public class ReorderRequestPayload
     {
+        public ReorderRequestPayload(){}
         public int category { get; set; }
         public List<string> department { get; set; }
         public string duration { get; set; }
@@ -35,6 +38,7 @@ namespace ServiceLayer
     }
     public class RequisitionRequestPayload
     {
+        public RequisitionRequestPayload(){}
         public int category { get; set; }
         public List<string> department { get; set; }
         public string duration { get; set; }
@@ -43,6 +47,7 @@ namespace ServiceLayer
 
     public class RequisitionItemPayload
     {
+        public RequisitionItemPayload(){}
         public string item { get; set; }
         public List<string> department { get; set; }
         public string duration { get; set; }
@@ -52,6 +57,7 @@ namespace ServiceLayer
 
     public class ReportResponsePayload
     {
+        public ReportResponsePayload(){}
         public List<string> labels { get; set; }
         public List<ReportDataPayload> datasets { get; set; }
     }

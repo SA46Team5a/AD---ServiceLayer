@@ -8,6 +8,7 @@ namespace ServiceLayer
 {
     public class ItemAndQtyPayload
     {
+        public ItemAndQtyPayload(){}
         public string ItemId { get; set; }
         public int Quantity { get; set; }
 

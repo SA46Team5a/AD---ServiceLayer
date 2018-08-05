@@ -9,6 +9,7 @@ namespace ServiceLayer
 {
     public class ItemPayload
     {
+        public ItemPayload(){}
         public string ItemID { get; set; }
         public string ItemName { get; set; }
         public string UnitOfMeasure { get; set; }
@@ -17,6 +18,7 @@ namespace ServiceLayer
 
     public class StockVoucherPayload : ItemPayload
     {
+        public StockVoucherPayload(){}
         public int DiscrepancyID { get; set; }
         public int ActualCount { get; set; }
         public decimal UnitCost { get; set; }
@@ -68,6 +70,7 @@ namespace ServiceLayer
 
     public class OrderDetailsPayload : ItemPayload
     {
+        public OrderDetailsPayload(){}
         public string CategoryName { get; set; }
         public int OrderSupplierDetailId { get; set; }
         public int OrderedQty { get; set; }

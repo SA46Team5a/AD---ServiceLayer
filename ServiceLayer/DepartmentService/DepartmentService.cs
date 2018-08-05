@@ -205,6 +205,8 @@ namespace ServiceLayer
             DepartmentRepresentative depRep = context.DepartmentRepresentatives.Where(x => x.DeptRepID == currentRepresentative.DeptRepID).First();
             Random num = new Random();
             int passcode = num.Next(1000,9999);
+            depRep.Passcode = Convert.ToString(passcode);
+            context.SaveChanges();
             return Convert.ToString(passcode);                
         }
     }
