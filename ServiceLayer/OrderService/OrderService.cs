@@ -119,6 +119,35 @@ namespace ServiceLayer
             .Where(o => o.OrderSupplier.OrderID == orderId && o.OrderSupplier.SupplierID == supplierId)
             .ToList();
 
+        public List<OutstandingRequisitionRow> getOutstandingRequisitionRows()
+        {
+            List<OutstandingRequisitionRow> orrs = new List<OutstandingRequisitionRow>();
+            List<OutstandingRequisitionView> orvs = context.OutstandingRequisitionViews.ToList();
+
+            foreach (OutstandingRequisitionView orv in orvs)
+            {
+                // get requisition detail related to outstanding requisition
+                RequisitionDetail rd = context.RequisitionDetails.First(r => r.RequisitionDetailsID == orv.RequisitionDetailsID);
+
+                // get order supplier details related to outstanding requisitions
+                List<OrderSupplierDetail> osds = getOrdersServingOutstandingRequisitions(orv.RequisitionDetailsID);
+
+                foreach (OrderSupplierDetail osd in osds)
+                {
+                    OutstandingRequisitionRow orr = new OutstandingRequisitionRow();
+                    orr.OutstandingRequisitionView = orv;
+                    orr.RequisitionDetail = rd;
+                    orr.OrderSupplierDetail = osd;
+                    orrs.Add(orr);
+                }
+            }
+            orrs = orrs.OrderBy(o => o.RequisitionDetail.Requisition.Requester.DepartmentID)
+                .OrderBy(o => o.RequisitionDetail.Requisition.RequestedDate)
+                .ToList();
+
+            return orrs;
+        }
+
         // Create
         public int createOrderAndGetOrderId(Dictionary<string, int> itemAndQty, Dictionary<int, int> supplierItemsAndQty)
         {
