@@ -18,7 +18,6 @@ namespace ServiceLayer
 
     public class StockVoucherPayload : ItemPayload
     {
-        public StockVoucherPayload(){}
         public int DiscrepancyID { get; set; }
         public int ActualCount { get; set; }
         public decimal UnitCost { get; set; }
