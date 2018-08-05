@@ -11,7 +11,8 @@ namespace ServiceLayer.DataAccess
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class StockVoucher
     {
         public int DiscrepancyID { get; set; }
@@ -19,10 +20,13 @@ namespace ServiceLayer.DataAccess
         public int OriginalCount { get; set; }
         public int ActualCount { get; set; }
         public decimal ItemCost { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Reason { get; set; }
         public string RaisedBy { get; set; }
         public string ApprovedBy { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MMM-yyyy}")]
         public Nullable<System.DateTime> RaisedByDate { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MMM-yyyy}")]
         public Nullable<System.DateTime> ApprovedDate { get; set; }
     
         public virtual Employee VoucherApprover { get; set; }
