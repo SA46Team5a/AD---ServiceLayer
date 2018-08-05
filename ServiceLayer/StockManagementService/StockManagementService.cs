@@ -160,6 +160,7 @@ namespace ServiceLayer
             sv.ApprovedDate = DateTime.Today;
             sv.Reason = reason;
             addStockTransaction(sv.ItemID, sv.Reason, sv.RaisedBy, sv.ActualCount - sv.OriginalCount);
+            context.SaveChanges();
         }
     }
 }
