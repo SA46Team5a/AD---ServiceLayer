@@ -116,7 +116,7 @@ namespace ServiceLayer
 
         public List<OrderSupplierDetail> getOrderDetailsOfOrderIdAndSupplier(int orderId, string supplierId)
             => context.OrderSupplierDetails
-            .Where(o => o.OrderSupplier.OrderID == orderId && o.OrderSupplier.SupplierID == supplierId)
+            .Where(o => o.OrderSupplier.OrderID == orderId && o.OrderSupplier.SupplierID == supplierId && o.OrderSupplier.DeliveryStatusID == 2)
             .ToList();
 
         public List<OutstandingRequisitionRow> getOutstandingRequisitionRows()
