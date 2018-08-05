@@ -17,6 +17,13 @@ namespace ServiceLayer
 
             // Test 1
             Console.WriteLine("Test createOrderAndGetOrderID() and allocateQtyToSupplier() and create methods");
+            //test received orders
+            Console.WriteLine("Scenarioreceived orders");
+            List<Order> orderList = OrderService.getReceivedOrders();
+            foreach(Order o in orderList)
+            {
+                Console.WriteLine(o.OrderID);
+            }
 
             // Prepare Required Quantity Data
             List<string> itemIds = new List<string>() { "C001" };
@@ -57,6 +64,7 @@ namespace ServiceLayer
             Console.WriteLine("Qty ordered should be [4, 4, 2] : [{0}]", String.Join(", ", orderedQuantities));
             Console.WriteLine();
 
+            
             Console.WriteLine("Scenario 4: First, second and third supplier combined do not have enough stock");
             supplierItemsAndQty = new Dictionary<int, int>();
             supplierItemIds.ForEach(si => supplierItemsAndQty.Add(si, 3));
