@@ -146,10 +146,10 @@ namespace ServiceLayer
             }
         }
 
-        public void submitVouchers(List<StockVoucherPayload> stockVoucherPayloads)
+        public void submitVouchers(List<StockVoucherPayload> stockVoucherPayloads, string empId)
         {
             foreach (StockVoucherPayload sv in stockVoucherPayloads)
-                closeVoucher(sv.DiscrepancyID, sv.VoucherApproverID, sv.Reason);
+                closeVoucher(sv.DiscrepancyID, empId, sv.Reason);
         }
 
         public void closeVoucher(int discrepancyId, string approvedBy, string reason)
